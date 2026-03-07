@@ -267,7 +267,7 @@ export const mockUsers = [
     change: 5.1,
     collateral: 14000,
     investors: 42,
-    bio: 'Entrepreneur & builder. Co-founder of Any1. Obsessed with human potential and the systems that unlock it. Building at the intersection of people and technology.',
+    bio: 'CTO & Co-founder of NUDAY.AI. Co-founder of Any1. Building AI systems that unlock human potential. Obsessed with the intersection of people and technology.',
     color: '#8B85C1',
     type: 'founder',
     tags: ['Startup', 'Product', 'Vision'],
@@ -502,6 +502,7 @@ export const generateChart = (base, change, points = 20) => {
   data.push(base);
   return data;
 };
+
 
 
 
