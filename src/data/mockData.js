@@ -262,7 +262,7 @@ export const mockUsers = [
     name: 'Yehuda Mizrahi',
     handle: '@yehudamizrahi',
     avatar: '/yehuda.jpg',
-    cover: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&h=400&fit=crop',
+    cover: '/yehuda-cover.jpg',
     marketCap: 38600,
     change: 5.1,
     collateral: 14000,
