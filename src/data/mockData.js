@@ -505,3 +505,4 @@ export const generateChart = (base, change, points = 20) => {
 
 
 
+
