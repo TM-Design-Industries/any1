@@ -99,7 +99,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
         {/* Row 1: avatar + info + chart */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {/* Avatar with type badge + online dot */}
-          <div style={{ position: 'relative', flexShrink: 0 }}>
+          <div style={{ position: 'relative', flexShrink: 0, width: 52, height: 52 }}>
             <img
               src={user.avatar}
               alt={user.name}
@@ -109,17 +109,20 @@ export default function UserCard({ user, animate = false, index = 0 }) {
                 border: `2px solid ${typeInfo?.color || user.color}44`,
               }}
             />
-            {/* Online indicator */}
-            <div style={{
-              position: 'absolute', bottom: 1, right: 1,
-              width: 11, height: 11, borderRadius: '50%',
-              background: isOnline ? '#4CAF50' : '#444',
-              border: '2px solid #111',
-              zIndex: 2,
-            }} />
-            <div style={{ position: 'absolute', bottom: -4, right: -4 }}>
+            {/* Type badge - bottom right of avatar */}
+            <div style={{ position: 'absolute', bottom: -5, right: -5, zIndex: 3 }}>
               <TypeBadge type={user.type} size="xs" />
             </div>
+            {/* Online indicator - top right, no overlap with badge */}
+            {isOnline && (
+              <div style={{
+                position: 'absolute', top: 1, right: 1,
+                width: 9, height: 9, borderRadius: '50%',
+                background: '#4CAF50',
+                border: '2px solid #111',
+                zIndex: 2,
+              }} />
+            )}
           </div>
 
           {/* Name + handle + rep */}

@@ -159,17 +159,20 @@ export default function UserPage() {
 
 
 
-        <div style={{
-          position: 'absolute', bottom: -36, left: 20,
-          width: 76, height: 76, borderRadius: '50%',
-          border: '3px solid #0A0A0A',
-          overflow: 'hidden',
-        }}>
-          <img src={user.avatar} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-
-        <div style={{ position: 'absolute', bottom: -36 + 52, left: 20 + 52 }}>
-          <TypeBadge type={user.type} size="sm" />
+        <div style={{ position: 'absolute', bottom: -36, left: 20 }}>
+          <div style={{ position: 'relative', width: 76, height: 76 }}>
+            <div style={{
+              width: 76, height: 76, borderRadius: '50%',
+              border: '3px solid #0A0A0A',
+              overflow: 'hidden',
+            }}>
+              <img src={user.avatar} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            {/* TypeBadge bottom-right, no overlap */}
+            <div style={{ position: 'absolute', bottom: -4, right: -4, zIndex: 3 }}>
+              <TypeBadge type={user.type} size="sm" />
+            </div>
+          </div>
         </div>
       </div>
 
