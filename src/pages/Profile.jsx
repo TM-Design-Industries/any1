@@ -12,7 +12,7 @@ const LEVEL_SYSTEM = [
   { min: 21, max: 40, name: 'Explorer', color: '#4BBFB5' },
   { min: 41, max: 60, name: 'Contributor', color: '#7B6FBF' },
   { min: 61, max: 80, name: 'Builder', color: '#D4A843' },
-  { min: 81, max: 100, name: 'Amplifier', color: '#8B9E6E' },
+  { min: 81, max: 100, name: 'Amplifier', color: '#C9A84C' },
   { min: 101, max: Infinity, name: 'Legend', color: '#C0564A' },
 ];
 
@@ -45,7 +45,7 @@ const COVER_PRESETS = {
 
 const POST_TYPES = [
   { id: 'update', label: 'Update', color: '#7B6FBF' },
-  { id: 'milestone', label: 'Milestone', color: '#8B9E6E' },
+  { id: 'milestone', label: 'Milestone', color: '#C9A84C' },
   { id: 'insight', label: 'Insight', color: '#D4A843' },
   { id: 'work', label: 'Work', color: '#4BBFB5' },
   { id: 'thought', label: 'Thought', color: '#B5A898' },
@@ -97,7 +97,7 @@ export default function Profile() {
   // Badges
   const badges = useMemo(() => {
     const all = [];
-    all.push({ label: 'Verified', icon: '✓', color: '#8B9E6E', earned: true });
+    all.push({ label: 'Verified', icon: '✓', color: '#C9A84C', earned: true });
     all.push({ label: 'Early Adopter', icon: '🚀', color: '#7B6FBF', earned: true });
     if (myPortfolio.length > 0) all.push({ label: 'First Investment', icon: '💰', color: '#D4A843', earned: true });
     if (appliedMissions.length > 0) all.push({ label: 'Active Surfer', icon: '🏄', color: '#4BBFB5', earned: true });
@@ -120,7 +120,7 @@ export default function Profile() {
       label: 'Collateral',
       value: Math.round(collateral / 1000 * 0.4),
       max: 20,
-      color: '#8B9E6E',
+      color: '#C9A84C',
     },
     {
       label: 'Reputation',
@@ -263,9 +263,9 @@ export default function Profile() {
           <button
             onClick={() => editMode ? saveEdit() : setEditMode(true)}
             style={{
-              background: editMode ? '#8B9E6E' : '#2A2520',
+              background: editMode ? '#C9A84C' : '#2A2520',
               color: editMode ? '#221E1A' : '#7A6E62',
-              border: `1px solid ${editMode ? '#8B9E6E' : '#332C24'}`,
+              border: `1px solid ${editMode ? '#C9A84C' : '#332C24'}`,
               borderRadius: 10, padding: '6px 12px',
               fontSize: 12, fontWeight: 700, cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: 4,
@@ -423,7 +423,7 @@ export default function Profile() {
                 ${user.marketCap.toLocaleString()}
               </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#8B9E6E', fontWeight: 600, fontSize: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#C9A84C', fontWeight: 600, fontSize: 14 }}>
               <TrendingUp size={14} />
               +{user.change}%
             </div>
@@ -504,7 +504,7 @@ export default function Profile() {
                   padding: '8px 0', borderBottom: '1px solid #1A1A1A',
                 }}>
                   <span style={{ fontSize: 12, color: '#B5A898' }}>{row.action}</span>
-                  <span style={{ fontSize: 12, color: '#8B9E6E', fontWeight: 700 }}>{row.xp}</span>
+                  <span style={{ fontSize: 12, color: '#C9A84C', fontWeight: 700 }}>{row.xp}</span>
                 </div>
               ))}
             </div>
@@ -516,7 +516,7 @@ export default function Profile() {
           <button
             onClick={() => setShowCollateral(true)}
             style={{
-              flex: 1, background: '#8B9E6E', color: '#221E1A',
+              flex: 1, background: '#C9A84C', color: '#221E1A',
               border: 'none', borderRadius: 14, padding: '14px',
               fontSize: 14, fontWeight: 700, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
@@ -538,12 +538,12 @@ export default function Profile() {
 
         {/* KYC notice */}
         <div style={{
-          background: '#8B9E6E11', border: '1px solid #8B9E6E33',
+          background: '#C9A84C11', border: '1px solid #C9A84C33',
           borderRadius: 12, padding: '12px 16px',
           display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16,
         }}>
-          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#8B9E6E', flexShrink: 0 }} />
-          <div style={{ fontSize: 12, color: '#8B9E6E' }}>
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#C9A84C', flexShrink: 0 }} />
+          <div style={{ fontSize: 12, color: '#C9A84C' }}>
             Verify your identity to unlock full investing features
           </div>
         </div>
@@ -573,10 +573,10 @@ export default function Profile() {
         style={{
           position: 'fixed', bottom: 90, right: 20,
           width: 56, height: 56, borderRadius: '50%',
-          background: '#8B9E6E', border: 'none',
+          background: '#C9A84C', border: 'none',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer', zIndex: 90,
-          boxShadow: '0 4px 20px #8B9E6E55',
+          boxShadow: '0 4px 20px #C9A84C55',
         }}
       >
         <Plus size={24} color="#221E1A" strokeWidth={3} />
@@ -659,7 +659,7 @@ export default function Profile() {
                 disabled={!postText.trim()}
                 style={{
                   flex: 2,
-                  background: postText.trim() ? '#8B9E6E' : '#332D27',
+                  background: postText.trim() ? '#C9A84C' : '#332D27',
                   color: postText.trim() ? '#221E1A' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
@@ -694,7 +694,7 @@ export default function Profile() {
                 <div style={{ fontSize: 20, fontWeight: 800, color: '#F2EDE6', marginBottom: 8 }}>
                   ${collateralSlider.toLocaleString()} locked!
                 </div>
-                <div style={{ fontSize: 14, color: '#8B9E6E' }}>
+                <div style={{ fontSize: 14, color: '#C9A84C' }}>
                   Market cap updated to ~${previewMarketCap.toLocaleString()}
                 </div>
               </div>
@@ -718,7 +718,7 @@ export default function Profile() {
                   step={500}
                   value={collateralSlider}
                   onChange={e => setCollateralSlider(Number(e.target.value))}
-                  style={{ width: '100%', accentColor: '#8B9E6E', marginBottom: 20 }}
+                  style={{ width: '100%', accentColor: '#C9A84C', marginBottom: 20 }}
                 />
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#7A6E62', marginBottom: 24 }}>
@@ -737,7 +737,7 @@ export default function Profile() {
                       ~${previewMarketCap.toLocaleString()}
                     </div>
                   </div>
-                  <TrendingUp size={20} color="#8B9E6E" />
+                  <TrendingUp size={20} color="#C9A84C" />
                 </div>
 
                 <div style={{ display: 'flex', gap: 10 }}>
@@ -754,7 +754,7 @@ export default function Profile() {
                   <button
                     onClick={confirmCollateral}
                     style={{
-                      flex: 2, background: '#8B9E6E', color: '#221E1A',
+                      flex: 2, background: '#C9A84C', color: '#221E1A',
                       border: 'none', borderRadius: 14,
                       padding: 14, fontSize: 15, fontWeight: 700, cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
@@ -774,7 +774,7 @@ export default function Profile() {
       {savedToast && (
         <div style={{
           position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#221E1A',
+          background: '#C9A84C', color: '#221E1A',
           borderRadius: 20, padding: '10px 20px',
           fontSize: 13, fontWeight: 700, zIndex: 300,
           display: 'flex', alignItems: 'center', gap: 6,
@@ -788,7 +788,7 @@ export default function Profile() {
       {postToast && (
         <div style={{
           position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#221E1A',
+          background: '#C9A84C', color: '#221E1A',
           borderRadius: 20, padding: '10px 20px',
           fontSize: 13, fontWeight: 700, zIndex: 300,
           display: 'flex', alignItems: 'center', gap: 6,
@@ -803,5 +803,6 @@ export default function Profile() {
     </div>
   );
 }
+
 
 

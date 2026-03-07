@@ -14,11 +14,11 @@ export const T = {
   muted:     '#7A6E62',
 
   // Accent
-  accent:    '#8B9E6E',
-  accentGlow: '#8B9E6E28',
+  accent:    '#C9A84C',
+  accentGlow: '#C9A84C28',
 
   // Status
-  up:        '#8B9E6E',
+  up:        '#C9A84C',
   down:      '#C0564A',
 
   // Roles
@@ -29,4 +29,5 @@ export const T = {
     expert:   '#D4663A',
   },
 };
+
 

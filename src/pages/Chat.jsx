@@ -90,8 +90,8 @@ export default function Chat() {
         <img src={user.avatar} alt="" style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 15, fontWeight: 700, color: '#F2EDE6' }}>{user.name}</div>
-          <div style={{ fontSize: 12, color: '#8B9E6E', display: 'flex', alignItems: 'center', gap: 4 }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#8B9E6E' }} />
+          <div style={{ fontSize: 12, color: '#C9A84C', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#C9A84C' }} />
             Active now
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function Chat() {
             )}
             <div style={{ maxWidth: '75%' }}>
               <div style={{
-                background: msg.from === 'me' ? '#8B9E6E' : '#332D27',
+                background: msg.from === 'me' ? '#C9A84C' : '#332D27',
                 color: msg.from === 'me' ? '#221E1A' : '#F2EDE6',
                 borderRadius: msg.from === 'me' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                 padding: '10px 14px',
@@ -171,8 +171,8 @@ export default function Chat() {
           onClick={sendMessage}
           style={{
             width: 44, height: 44, borderRadius: '50%',
-            background: input.trim() ? '#8B9E6E' : '#332D27',
-            border: `1px solid ${input.trim() ? '#8B9E6E' : '#3E3528'}`,
+            background: input.trim() ? '#C9A84C' : '#332D27',
+            border: `1px solid ${input.trim() ? '#C9A84C' : '#3E3528'}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: input.trim() ? 'pointer' : 'default',
             flexShrink: 0,
@@ -185,5 +185,6 @@ export default function Chat() {
     </div>
   );
 }
+
 
 

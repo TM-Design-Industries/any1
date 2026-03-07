@@ -61,11 +61,11 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
       {/* Like / Nope overlays */}
       <div style={{
         position: 'absolute', top: 24, left: 24, zIndex: 10,
-        border: '3px solid #8B9E6E', borderRadius: 8,
+        border: '3px solid #C9A84C', borderRadius: 8,
         padding: '4px 12px', opacity: likeOpacity,
         transform: 'rotate(-15deg)',
       }}>
-        <span style={{ color: '#8B9E6E', fontWeight: 900, fontSize: 22, letterSpacing: 2 }}>INVEST</span>
+        <span style={{ color: '#C9A84C', fontWeight: 900, fontSize: 22, letterSpacing: 2 }}>INVEST</span>
       </div>
       <div style={{
         position: 'absolute', top: 24, right: 24, zIndex: 10,
@@ -107,7 +107,7 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
           </span>
           <span style={{
             marginLeft: 6, fontSize: 11, fontWeight: 600,
-            color: user.change >= 0 ? '#8B9E6E' : '#C0564A',
+            color: user.change >= 0 ? '#C9A84C' : '#C0564A',
           }}>
             {user.change >= 0 ? '+' : ''}{user.change}%
           </span>
@@ -164,5 +164,6 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
     </div>
   );
 }
+
 
 

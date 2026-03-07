@@ -48,12 +48,12 @@ export default function BottomNav() {
           >
             <Icon
               size={20}
-              color={active ? '#8B9E6E' : '#5A4E44'}
+              color={active ? '#C9A84C' : '#5A4E44'}
               strokeWidth={active ? 2.2 : 1.6}
             />
             <span style={{
               fontSize: 10,
-              color: active ? '#8B9E6E' : '#5A4E44',
+              color: active ? '#C9A84C' : '#5A4E44',
               fontWeight: active ? 600 : 400,
               letterSpacing: '0.04em',
             }}>
@@ -65,4 +65,5 @@ export default function BottomNav() {
     </nav>
   );
 }
+
 

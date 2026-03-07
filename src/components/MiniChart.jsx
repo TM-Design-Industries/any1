@@ -18,8 +18,8 @@ export default function MiniChart({ base, change, width = 80, height = 32 }) {
   const lastX = width;
   const fillPts = `${firstX},${height} ${pts} ${lastX},${height}`;
 
-  const lineColor = change >= 0 ? '#8B9E6E' : '#C0564A';
-  const fillColor = change >= 0 ? '#8B9E6E18' : '#E0555518';
+  const lineColor = change >= 0 ? '#C9A84C' : '#C0564A';
+  const fillColor = change >= 0 ? '#C9A84C18' : '#E0555518';
 
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
@@ -47,4 +47,5 @@ export default function MiniChart({ base, change, width = 80, height = 32 }) {
     </svg>
   );
 }
+
 

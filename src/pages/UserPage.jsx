@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 const STATUS_STYLE = {
-  active:    { color: '#8B9E6E', bg: '#8B9E6E18', label: 'Active' },
+  active:    { color: '#C9A84C', bg: '#C9A84C18', label: 'Active' },
   completed: { color: '#4BBFB5', bg: '#5FBFB518', label: 'Done' },
   acquired:  { color: '#D4A843', bg: '#C9A84C18', label: 'Acquired' },
   exited:    { color: '#D4A843', bg: '#C9A84C18', label: 'Exited' },
@@ -19,7 +19,7 @@ const STATUS_STYLE = {
 
 const POST_TYPE_COLOR = {
   update:    '#7B6FBF',
-  milestone: '#8B9E6E',
+  milestone: '#C9A84C',
   insight:   '#D4A843',
   work:      '#4BBFB5',
   thought:   '#B5A898',
@@ -30,7 +30,7 @@ const LEVEL_SYSTEM = [
   { min: 21, max: 40, name: 'Explorer', color: '#4BBFB5' },
   { min: 41, max: 60, name: 'Contributor', color: '#7B6FBF' },
   { min: 61, max: 80, name: 'Builder', color: '#D4A843' },
-  { min: 81, max: 100, name: 'Amplifier', color: '#8B9E6E' },
+  { min: 81, max: 100, name: 'Amplifier', color: '#C9A84C' },
   { min: 101, max: Infinity, name: 'Legend', color: '#C0564A' },
 ];
 
@@ -66,7 +66,7 @@ export default function UserPage() {
   const progress = nextLevel ? ((rep - level.min) / (nextLevel.min - level.min)) * 100 : 100;
 
   const badges = [];
-  badges.push({ label: 'Verified', icon: '✓', color: '#8B9E6E', earned: true });
+  badges.push({ label: 'Verified', icon: '✓', color: '#C9A84C', earned: true });
   badges.push({ label: 'Early Adopter', icon: '🚀', color: '#7B6FBF', earned: true });
   if ((user.investments?.length || user.ventures?.length) > 0) {
     badges.push({ label: 'First Investment', icon: '💰', color: '#D4A843', earned: true });
@@ -188,8 +188,8 @@ export default function UserPage() {
               onClick={() => navigate(`/chat/${id}`)}
               style={{
                 background: '#332D27',
-                color: '#8B9E6E',
-                border: '1px solid #8B9E6E44',
+                color: '#C9A84C',
+                border: '1px solid #C9A84C44',
                 borderRadius: 20, padding: '7px 12px',
                 fontSize: 13, fontWeight: 700, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', gap: 4,
@@ -321,7 +321,7 @@ export default function UserPage() {
                 padding: '7px 0', borderBottom: '1px solid #1A1A1A',
               }}>
                 <span style={{ fontSize: 11, color: '#B5A898' }}>{row.action}</span>
-                <span style={{ fontSize: 11, color: '#8B9E6E', fontWeight: 700 }}>{row.xp}</span>
+                <span style={{ fontSize: 11, color: '#C9A84C', fontWeight: 700 }}>{row.xp}</span>
               </div>
             ))}
           </div>
@@ -335,7 +335,7 @@ export default function UserPage() {
           <span style={{
             display: 'flex', alignItems: 'center', gap: 4,
             fontSize: 13, fontWeight: 700,
-            color: positive ? '#8B9E6E' : '#C0564A',
+            color: positive ? '#C9A84C' : '#C0564A',
           }}>
             {positive ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
             {positive ? '+' : ''}{user.change}%
@@ -405,7 +405,7 @@ export default function UserPage() {
                       </div>
                       <div style={{
                         fontSize: 15, fontWeight: 800,
-                        color: isPos ? '#8B9E6E' : '#C0564A',
+                        color: isPos ? '#C9A84C' : '#C0564A',
                       }}>
                         {inv.return}
                       </div>
@@ -445,7 +445,7 @@ export default function UserPage() {
                       </div>
                       <div style={{
                         display: 'flex', alignItems: 'center', gap: 6,
-                        fontSize: 13, color: '#8B9E6E', fontWeight: 600,
+                        fontSize: 13, color: '#C9A84C', fontWeight: 600,
                       }}>
                         <TrendingUp size={13} />
                         {v.raised}
@@ -629,10 +629,10 @@ export default function UserPage() {
               {['0.10', '1.00', '5.00', '10.00'].map(v => (
                 <button key={v} onClick={() => setAmount(v)} style={{
                   flex: 1,
-                  background: amount === v ? '#8B9E6E22' : '#332D27',
-                  border: `1px solid ${amount === v ? '#8B9E6E' : '#3E3528'}`,
+                  background: amount === v ? '#C9A84C22' : '#332D27',
+                  border: `1px solid ${amount === v ? '#C9A84C' : '#3E3528'}`,
                   borderRadius: 10, padding: '9px 4px',
-                  color: amount === v ? '#8B9E6E' : '#7A6E62',
+                  color: amount === v ? '#C9A84C' : '#7A6E62',
                   fontSize: 13, fontWeight: 600, cursor: 'pointer',
                 }}>${v}</button>
               ))}
@@ -660,7 +660,7 @@ export default function UserPage() {
                 onClick={() => { if (amount) { setInvested(true); setInvesting(false); } }}
                 style={{
                   flex: 2,
-                  background: amount ? '#8B9E6E' : '#332D27',
+                  background: amount ? '#C9A84C' : '#332D27',
                   color: amount ? '#221E1A' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
@@ -677,12 +677,12 @@ export default function UserPage() {
       {invested && (
         <div style={{
           position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#221E1A',
+          background: '#C9A84C', color: '#221E1A',
           borderRadius: 20, padding: '12px 24px',
           fontSize: 14, fontWeight: 700,
           zIndex: 300, display: 'flex', alignItems: 'center', gap: 8,
           animation: 'slideUp 0.3s ease',
-          boxShadow: '0 8px 32px #8B9E6E44',
+          boxShadow: '0 8px 32px #C9A84C44',
         }}>
           <CheckCircle size={16} />
           Invested in {user.name.split(' ')[0]}!
@@ -691,5 +691,6 @@ export default function UserPage() {
     </div>
   );
 }
+
 
 

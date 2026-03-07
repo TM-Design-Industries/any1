@@ -57,8 +57,8 @@ export default function UserPortfolio() {
 
         {/* PnL card */}
         <div style={{
-          background: positive ? '#8B9E6E11' : '#E0555511',
-          border: `1px solid ${positive ? '#8B9E6E33' : '#E0555533'}`,
+          background: positive ? '#C9A84C11' : '#E0555511',
+          border: `1px solid ${positive ? '#C9A84C33' : '#E0555533'}`,
           borderRadius: 20, padding: '24px 20px', marginBottom: 16,
           position: 'relative', overflow: 'hidden',
         }}>
@@ -67,11 +67,11 @@ export default function UserPortfolio() {
           </div>
           <div style={{
             fontSize: 40, fontWeight: 900, letterSpacing: '-1.5px',
-            color: positive ? '#8B9E6E' : '#C0564A', marginBottom: 4,
+            color: positive ? '#C9A84C' : '#C0564A', marginBottom: 4,
           }}>
             {positive ? '+' : ''}{pnlPct.toFixed(2)}%
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: positive ? '#8B9E6E' : '#C0564A', fontSize: 15, fontWeight: 600 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: positive ? '#C9A84C' : '#C0564A', fontSize: 15, fontWeight: 600 }}>
             {positive ? <TrendingUp size={15} /> : <TrendingDown size={15} />}
             {positive ? '+' : ''}${pnl.toFixed(2)}
           </div>
@@ -117,5 +117,6 @@ export default function UserPortfolio() {
     </div>
   );
 }
+
 
 

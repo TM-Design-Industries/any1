@@ -23,7 +23,7 @@ const MOCK_NOTIFS = [
 const NOTIF_COLOR = {
   invest: '#D4A843',
   follow: '#7B6FBF',
-  price: '#8B9E6E',
+  price: '#C9A84C',
   mission: '#4BBFB5',
   milestone: '#B5A898',
 };
@@ -31,7 +31,7 @@ const NOTIF_COLOR = {
 // POST types for FAB
 const POST_TYPES = [
   { id: 'update', label: 'Update', color: '#7B6FBF' },
-  { id: 'milestone', label: 'Milestone', color: '#8B9E6E' },
+  { id: 'milestone', label: 'Milestone', color: '#C9A84C' },
   { id: 'insight', label: 'Insight', color: '#D4A843' },
   { id: 'work', label: 'Work', color: '#4BBFB5' },
   { id: 'thought', label: 'Thought', color: '#B5A898' },
@@ -158,7 +158,7 @@ export default function Home() {
     .sort((a, b) => b.liveChange - a.liveChange)
     .slice(0, 5);
 
-  const rankColors = ['#8B9E6E', '#B5A898', '#B5A898', '#7A6E62', '#7A6E62'];
+  const rankColors = ['#C9A84C', '#B5A898', '#B5A898', '#7A6E62', '#7A6E62'];
   const rankLabels = ['#1', '#2', '#3', '#4', '#5'];
 
   return (
@@ -172,7 +172,7 @@ export default function Home() {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <span style={{ fontSize: 26, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-0.5px' }}>
-            ANY<span style={{ color: '#8B9E6E' }}>1</span>
+            ANY<span style={{ color: '#C9A84C' }}>1</span>
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <button
@@ -207,7 +207,7 @@ export default function Home() {
                 position: 'relative',
               }}
             >
-              <Bell size={18} color={showNotifs ? '#8B9E6E' : '#7A6E62'} />
+              <Bell size={18} color={showNotifs ? '#C9A84C' : '#7A6E62'} />
               {unreadCount > 0 && (
                 <div style={{
                   position: 'absolute', top: 4, right: 4,
@@ -235,13 +235,13 @@ export default function Home() {
           <span style={{ color: '#3E3528' }}>-</span>
           <span>{enriched.length} people</span>
           <span style={{ color: '#3E3528' }}>-</span>
-          <span style={{ color: '#8B9E6E' }}>+{upCount} up</span>
+          <span style={{ color: '#C9A84C' }}>+{upCount} up</span>
           <span style={{ color: '#C0564A' }}>-{downCount} down today</span>
         </div>
 
         {/* Type filter */}
         <div style={{ display: 'flex', gap: 8, overflowX: 'auto', scrollbarWidth: 'none', marginBottom: 10 }}>
-          {[{ id: 'all', label: 'All', emoji: '✨', color: '#8B9E6E' }, ...Object.values(USER_TYPES)].map(t => (
+          {[{ id: 'all', label: 'All', emoji: '✨', color: '#C9A84C' }, ...Object.values(USER_TYPES)].map(t => (
             <button
               key={t.id}
               onClick={() => setTypeFilter(t.id)}
@@ -267,9 +267,9 @@ export default function Home() {
               key={f}
               onClick={() => setFilter(f)}
               style={{
-                background: filter === f ? '#8B9E6E' : 'transparent',
+                background: filter === f ? '#C9A84C' : 'transparent',
                 color: filter === f ? '#221E1A' : '#7A6E62',
-                border: `1px solid ${filter === f ? '#8B9E6E' : '#332C24'}`,
+                border: `1px solid ${filter === f ? '#C9A84C' : '#332C24'}`,
                 borderRadius: 16, padding: '5px 14px',
                 fontSize: 11, fontWeight: 700,
                 cursor: 'pointer', letterSpacing: '0.03em',
@@ -399,7 +399,7 @@ export default function Home() {
                   flexShrink: 0,
                   width: 88,
                   background: '#2A2520',
-                  border: `1px solid ${idx === 0 ? '#8B9E6E44' : '#332C24'}`,
+                  border: `1px solid ${idx === 0 ? '#C9A84C44' : '#332C24'}`,
                   borderRadius: 14,
                   padding: '12px 8px',
                   cursor: 'pointer',
@@ -424,7 +424,7 @@ export default function Home() {
                 <div style={{ fontSize: 11, fontWeight: 600, color: '#B5A898', marginBottom: 4 }}>
                   {user.name.split(' ')[0]}
                 </div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#8B9E6E' }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#C9A84C' }}>
                   +{user.liveChange.toFixed(1)}%
                 </div>
               </div>
@@ -449,10 +449,10 @@ export default function Home() {
         style={{
           position: 'fixed', bottom: 90, right: 20,
           width: 56, height: 56, borderRadius: '50%',
-          background: '#8B9E6E', border: 'none',
+          background: '#C9A84C', border: 'none',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer', zIndex: 90,
-          boxShadow: '0 4px 20px #8B9E6E55',
+          boxShadow: '0 4px 20px #C9A84C55',
         }}
       >
         <Plus size={24} color="#221E1A" strokeWidth={3} />
@@ -543,7 +543,7 @@ export default function Home() {
                 disabled={!postText.trim()}
                 style={{
                   flex: 2,
-                  background: postText.trim() ? '#8B9E6E' : '#332D27',
+                  background: postText.trim() ? '#C9A84C' : '#332D27',
                   color: postText.trim() ? '#221E1A' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
@@ -561,12 +561,12 @@ export default function Home() {
       {postToast && (
         <div style={{
           position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#221E1A',
+          background: '#C9A84C', color: '#221E1A',
           borderRadius: 20, padding: '10px 20px',
           fontSize: 13, fontWeight: 700, zIndex: 300,
           display: 'flex', alignItems: 'center', gap: 6,
           animation: 'slideUp 0.3s ease',
-          boxShadow: '0 8px 24px #8B9E6E44',
+          boxShadow: '0 8px 24px #C9A84C44',
         }}>
           <CheckCircle size={14} />
           Posted!
@@ -598,7 +598,7 @@ export default function Home() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
               {[
-                { emoji: '📈', label: 'Portfolio grew', value: '+4.2%', color: '#8B9E6E' },
+                { emoji: '📈', label: 'Portfolio grew', value: '+4.2%', color: '#C9A84C' },
                 { emoji: '💰', label: 'Best bet: Oren Cohen', value: '+12.3%', color: '#D4A843' },
                 { emoji: '👥', label: 'New followers', value: '3 people', color: '#7B6FBF' },
                 { emoji: '🎯', label: 'Missions available', value: '4 open', color: '#4BBFB5' },
@@ -620,7 +620,7 @@ export default function Home() {
             <button
               onClick={dismissDigest}
               style={{
-                width: '100%', background: '#8B9E6E', color: '#221E1A',
+                width: '100%', background: '#C9A84C', color: '#221E1A',
                 border: 'none', borderRadius: 14,
                 padding: 16, fontSize: 15, fontWeight: 800, cursor: 'pointer',
               }}
@@ -635,5 +635,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 

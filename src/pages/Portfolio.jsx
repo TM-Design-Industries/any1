@@ -41,15 +41,15 @@ function PortfolioChart({ positions, tab }) {
     <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
       <defs>
         <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#8B9E6E" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#8B9E6E" stopOpacity="0" />
+          <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
         </linearGradient>
       </defs>
       <polygon points={fillPts} fill="url(#chartGrad)" />
       <polyline
         points={pts}
         fill="none"
-        stroke="#8B9E6E"
+        stroke="#C9A84C"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -61,7 +61,7 @@ function PortfolioChart({ positions, tab }) {
             cx={parseFloat(lastPt[0])}
             cy={parseFloat(lastPt[1])}
             r={3.5}
-            fill="#8B9E6E"
+            fill="#C9A84C"
           />
         );
       })()}
@@ -133,13 +133,13 @@ export default function Portfolio() {
         }}>
           <div style={{
             position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-            background: totalPnl >= 0 ? '#8B9E6E' : '#C0564A', opacity: 0.7,
+            background: totalPnl >= 0 ? '#C9A84C' : '#C0564A', opacity: 0.7,
           }} />
           <div style={{
             position: 'absolute', top: 0, right: 0,
             width: 200, height: 200,
             borderRadius: '50%',
-            background: totalPnl >= 0 ? '#8B9E6E08' : '#E0555508',
+            background: totalPnl >= 0 ? '#C9A84C08' : '#E0555508',
             transform: 'translate(60px, -60px)',
           }} />
 
@@ -151,7 +151,7 @@ export default function Portfolio() {
           </div>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
-            color: totalPnl >= 0 ? '#8B9E6E' : '#C0564A',
+            color: totalPnl >= 0 ? '#C9A84C' : '#C0564A',
             fontSize: 16, fontWeight: 700, marginBottom: 20,
           }}>
             {totalPnl >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
@@ -166,10 +166,10 @@ export default function Portfolio() {
                 key={t}
                 onClick={() => setChartTab(t)}
                 style={{
-                  background: chartTab === t ? '#8B9E6E22' : 'transparent',
-                  border: `1px solid ${chartTab === t ? '#8B9E6E' : '#332C24'}`,
+                  background: chartTab === t ? '#C9A84C22' : 'transparent',
+                  border: `1px solid ${chartTab === t ? '#C9A84C' : '#332C24'}`,
                   borderRadius: 8, padding: '4px 12px',
-                  color: chartTab === t ? '#8B9E6E' : '#7A6E62',
+                  color: chartTab === t ? '#C9A84C' : '#7A6E62',
                   fontSize: 11, fontWeight: 700, cursor: 'pointer',
                 }}
               >
@@ -241,7 +241,7 @@ export default function Portfolio() {
                   </div>
                   <div style={{
                     fontSize: 12, fontWeight: 600,
-                    color: pos.pnl >= 0 ? '#8B9E6E' : '#C0564A',
+                    color: pos.pnl >= 0 ? '#C9A84C' : '#C0564A',
                   }}>
                     {pos.pnl >= 0 ? '+' : ''}${pos.pnl.toFixed(2)} ({pos.pnl >= 0 ? '+' : ''}{pos.pnlPct.toFixed(1)}%)
                   </div>
@@ -269,5 +269,6 @@ export default function Portfolio() {
     </div>
   );
 }
+
 
 

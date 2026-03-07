@@ -7,7 +7,7 @@ const MISSION_TYPES = {
   design: { color: '#7B6FBF', bg: '#7B6FBF18' },
   engineering: { color: '#4BBFB5', bg: '#5FBFB518' },
   marketing: { color: '#D4A843', bg: '#C9A84C18' },
-  writing: { color: '#8B9E6E', bg: '#8B9E6E18' },
+  writing: { color: '#C9A84C', bg: '#C9A84C18' },
   strategy: { color: '#C0564A', bg: '#E0555518' },
 };
 
@@ -87,7 +87,7 @@ export const mockMissions = [
 ];
 
 const STATUS = {
-  open: { label: 'Open', color: '#8B9E6E', bg: '#8B9E6E18' },
+  open: { label: 'Open', color: '#C9A84C', bg: '#C9A84C18' },
   inprogress: { label: 'In Progress', color: '#D4A843', bg: '#C9A84C18' },
   completed: { label: 'Completed', color: '#7A6E62', bg: '#55555518' },
 };
@@ -147,9 +147,9 @@ export default function Missions() {
             <div style={{ fontSize: 20, fontWeight: 700, color: '#F2EDE6' }}>Missions</div>
           </div>
           <div style={{
-            background: '#8B9E6E22', border: '1px solid #8B9E6E44',
+            background: '#C9A84C22', border: '1px solid #C9A84C44',
             borderRadius: 12, padding: '4px 10px',
-            fontSize: 12, color: '#8B9E6E', fontWeight: 700,
+            fontSize: 12, color: '#C9A84C', fontWeight: 700,
           }}>
             {mockMissions.filter(m => m.status === 'open').length} open
           </div>
@@ -162,9 +162,9 @@ export default function Missions() {
               key={f}
               onClick={() => setFilter(f)}
               style={{
-                background: filter === f ? '#8B9E6E' : '#2A2520',
+                background: filter === f ? '#C9A84C' : '#2A2520',
                 color: filter === f ? '#221E1A' : '#7A6E62',
-                border: `1px solid ${filter === f ? '#8B9E6E' : '#332C24'}`,
+                border: `1px solid ${filter === f ? '#C9A84C' : '#332C24'}`,
                 borderRadius: 16, padding: '6px 14px',
                 fontSize: 11, fontWeight: 700,
                 cursor: 'pointer', whiteSpace: 'nowrap',
@@ -245,10 +245,10 @@ export default function Missions() {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#8B9E6E' }}>{mission.reward}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#C9A84C' }}>{mission.reward}</span>
                   {isApplied ? (
                     <span style={{
-                      fontSize: 11, color: '#8B9E6E',
+                      fontSize: 11, color: '#C9A84C',
                       display: 'flex', alignItems: 'center', gap: 4,
                     }}>
                       <CheckCircle size={12} /> Applied
@@ -257,7 +257,7 @@ export default function Missions() {
                     <button
                       onClick={e => { e.stopPropagation(); setSelected(mission); setShowApply(true); }}
                       style={{
-                        background: '#8B9E6E', color: '#221E1A',
+                        background: '#C9A84C', color: '#221E1A',
                         border: 'none', borderRadius: 10,
                         padding: '6px 12px', fontSize: 12, fontWeight: 700,
                         cursor: 'pointer',
@@ -335,7 +335,7 @@ export default function Missions() {
             {/* Stats */}
             <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
               {[
-                { label: 'Reward', value: selected.reward, color: '#8B9E6E' },
+                { label: 'Reward', value: selected.reward, color: '#C9A84C' },
                 { label: 'Applicants', value: missionApplicants[selected.id], color: '#F2EDE6' },
                 { label: 'Deadline', value: selected.deadline, color: '#F2EDE6' },
               ].map(s => (
@@ -361,13 +361,13 @@ export default function Missions() {
 
             {applied.includes(selected.id) ? (
               <div style={{
-                background: '#8B9E6E22', border: '1px solid #8B9E6E44',
+                background: '#C9A84C22', border: '1px solid #C9A84C44',
                 borderRadius: 14, padding: 16,
                 display: 'flex', alignItems: 'center', gap: 8,
                 justifyContent: 'center',
               }}>
-                <CheckCircle size={16} color="#8B9E6E" />
-                <span style={{ color: '#8B9E6E', fontWeight: 600 }}>Applied successfully</span>
+                <CheckCircle size={16} color="#C9A84C" />
+                <span style={{ color: '#C9A84C', fontWeight: 600 }}>Applied successfully</span>
               </div>
             ) : selected.status === 'completed' ? (
               <div style={{
@@ -380,7 +380,7 @@ export default function Missions() {
               <button
                 onClick={() => setShowApply(true)}
                 style={{
-                  width: '100%', background: '#8B9E6E', color: '#221E1A',
+                  width: '100%', background: '#C9A84C', color: '#221E1A',
                   border: 'none', borderRadius: 14,
                   padding: 16, fontSize: 15, fontWeight: 700, cursor: 'pointer',
                 }}
@@ -445,7 +445,7 @@ export default function Missions() {
                 disabled={!whyText.trim()}
                 style={{
                   flex: 2,
-                  background: whyText.trim() ? '#8B9E6E' : '#332D27',
+                  background: whyText.trim() ? '#C9A84C' : '#332D27',
                   color: whyText.trim() ? '#221E1A' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
@@ -461,5 +461,6 @@ export default function Missions() {
     </div>
   );
 }
+
 
 

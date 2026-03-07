@@ -147,7 +147,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
             <div style={{
               display: 'flex', alignItems: 'center', gap: 3,
               fontSize: 12, fontWeight: 700,
-              color: positive ? '#8B9E6E' : '#C0564A',
+              color: positive ? '#C9A84C' : '#C0564A',
             }}>
               {positive ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
               {positive ? '+' : ''}{user.change}%
@@ -189,6 +189,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
     </div>
   );
 }
+
 
 
 

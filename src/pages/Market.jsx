@@ -74,9 +74,9 @@ export default function Market() {
               key={t}
               onClick={() => setTab(t)}
               style={{
-                background: tab === t ? '#8B9E6E' : '#2A2520',
+                background: tab === t ? '#C9A84C' : '#2A2520',
                 color: tab === t ? '#221E1A' : '#7A6E62',
-                border: `1px solid ${tab === t ? '#8B9E6E' : '#332C24'}`,
+                border: `1px solid ${tab === t ? '#C9A84C' : '#332C24'}`,
                 borderRadius: 16, padding: '6px 16px',
                 fontSize: 12, fontWeight: 700, cursor: 'pointer',
               }}
@@ -144,7 +144,7 @@ export default function Market() {
               <div style={{ width: 60, textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                 <div style={{
                   fontSize: 13, fontWeight: 700,
-                  color: positive ? '#8B9E6E' : '#C0564A',
+                  color: positive ? '#C9A84C' : '#C0564A',
                   display: 'flex', alignItems: 'center', gap: 2,
                 }}>
                   {positive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
@@ -158,5 +158,6 @@ export default function Market() {
     </div>
   );
 }
+
 
 
