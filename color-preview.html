@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>any1 - Color Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ── PALETTE ── */
+  :root {
+    --bg:        #1C1814;
+    --surface:   #252019;
+    --surface2:  #2E2820;
+    --border:    #332C24;
+    --border2:   #3E3528;
+    --text:      #F2EDE6;
+    --text2:     #B5A898;
+    --muted:     #7A6E62;
+    --accent:    #8B9E6E;
+    --accent2:   #A3B882;
+    --investor:  #D4A843;
+    --founder:   #7B6FF7;
+    --surfer:    #4BBFB5;
+    --expert:    #D4663A;
+    --up:        #8B9E6E;
+    --down:      #C0564A;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    gap: 0;
+  }
+
+  /* ── LABEL COLUMN ── */
+  .label-col {
+    width: 120px;
+    flex-shrink: 0;
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .label {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 16px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .label:last-child { border-bottom: none; }
+
+  /* ── SCREENS ── */
+  .screens {
+    display: flex;
+    flex: 1;
+    overflow-x: auto;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .screen {
+    width: 375px;
+    flex-shrink: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .screen-title {
+    padding: 16px 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+  }
+
+  /* ── SPLASH ── */
+  .splash {
+    height: 100%;
+    min-height: 500px;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 40px 32px;
+  }
+  .splash-logo {
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -1px;
+    margin-bottom: 48px;
+    opacity: 0.4;
+  }
+  .splash-logo span { font-weight: 900; color: var(--accent); opacity: 1; }
+  .splash-tagline { text-align: center; margin-bottom: 16px; }
+  .splash-tagline div {
+    font-size: 46px;
+    font-weight: 900;
+    color: var(--text);
+    letter-spacing: -2px;
+    line-height: 1.0;
+  }
+  .splash-tagline div.accent { color: var(--accent); }
+  .splash-sub {
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 48px;
+    line-height: 1.6;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 16px;
+    padding: 15px 40px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    cursor: pointer;
+    box-shadow: 0 6px 24px #8B9E6E33;
+  }
+
+  /* ── ONBOARDING ── */
+  .onboarding {
+    padding: 48px 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-height: 500px;
+  }
+  .logo-sm {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -1px;
+  }
+  .logo-sm span { font-weight: 900; color: var(--accent2); }
+  .field-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .input-box {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 14px 16px;
+    color: var(--text2);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+  }
+  .role-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+  .role-card.active {
+    border-color: var(--accent);
+    background: #8B9E6E0D;
+    box-shadow: 0 0 20px #8B9E6E18;
+  }
+  .role-card.active-founder { border-color: var(--founder); background: #7B6FF70D; }
+  .badge {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .role-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .role-desc { font-size: 12px; color: var(--muted); }
+  .btn-full {
+    background: var(--accent);
+    color: var(--bg);
+    border: none; border-radius: 16px;
+    padding: 15px; font-size: 15px; font-weight: 800;
+    width: 100%; cursor: pointer;
+    box-shadow: 0 6px 20px #8B9E6E2A;
+  }
+  .btn-disabled {
+    background: var(--surface2);
+    color: var(--muted);
+    border: none; border-radius: 16px;
+    padding: 15px; font-size: 15px; font-weight: 700;
+    width: 100%;
+  }
+
+  /* ── HOME FEED ── */
+  .home {
+    min-height: 500px;
+  }
+  .topbar {
+    padding: 52px 20px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-logo { font-size: 22px; font-weight: 300; color: var(--text); letter-spacing: -0.5px; }
+  .topbar-logo span { font-weight: 900; color: var(--accent); }
+  .market-bar {
+    padding: 10px 20px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .market-bar .val { color: var(--text2); font-weight: 600; }
+  .market-bar .up { color: var(--up); font-weight: 700; }
+  .market-bar .down { color: var(--down); font-weight: 700; }
+  .filters {
+    padding: 12px 20px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .filter-pill {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .filter-pill.active {
+    background: #8B9E6E15;
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .leaderboard {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-size: 13px; font-weight: 700; color: var(--text2);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+  }
+  .leader-row {
+    display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none;
+  }
+  .leader-item {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    min-width: 60px;
+  }
+  .leader-rank { font-size: 10px; color: var(--muted); font-weight: 700; }
+  .leader-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--border2);
+  }
+  .leader-avatar.first { border-color: var(--accent); }
+  .leader-pct { font-size: 11px; font-weight: 700; color: var(--up); }
+
+  /* User card */
+  .user-card {
+    margin: 0 16px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-topbar { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .card-row1 { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .avatar-wrap { position: relative; width: 50px; height: 50px; flex-shrink: 0; }
+  .avatar-wrap img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+  .type-badge {
+    position: absolute; bottom: -3px; right: -3px;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; border: 1.5px solid var(--bg);
+  }
+  .online-dot {
+    position: absolute; top: 1px; right: 1px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #5BA05B; border: 2px solid var(--surface);
+  }
+  .card-info { flex: 1; min-width: 0; }
+  .card-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .card-handle { font-size: 11px; color: var(--muted); }
+  .card-rep { font-size: 11px; color: var(--investor); font-weight: 600; margin-top: 3px; }
+  .card-chart { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .mini-chart {
+    width: 70px; height: 28px;
+  }
+  .pct-up { font-size: 12px; font-weight: 700; color: var(--up); }
+  .pct-down { font-size: 12px; font-weight: 700; color: var(--down); }
+  .card-bio { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .tags { display: flex; gap: 5px; }
+  .tag {
+    font-size: 10px; color: var(--muted);
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 6px; padding: 3px 8px;
+  }
+  .card-cap { font-size: 13px; font-weight: 700; color: var(--text); }
+  .card-investors { font-size: 10px; color: var(--muted); text-align: right; }
+
+  /* ── PALETTE SWATCH ── */
+  .swatch-screen {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 500px;
+  }
+  .swatch-title { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .swatch-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch {
+    display: flex; flex-direction: column; gap: 6px; align-items: center;
+  }
+  .swatch-box { width: 52px; height: 52px; border-radius: 12px; border: 1px solid #ffffff11; }
+  .swatch-name { font-size: 9px; color: var(--muted); font-weight: 600; text-align: center; letter-spacing: 0.05em; }
+  .swatch-val { font-size: 8px; color: var(--border2); text-align: center; }
+
+  /* compare bar */
+  .compare {
+    display: flex;
+    flex: 1;
+    gap: 1px;
+    background: var(--border);
+  }
+  .compare-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    gap: 10px;
+  }
+  .compare-label {
+    font-size: 10px; font-weight: 700; color: var(--muted);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    text-align: center; margin-bottom: 8px;
+  }
+  .old-card {
+    background: #111;
+    border: 1px solid #1F1F1F;
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .new-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .old-text { color: #FFF; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .old-sub { color: #555; font-size: 11px; }
+  .new-text { color: var(--text); font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .new-sub { color: var(--muted); font-size: 11px; }
+  .old-tag { background: #1A1A1A; border: 1px solid #252525; border-radius: 6px; padding: '3px 8px'; font-size: 10px; color: #555; display: inline-block; padding: 3px 8px; margin-right: 4px; }
+  .new-tag { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; font-size: 10px; color: var(--muted); display: inline-block; padding: 3px 8px; margin-right: 4px; }
+  .old-cap { color: #FFF; font-size: 13px; font-weight: 700; margin-top: 10px; }
+  .new-cap { color: var(--text); font-size: 13px; font-weight: 700; margin-top: 10px; }
+  .old-btn { background: #8B9E6E; color: #0A0A0A; border: none; border-radius: 14px; padding: 13px 20px; font-size: 14px; font-weight: 800; width: 100%; margin-top: 12px; }
+  .new-btn-p { background: var(--accent); color: var(--bg); border: none; border-radius: 14px; padding: 13px 20px; font-size: 14px; font-weight: 800; width: 100%; margin-top: 12px; box-shadow: 0 4px 16px #8B9E6E25; }
+
+  svg.mini { display: block; }
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1: SPLASH -->
+<div class="screen">
+  <div class="screen-title">Splash</div>
+  <div class="splash">
+    <div class="splash-logo">any<span>1</span></div>
+    <div class="splash-tagline">
+      <div>People</div>
+      <div class="accent">Power</div>
+      <div>People.</div>
+    </div>
+    <div class="splash-sub" style="margin-top:12px">Invest in people before<br>the world notices them.</div>
+    <button class="btn-primary">Enter the Market</button>
+  </div>
+</div>
+
+<!-- SCREEN 2: ONBOARDING -->
+<div class="screen">
+  <div class="screen-title">Onboarding</div>
+  <div class="onboarding">
+    <div class="logo-sm">any<span>1</span></div>
+    <div>
+      <div class="field-label">Your name</div>
+      <input class="input-box" placeholder="e.g. Tamir Mizrahi" readonly />
+    </div>
+    <div>
+      <div class="field-label">Who are you?</div>
+      <div class="role-card active">
+        <div class="badge" style="background:#D4A84318; border:1px solid #D4A84344;">💎</div>
+        <div><div class="role-name" style="color:var(--accent)">Investor</div><div class="role-desc">Back people with capital</div></div>
+      </div>
+      <div class="role-card active-founder">
+        <div class="badge" style="background:#7B6FF718; border:1px solid #7B6FF744;">↑</div>
+        <div><div class="role-name" style="color:var(--founder)">Founder</div><div class="role-desc">Build with vision, own your company</div></div>
+      </div>
+      <div class="role-card">
+        <div class="badge" style="background:#4BBFB518; border:1px solid #4BBFB544;">〜</div>
+        <div><div class="role-name">Surfer</div><div class="role-desc">Multi-project, stay flexible</div></div>
+      </div>
+      <div class="role-card">
+        <div class="badge" style="background:#D4663A18; border:1px solid #D4663A44;">★</div>
+        <div><div class="role-name" style="color:var(--expert)">Expert</div><div class="role-desc">Master of one craft</div></div>
+      </div>
+    </div>
+    <button class="btn-disabled">Let's go →</button>
+  </div>
+</div>
+
+<!-- SCREEN 3: HOME FEED -->
+<div class="screen">
+  <div class="screen-title">Home Feed</div>
+  <div class="home">
+    <div class="topbar">
+      <div class="topbar-logo">any<span>1</span></div>
+      <div style="display:flex;gap:8px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--muted)">Market</div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--muted)">Missions</div>
+      </div>
+    </div>
+    <div class="market-bar">
+      <span>Market:</span>
+      <span class="val">$345k</span>
+      <span style="color:var(--border2)">·</span>
+      <span>8 people</span>
+      <span style="color:var(--border2)">·</span>
+      <span class="up">+6 up</span>
+      <span style="color:var(--border2)">·</span>
+      <span class="down">-2 down</span>
+    </div>
+    <div class="filters">
+      <div class="filter-pill active">✦ All</div>
+      <div class="filter-pill">Investor</div>
+      <div class="filter-pill">Founder</div>
+      <div class="filter-pill">Surfer</div>
+      <div class="filter-pill">Expert</div>
+    </div>
+    <div class="leaderboard">
+      <div class="section-title">This Week 🔥</div>
+      <div class="leader-row">
+        <div class="leader-item">
+          <div class="leader-rank">#1</div>
+          <img class="leader-avatar first" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop&crop=face" />
+          <div class="leader-pct">+12.1%</div>
+        </div>
+        <div class="leader-item">
+          <div class="leader-rank">#2</div>
+          <img class="leader-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face" />
+          <div class="leader-pct">+8.3%</div>
+        </div>
+        <div class="leader-item">
+          <div class="leader-rank">#3</div>
+          <img class="leader-avatar" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop&crop=face" />
+          <div class="leader-pct">+5.4%</div>
+        </div>
+        <div class="leader-item">
+          <div class="leader-rank">#4</div>
+          <img class="leader-avatar" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop&crop=face" />
+          <div class="leader-pct">+3.4%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User card 1 -->
+    <div style="padding: 12px 0 0">
+      <div class="user-card">
+        <div class="card-topbar" style="background:linear-gradient(90deg,#D4A84388,transparent)"></div>
+        <div class="card-row1">
+          <div class="avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face" />
+            <div class="type-badge" style="background:#D4A843">💎</div>
+          </div>
+          <div class="card-info">
+            <div class="card-name">Oren Cohen</div>
+            <div class="card-handle">@orenco</div>
+            <div class="card-rep">★ 96 rep</div>
+          </div>
+          <div class="card-chart">
+            <svg class="mini-chart" viewBox="0 0 70 28" fill="none">
+              <polyline points="0,20 12,16 24,18 36,10 48,8 60,5 70,3" stroke="#8B9E6E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="pct-up">+7.8%</div>
+          </div>
+        </div>
+        <div class="card-bio">Managing Partner @ Apex Ventures. Backed 40+ companies. Pattern recognition is my edge.</div>
+        <div class="card-footer">
+          <div class="tags">
+            <span class="tag">VC</span>
+            <span class="tag">Strategy</span>
+          </div>
+          <div>
+            <div class="card-cap">$88,500</div>
+            <div class="card-investors">89 investors</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User card 2 -->
+      <div class="user-card">
+        <div class="card-topbar" style="background:linear-gradient(90deg,#7B6FF788,transparent)"></div>
+        <div class="card-row1">
+          <div class="avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop&crop=face" />
+            <div class="online-dot"></div>
+            <div class="type-badge" style="background:#7B6FF7">↑</div>
+          </div>
+          <div class="card-info">
+            <div class="card-name">Tamir Mizrahi</div>
+            <div class="card-handle">@tamir</div>
+            <div class="card-rep">★ 87 rep</div>
+          </div>
+          <div class="card-chart">
+            <svg class="mini-chart" viewBox="0 0 70 28" fill="none">
+              <polyline points="0,18 14,22 28,15 42,12 56,9 70,6" stroke="#8B9E6E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="pct-up">+3.4%</div>
+          </div>
+        </div>
+        <div class="card-bio">Serial founder. Shipped 3 products. Currently building in fintech. Obsessed with systems that scale.</div>
+        <div class="card-footer">
+          <div class="tags">
+            <span class="tag">SaaS</span>
+            <span class="tag">Fintech</span>
+          </div>
+          <div>
+            <div class="card-cap">$42,800</div>
+            <div class="card-investors">34 investors</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 4: BEFORE vs AFTER -->
+<div class="screen">
+  <div class="screen-title">Before vs After</div>
+  <div style="display:flex;gap:1px;background:var(--border);flex:1">
+
+    <!-- BEFORE -->
+    <div style="flex:1;background:#0A0A0A;padding:20px 14px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:10px;font-weight:700;color:#444;letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-bottom:4px">BEFORE</div>
+      <div class="old-card">
+        <div class="old-text">Oren Cohen</div>
+        <div class="old-sub">@orenco · 96 rep</div>
+        <div style="margin-top:8px"><span class="old-tag">VC</span><span class="old-tag">Strategy</span></div>
+        <div class="old-cap">$88,500</div>
+      </div>
+      <div style="background:#111;border:1px solid #1F1F1F;border-radius:14px;padding:14px">
+        <div style="font-size:20px;font-weight:900;color:#FFF;letter-spacing:-1px">ANY<span style="color:#8B9E6E">1</span></div>
+        <div style="margin-top:12px;font-size:13px;color:#555">Choose your role</div>
+        <div style="margin-top:12px;background:#161616;border:2px solid #1F1F1F;border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center">
+          <div style="width:36px;height:36px;border-radius:50%;background:#C9A84C22;display:flex;align-items:center;justify-content:center">💎</div>
+          <div><div style="color:#FFF;font-size:13px;font-weight:700">Investor</div><div style="color:#555;font-size:11px">Back people with capital</div></div>
+        </div>
+      </div>
+      <button class="old-btn">Enter the Market</button>
+      <div style="background:#111;border:1px solid #1F1F1F;border-radius:10px;padding:10px;display:flex;gap:8px">
+        <div style="background:#1A1A1A;border:1px solid #252525;border-radius:6px;padding:5px 10px;font-size:10px;color:#555">All</div>
+        <div style="background:#1A1A1A;border:1px solid #252525;border-radius:6px;padding:5px 10px;font-size:10px;color:#555">Trending</div>
+        <div style="background:#8B9E6E22;border:1px solid #8B9E6E;border-radius:6px;padding:5px 10px;font-size:10px;color:#8B9E6E">Rising</div>
+      </div>
+    </div>
+
+    <!-- AFTER -->
+    <div style="flex:1;background:var(--bg);padding:20px 14px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-bottom:4px">AFTER</div>
+      <div class="new-card">
+        <div class="new-text">Oren Cohen</div>
+        <div class="new-sub">@orenco · 96 rep</div>
+        <div style="margin-top:8px"><span class="new-tag">VC</span><span class="new-tag">Strategy</span></div>
+        <div class="new-cap">$88,500</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px">
+        <div style="font-size:20px;font-weight:900;color:var(--text);letter-spacing:-1px">any<span style="color:var(--accent)">1</span></div>
+        <div style="margin-top:12px;font-size:13px;color:var(--muted)">Choose your role</div>
+        <div style="margin-top:12px;background:var(--surface2);border:1.5px solid var(--accent);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center;box-shadow:0 0 16px #8B9E6E18">
+          <div style="width:36px;height:36px;border-radius:50%;background:#D4A84318;border:1px solid #D4A84344;display:flex;align-items:center;justify-content:center">💎</div>
+          <div><div style="color:var(--accent);font-size:13px;font-weight:700">Investor</div><div style="color:var(--muted);font-size:11px">Back people with capital</div></div>
+        </div>
+      </div>
+      <button class="new-btn-p">Enter the Market</button>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;display:flex;gap:8px">
+        <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:5px 10px;font-size:10px;color:var(--muted)">All</div>
+        <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:5px 10px;font-size:10px;color:var(--muted)">Trending</div>
+        <div style="background:#8B9E6E15;border:1px solid var(--accent);border-radius:6px;padding:5px 10px;font-size:10px;color:var(--accent)">Rising</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 5: PALETTE -->
+<div class="screen">
+  <div class="screen-title">Palette</div>
+  <div class="swatch-screen">
+    <div>
+      <div class="swatch-title">Backgrounds</div>
+      <div class="swatch-row">
+        <div class="swatch"><div class="swatch-box" style="background:#1C1814"></div><div class="swatch-name">BG</div><div class="swatch-val">#1C1814</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#252019"></div><div class="swatch-name">Surface</div><div class="swatch-val">#252019</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#2E2820"></div><div class="swatch-name">Surface2</div><div class="swatch-val">#2E2820</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#332C24"></div><div class="swatch-name">Border</div><div class="swatch-val">#332C24</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="swatch-title">Text</div>
+      <div class="swatch-row">
+        <div class="swatch"><div class="swatch-box" style="background:#F2EDE6"></div><div class="swatch-name">Primary</div><div class="swatch-val">#F2EDE6</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#B5A898"></div><div class="swatch-name">Secondary</div><div class="swatch-val">#B5A898</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#7A6E62"></div><div class="swatch-name">Muted</div><div class="swatch-val">#7A6E62</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="swatch-title">Accent</div>
+      <div class="swatch-row">
+        <div class="swatch"><div class="swatch-box" style="background:#8B9E6E"></div><div class="swatch-name">Accent</div><div class="swatch-val">#8B9E6E</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#A3B882"></div><div class="swatch-name">Accent+</div><div class="swatch-val">#A3B882</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#C0564A"></div><div class="swatch-name">Down</div><div class="swatch-val">#C0564A</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="swatch-title">Roles</div>
+      <div class="swatch-row">
+        <div class="swatch"><div class="swatch-box" style="background:#D4A843"></div><div class="swatch-name">Investor</div><div class="swatch-val">#D4A843</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#7B6FF7"></div><div class="swatch-name">Founder</div><div class="swatch-val">#7B6FF7</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#4BBFB5"></div><div class="swatch-name">Surfer</div><div class="swatch-val">#4BBFB5</div></div>
+        <div class="swatch"><div class="swatch-box" style="background:#D4663A"></div><div class="swatch-name">Expert</div><div class="swatch-val">#D4663A</div></div>
+      </div>
+    </div>
+    <div style="margin-top:8px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+      <div style="font-size:11px;color:var(--muted);line-height:1.7">
+        <div>✦ <span style="color:var(--text2)">BG חום-כהה</span> — חם, אנושי, לא server room</div>
+        <div>✦ <span style="color:var(--text2)">טקסט אבן</span> — עין לא מתעייפת, organic</div>
+        <div>✦ <span style="color:var(--text2)">חאקי ירוק</span> — צמיחה, טבע, People Power People</div>
+        <div>✦ <span style="color:var(--text2)">roles בהירים</span> — חיים אבל לא נאון</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
