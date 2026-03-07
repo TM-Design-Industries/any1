@@ -13,9 +13,7 @@ import Chat from './pages/Chat';
 import Market from './pages/Market';
 
 function AppRouter() {
-  const [splashDone, setSplashDone] = useState(() => {
-    return !!sessionStorage.getItem('any1_splash');
-  });
+  const [splashDone, setSplashDone] = useState(false);
   const [hasUser, setHasUser] = useState(false);
   const [ready, setReady] = useState(false);
 
@@ -26,14 +24,13 @@ function AppRouter() {
   }, []);
 
   const handleSplashDone = () => {
-    sessionStorage.setItem('any1_splash', '1');
     setSplashDone(true);
   };
 
   if (!ready) return null;
 
-  // Show splash once per session (only for new users or first visit)
-  if (!splashDone && !hasUser) {
+  // Always show splash on every load/refresh
+  if (!splashDone) {
     return <Splash onDone={handleSplashDone} />;
   }
 
