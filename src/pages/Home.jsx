@@ -1,60 +1,103 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { mockUsers, USER_TYPES } from '../data/mockData';
 import UserCard from '../components/UserCard';
 import BottomNav from '../components/BottomNav';
-import { Bell, X, Target, BarChart2, Plus, TrendingUp, TrendingDown, CheckCircle } from 'lucide-react';
+import { Bell, X, Target, TrendingUp, TrendingDown, Zap, Clock, Users, ChevronRight, Activity } from 'lucide-react';
 
 const filters = ['All', 'Trending', 'Rising', 'Falling'];
 
-// ---- Mock notifications ----
 const MOCK_NOTIFS = [
-  { id: 'n1', type: 'invest', text: 'Oren Cohen invested $50 in you', time: '2m ago', avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face', link: '/user/3', read: false },
+  { id: 'n1', type: 'invest', text: 'Oren Cohen backed you', time: '2m ago', avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face', link: '/user/3', read: false },
   { id: 'n2', type: 'follow', text: 'Noa Ben David started following you', time: '15m ago', avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop&crop=face', link: '/user/6', read: false },
   { id: 'n3', type: 'price', text: 'Your portfolio is up 8.3% today', time: '1h ago', avatar: null, link: '/portfolio', read: false },
   { id: 'n4', type: 'mission', text: 'Maya Levi applied to your design mission', time: '2h ago', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face', link: '/missions', read: true },
-  { id: 'n5', type: 'invest', text: 'Shira Katz invested $20 in you', time: '3h ago', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face', link: '/user/4', read: true },
-  { id: 'n6', type: 'price', text: "Tamir's value dropped 5% - review position", time: '4h ago', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop&crop=face', link: '/portfolio/1', read: true },
-  { id: 'n7', type: 'milestone', text: 'Dana Shapir completed a mission at Wolt', time: '5h ago', avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop&crop=face', link: '/user/8', read: true },
-  { id: 'n8', type: 'follow', text: 'Dor Shapira started following you', time: '1d ago', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&h=100&fit=crop&crop=face', link: '/user/5', read: true },
-  { id: 'n9', type: 'invest', text: 'Your rep score crossed 30!', time: '1d ago', avatar: null, link: '/profile', read: true },
+  { id: 'n5', type: 'price', text: "Ahavat Gordon up 11.7% — you backed them", time: '3h ago', avatar: '/gordon.jpg', link: '/user/15', read: true },
 ];
 
-const NOTIF_COLOR = {
-  invest: '#D4A843',
-  follow: '#7B6FBF',
-  price: '#C9A84C',
-  mission: '#4BBFB5',
-  milestone: '#B5A898',
-};
+const NOTIF_COLOR = { invest: '#C9A84C', follow: '#7B6FBF', price: '#C9A84C', mission: '#4BBFB5', milestone: '#B5A898' };
 
-// POST types for FAB
-const POST_TYPES = [
-  { id: 'update', label: 'Update', color: '#7B6FBF' },
-  { id: 'milestone', label: 'Milestone', color: '#C9A84C' },
-  { id: 'insight', label: 'Insight', color: '#D4A843' },
-  { id: 'work', label: 'Work', color: '#4BBFB5' },
-  { id: 'thought', label: 'Thought', color: '#B5A898' },
+// Live feed events - simulates real market activity
+const LIVE_EVENTS = [
+  { id: 'e1', text: 'Someone backed Dovi Frances', time: '12s ago', color: '#C9A84C' },
+  { id: 'e2', text: 'Omer Adam up 9.3% today', time: '1m ago', color: '#7A9E7E' },
+  { id: 'e3', text: 'New mission posted by Tamir Mizrahi', time: '3m ago', color: '#8B85C1' },
+  { id: 'e4', text: 'Ahavat Gordon crossed 50 backers', time: '7m ago', color: '#B8714F' },
+  { id: 'e5', text: 'Eyal Shani hit all-time high valuation', time: '12m ago', color: '#C9A84C' },
+  { id: 'e6', text: '3 new people joined Any1', time: '18m ago', color: '#7A6E62' },
+  { id: 'e7', text: 'Yehuda Levi mission completed', time: '22m ago', color: '#4BBFB5' },
+  { id: 'e8', text: 'Dovi Frances backed Tamir Mizrahi', time: '31m ago', color: '#C9A84C' },
 ];
 
-// simulate live price ticks
 function useLivePrices(users) {
-  const [prices, setPrices] = useState(() =>
-    Object.fromEntries(users.map(u => [u.id, u.marketCap]))
-  );
+  const [prices, setPrices] = useState(() => Object.fromEntries(users.map(u => [u.id, u.marketCap])));
   useEffect(() => {
     const interval = setInterval(() => {
       setPrices(prev => {
         const next = { ...prev };
         const randomUser = users[Math.floor(Math.random() * users.length)];
-        const delta = (Math.random() - 0.48) * randomUser.marketCap * 0.008;
+        const delta = (Math.random() - 0.47) * randomUser.marketCap * 0.006;
         next[randomUser.id] = Math.max(1000, prev[randomUser.id] + delta);
         return next;
       });
-    }, 1200);
+    }, 1000);
     return () => clearInterval(interval);
   }, [users]);
   return prices;
+}
+
+// Ticker tape component
+function TickerTape({ events }) {
+  return (
+    <div style={{ overflow: 'hidden', background: '#1A1612', borderBottom: '1px solid #2A2520', height: 32, display: 'flex', alignItems: 'center' }}>
+      <div style={{
+        display: 'flex', gap: 48, whiteSpace: 'nowrap',
+        animation: 'tickerScroll 30s linear infinite',
+      }}>
+        {[...events, ...events].map((e, i) => (
+          <span key={i} style={{ fontSize: 11, color: e.color, fontWeight: 600, letterSpacing: '0.03em' }}>
+            <span style={{ color: '#3E3528', marginRight: 8 }}>●</span>
+            {e.text}
+            <span style={{ color: '#3E3528', marginLeft: 16 }}>{e.time}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Opportunity card - "window opens"
+function OpportunityCard({ user, navigate }) {
+  return (
+    <div
+      onClick={() => navigate(`/user/${user.id}`)}
+      style={{
+        background: 'linear-gradient(135deg, #2A2520 0%, #1E1B17 100%)',
+        border: '1px solid #C9A84C44',
+        borderRadius: 16, padding: '14px 16px',
+        cursor: 'pointer', flexShrink: 0, width: 200,
+        position: 'relative', overflow: 'hidden',
+      }}
+    >
+      <div style={{ position: 'absolute', top: 10, right: 10, background: '#C9A84C22', borderRadius: 6, padding: '2px 8px' }}>
+        <span style={{ fontSize: 9, color: '#C9A84C', fontWeight: 700, letterSpacing: '0.08em' }}>WINDOW OPEN</span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+        <img src={user.avatar} alt="" style={{ width: 38, height: 38, borderRadius: '50%', border: '1.5px solid #C9A84C44' }} />
+        <div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: '#F2EDE6' }}>{user.name.split(' ')[0]}</div>
+          <div style={{ fontSize: 10, color: '#7A6E62' }}>{user.type}</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 11, color: '#B5A898', marginBottom: 8, lineHeight: 1.4 }}>
+        Up {user.change}% this week. Early backers positioned well.
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 13, fontWeight: 800, color: '#C9A84C' }}>${(user.marketCap / 1000).toFixed(0)}k</span>
+        <span style={{ fontSize: 11, color: '#7A9E7E', fontWeight: 600 }}>+{user.change}%</span>
+      </div>
+    </div>
+  );
 }
 
 export default function Home() {
@@ -62,71 +105,24 @@ export default function Home() {
   const [filter, setFilter] = useState('All');
   const [typeFilter, setTypeFilter] = useState('all');
   const livePrices = useLivePrices(mockUsers);
-
-  // Notifications
   const [showNotifs, setShowNotifs] = useState(false);
-  const [notifs, setNotifs] = useState(() => {
-    try {
-      const stored = localStorage.getItem('any1_notifs_dismissed');
-      const dismissed = stored ? JSON.parse(stored) : [];
-      return MOCK_NOTIFS.filter(n => !dismissed.includes(n.id));
-    } catch { return MOCK_NOTIFS; }
-  });
-  const [readNotifs, setReadNotifs] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('any1_notifs_read') || '[]'); } catch { return []; }
-  });
+  const [notifs, setNotifs] = useState(MOCK_NOTIFS);
+  const [readNotifs, setReadNotifs] = useState([]);
+  const [liveIdx, setLiveIdx] = useState(0);
+  const [showThesis, setShowThesis] = useState(() => !localStorage.getItem('any1_thesis_done'));
+  const [thesisStep, setThesisStep] = useState(0);
+  const [selectedThesis, setSelectedThesis] = useState([]);
 
   const unreadCount = notifs.filter(n => !n.read && !readNotifs.includes(n.id)).length;
 
+  // Rotate live event highlight
+  useEffect(() => {
+    const t = setInterval(() => setLiveIdx(i => (i + 1) % LIVE_EVENTS.length), 4000);
+    return () => clearInterval(t);
+  }, []);
+
   const markAllRead = () => {
-    const ids = notifs.map(n => n.id);
-    setReadNotifs(ids);
-    localStorage.setItem('any1_notifs_read', JSON.stringify(ids));
-  };
-
-  const dismissNotif = (id) => {
-    const newNotifs = notifs.filter(n => n.id !== id);
-    setNotifs(newNotifs);
-    const dismissed = MOCK_NOTIFS.filter(n => !newNotifs.find(x => x.id === n.id)).map(n => n.id);
-    localStorage.setItem('any1_notifs_dismissed', JSON.stringify(dismissed));
-  };
-
-  // Weekly Digest
-  const [showDigest, setShowDigest] = useState(() => {
-    const today = new Date().toDateString();
-    return localStorage.getItem('any1_digest_seen') !== today;
-  });
-
-  const dismissDigest = () => {
-    localStorage.setItem('any1_digest_seen', new Date().toDateString());
-    setShowDigest(false);
-  };
-
-  // FAB / Create Post
-  const [showFAB, setShowFAB] = useState(false);
-  const [postType, setPostType] = useState('update');
-  const [postText, setPostText] = useState('');
-  const [postImage, setPostImage] = useState('');
-  const [postToast, setPostToast] = useState(false);
-
-  const submitPost = () => {
-    if (!postText.trim()) return;
-    const posts = JSON.parse(localStorage.getItem('any1_posts') || '[]');
-    posts.unshift({
-      id: Date.now().toString(),
-      type: postType,
-      text: postText.trim(),
-      image: postImage.trim() || null,
-      time: 'just now',
-      likes: 0,
-      comments: 0,
-    });
-    localStorage.setItem('any1_posts', JSON.stringify(posts));
-    setShowFAB(false);
-    setPostText('');
-    setPostImage('');
-    setPostToast(true);
-    setTimeout(() => setPostToast(false), 2500);
+    setReadNotifs(notifs.map(n => n.id));
   };
 
   const enriched = mockUsers.map(u => ({
@@ -151,71 +147,69 @@ export default function Home() {
 
   const totalMarketCap = enriched.reduce((s, u) => s + u.marketCap, 0);
   const upCount = enriched.filter(u => u.liveChange > 0).length;
-  const downCount = enriched.filter(u => u.liveChange < 0).length;
 
-  // Leaderboard top 5
-  const leaderboard = [...enriched]
-    .sort((a, b) => b.liveChange - a.liveChange)
-    .slice(0, 5);
-
+  // Top movers
+  const topMovers = [...enriched].sort((a, b) => b.liveChange - a.liveChange).slice(0, 3);
+  // Windows of opportunity (rising + fewer backers)
+  const windows = [...enriched].filter(u => u.liveChange > 3 && u.investors < 80).slice(0, 4);
+  // Leaderboard
+  const leaderboard = [...enriched].sort((a, b) => b.liveChange - a.liveChange).slice(0, 5);
   const rankColors = ['#C9A84C', '#B5A898', '#B5A898', '#7A6E62', '#7A6E62'];
-  const rankLabels = ['#1', '#2', '#3', '#4', '#5'];
+
+  const THESIS_OPTIONS = [
+    { id: 'tech', label: 'Tech & AI', color: '#7B6FBF' },
+    { id: 'arts', label: 'Arts & Culture', color: '#B8714F' },
+    { id: 'sport', label: 'Sport & Fitness', color: '#4BBFB5' },
+    { id: 'business', label: 'Business & VC', color: '#C9A84C' },
+    { id: 'food', label: 'Food & Lifestyle', color: '#D4A843' },
+    { id: 'media', label: 'Media & TV', color: '#8B85C1' },
+  ];
+
+  const toggleThesis = (id) => {
+    setSelectedThesis(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
+  };
+
+  const finishThesis = () => {
+    localStorage.setItem('any1_thesis_done', '1');
+    localStorage.setItem('any1_thesis', JSON.stringify(selectedThesis));
+    setShowThesis(false);
+  };
 
   return (
     <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 90, position: 'relative' }}>
 
+      {/* Ticker CSS */}
+      <style>{`
+        @keyframes tickerScroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+      `}</style>
+
       {/* Header */}
-      <div style={{
-        padding: '54px 20px 0',
-        background: '#221E1A',
-        borderBottom: '1px solid #332C24',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <span style={{ fontSize: 26, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-0.5px' }}>
-            ANY<span style={{ color: '#C9A84C' }}>1</span>
-          </span>
+      <div style={{ padding: '54px 20px 0', background: '#221E1A', borderBottom: '1px solid #1A1612' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <div>
+            <span style={{ fontSize: 28, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-1px' }}>
+              any<span style={{ color: '#C9A84C' }}>1</span>
+            </span>
+            <div style={{ fontSize: 10, color: '#7A6E62', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 1 }}>
+              The Human Market
+            </div>
+          </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <button
-              onClick={() => navigate('/market')}
-              style={{
-                background: '#2A2520', border: '1px solid #1F1F1F',
-                borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
-                fontSize: 11, color: '#7A6E62', fontWeight: 600,
-                display: 'flex', alignItems: 'center', gap: 4,
-              }}
-            >
-              <BarChart2 size={12} />
-              Market
-            </button>
-            <button
-              onClick={() => navigate('/missions')}
-              style={{
-                background: '#2A2520', border: '1px solid #1F1F1F',
-                borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
-                fontSize: 11, color: '#7A6E62', fontWeight: 600,
-                display: 'flex', alignItems: 'center', gap: 4,
-              }}
-            >
-              <Target size={12} />
-              Missions
-            </button>
-            <button
-              onClick={() => setShowNotifs(v => !v)}
-              style={{
-                background: '#2A2520', border: '1px solid #1F1F1F',
-                borderRadius: 10, padding: 8, cursor: 'pointer',
-                position: 'relative',
-              }}
-            >
+            {/* Live dot */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#1A1612', border: '1px solid #2A2520', borderRadius: 8, padding: '5px 10px' }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#7A9E7E', animation: 'pulse 1.5s infinite' }} />
+              <span style={{ fontSize: 10, color: '#7A9E7E', fontWeight: 700, letterSpacing: '0.06em' }}>LIVE</span>
+            </div>
+            <button onClick={() => setShowNotifs(v => !v)} style={{ background: '#1A1612', border: '1px solid #2A2520', borderRadius: 10, padding: 8, cursor: 'pointer', position: 'relative' }}>
               <Bell size={18} color={showNotifs ? '#C9A84C' : '#7A6E62'} />
               {unreadCount > 0 && (
-                <div style={{
-                  position: 'absolute', top: 4, right: 4,
-                  width: 16, height: 16, borderRadius: '50%',
-                  background: '#C0564A',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 9, fontWeight: 800, color: '#F2EDE6',
-                }}>
+                <div style={{ position: 'absolute', top: 4, right: 4, width: 16, height: 16, borderRadius: '50%', background: '#C0564A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, color: '#fff' }}>
                   {unreadCount}
                 </div>
               )}
@@ -223,409 +217,178 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stat bar (replaces ticker - TASK-11) */}
-        <div style={{
-          background: '#2A2520', border: '1px solid #1A1A1A',
-          borderRadius: 10, padding: '8px 14px',
-          display: 'flex', alignItems: 'center', gap: 6,
-          marginBottom: 10, fontSize: 12, color: '#7A6E62',
-        }}>
-          <span style={{ color: '#F2EDE6', fontWeight: 600 }}>Market:</span>
-          <span>${(totalMarketCap / 1000).toFixed(0)}k total</span>
-          <span style={{ color: '#3E3528' }}>-</span>
-          <span>{enriched.length} people</span>
-          <span style={{ color: '#3E3528' }}>-</span>
-          <span style={{ color: '#C9A84C' }}>+{upCount} up</span>
-          <span style={{ color: '#C0564A' }}>-{downCount} down today</span>
+        {/* Market summary bar */}
+        <div style={{ background: '#1A1612', borderRadius: 10, padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, border: '1px solid #2A2520' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: '#F2EDE6' }}>${(totalMarketCap / 1000000).toFixed(1)}M</div>
+            <div style={{ fontSize: 9, color: '#7A6E62', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Total Value</div>
+          </div>
+          <div style={{ width: 1, height: 30, background: '#2A2520' }} />
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: '#F2EDE6' }}>{enriched.length}</div>
+            <div style={{ fontSize: 9, color: '#7A6E62', letterSpacing: '0.06em', textTransform: 'uppercase' }}>People</div>
+          </div>
+          <div style={{ width: 1, height: 30, background: '#2A2520' }} />
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: '#7A9E7E' }}>{upCount} up</div>
+            <div style={{ fontSize: 9, color: '#7A6E62', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Today</div>
+          </div>
+          <div style={{ width: 1, height: 30, background: '#2A2520' }} />
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: '#C9A84C' }}>24/7</div>
+            <div style={{ fontSize: 9, color: '#7A6E62', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Open</div>
+          </div>
         </div>
 
-        {/* Type filter */}
+        {/* Filters */}
         <div style={{ display: 'flex', gap: 8, overflowX: 'auto', scrollbarWidth: 'none', marginBottom: 10 }}>
-          {[{ id: 'all', label: 'All', emoji: '✨', color: '#C9A84C' }, ...Object.values(USER_TYPES)].map(t => (
-            <button
-              key={t.id}
-              onClick={() => setTypeFilter(t.id)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                background: typeFilter === t.id ? `${t.color}22` : 'transparent',
-                border: `1px solid ${typeFilter === t.id ? t.color : '#332C24'}`,
-                borderRadius: 20, padding: '5px 12px',
-                color: typeFilter === t.id ? t.color : '#7A6E62',
-                fontSize: 11, fontWeight: 600,
-                cursor: 'pointer', whiteSpace: 'nowrap',
-              }}
-            >
-              <span>{t.emoji}</span> {t.label}
+          {[{ id: 'all', label: 'All', color: '#C9A84C' }, ...Object.values(USER_TYPES)].map(t => (
+            <button key={t.id} onClick={() => setTypeFilter(t.id)} style={{
+              background: typeFilter === t.id ? `${t.color}22` : 'transparent',
+              border: `1px solid ${typeFilter === t.id ? t.color : '#2A2520'}`,
+              borderRadius: 20, padding: '5px 14px',
+              color: typeFilter === t.id ? t.color : '#7A6E62',
+              fontSize: 11, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
+            }}>
+              {t.label}
             </button>
           ))}
         </div>
 
-        {/* Sort filter */}
         <div style={{ display: 'flex', gap: 6, paddingBottom: 14 }}>
           {filters.map(f => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              style={{
-                background: filter === f ? '#C9A84C' : 'transparent',
-                color: filter === f ? '#221E1A' : '#7A6E62',
-                border: `1px solid ${filter === f ? '#C9A84C' : '#332C24'}`,
-                borderRadius: 16, padding: '5px 14px',
-                fontSize: 11, fontWeight: 700,
-                cursor: 'pointer', letterSpacing: '0.03em',
-              }}
-            >
+            <button key={f} onClick={() => setFilter(f)} style={{
+              background: filter === f ? '#C9A84C' : 'transparent',
+              color: filter === f ? '#221E1A' : '#7A6E62',
+              border: `1px solid ${filter === f ? '#C9A84C' : '#2A2520'}`,
+              borderRadius: 16, padding: '5px 14px',
+              fontSize: 11, fontWeight: 700, cursor: 'pointer',
+            }}>
               {f}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Notification panel (TASK-03) */}
-      {showNotifs && (
-        <div style={{
-          position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)',
-          width: '100%', maxWidth: 430, zIndex: 150,
-          background: '#221E1A', borderBottom: '1px solid #1F1F1F',
-          animation: 'slideDown 0.3s ease',
-          maxHeight: '70vh', overflowY: 'auto',
-        }}>
-          <div style={{ padding: '54px 16px 0' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#F2EDE6' }}>Notifications</div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button
-                  onClick={markAllRead}
-                  style={{
-                    background: 'none', border: '1px solid #1F1F1F',
-                    borderRadius: 8, padding: '4px 10px',
-                    fontSize: 11, color: '#7A6E62', cursor: 'pointer',
-                  }}
-                >
-                  Mark all read
-                </button>
-                <button
-                  onClick={() => setShowNotifs(false)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
-                >
-                  <X size={18} color="#7A6E62" />
-                </button>
-              </div>
-            </div>
+      {/* Ticker tape */}
+      <TickerTape events={LIVE_EVENTS} />
 
-            {notifs.map(notif => {
-              const isRead = notif.read || readNotifs.includes(notif.id);
-              return (
-                <div
-                  key={notif.id}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 12,
-                    padding: '12px 0',
-                    borderBottom: '1px solid #111',
-                    opacity: isRead ? 0.6 : 1,
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    setShowNotifs(false);
-                    navigate(notif.link);
-                  }}
-                >
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: isRead ? '#3E3528' : NOTIF_COLOR[notif.type], flexShrink: 0 }} />
-                  {notif.avatar ? (
-                    <img src={notif.avatar} alt="" style={{ width: 38, height: 38, borderRadius: '50%', flexShrink: 0 }} />
-                  ) : (
-                    <div style={{
-                      width: 38, height: 38, borderRadius: '50%',
-                      background: `${NOTIF_COLOR[notif.type]}22`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
-                      <div style={{ width: 10, height: 10, borderRadius: '50%', background: NOTIF_COLOR[notif.type] }} />
-                    </div>
-                  )}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, color: '#F2EDE6', lineHeight: 1.4, fontWeight: isRead ? 400 : 600 }}>
-                      {notif.text}
-                    </div>
-                    <div style={{ fontSize: 11, color: '#7A6E62', marginTop: 2 }}>{notif.time}</div>
-                  </div>
-                  <button
-                    onClick={e => { e.stopPropagation(); dismissNotif(notif.id); }}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
-                  >
-                    <X size={14} color="#3E3528" />
-                  </button>
+      {/* Notification panel */}
+      {showNotifs && (
+        <>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 140 }} onClick={() => setShowNotifs(false)} />
+          <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, zIndex: 150, background: '#221E1A', borderBottom: '1px solid #1F1F1F', maxHeight: '70vh', overflowY: 'auto', animation: 'slideDown 0.25s ease' }}>
+            <div style={{ padding: '54px 16px 20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                <div style={{ fontSize: 16, fontWeight: 700, color: '#F2EDE6' }}>Notifications</div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={markAllRead} style={{ background: 'none', border: '1px solid #2A2520', borderRadius: 8, padding: '4px 10px', fontSize: 11, color: '#7A6E62', cursor: 'pointer' }}>Mark all read</button>
+                  <button onClick={() => setShowNotifs(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={18} color="#7A6E62" /></button>
                 </div>
-              );
-            })}
-
-            {notifs.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '32px 0', color: '#7A6E62', fontSize: 14 }}>
-                All caught up!
               </div>
-            )}
-
-            <div style={{ height: 20 }} />
+              {notifs.map(n => {
+                const isRead = n.read || readNotifs.includes(n.id);
+                return (
+                  <div key={n.id} onClick={() => { setShowNotifs(false); navigate(n.link); }} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid #1A1612', opacity: isRead ? 0.5 : 1, cursor: 'pointer' }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: isRead ? '#3E3528' : NOTIF_COLOR[n.type], flexShrink: 0 }} />
+                    {n.avatar ? <img src={n.avatar} alt="" style={{ width: 36, height: 36, borderRadius: '50%', flexShrink: 0 }} /> : <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#2A2520', flexShrink: 0 }} />}
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, color: '#F2EDE6', fontWeight: isRead ? 400 : 600 }}>{n.text}</div>
+                      <div style={{ fontSize: 11, color: '#7A6E62', marginTop: 2 }}>{n.time}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </>
       )}
 
-      {/* Overlay backdrop for notifications */}
-      {showNotifs && (
-        <div
-          style={{ position: 'fixed', inset: 0, zIndex: 140 }}
-          onClick={() => setShowNotifs(false)}
-        />
-      )}
+      <div style={{ padding: '20px 16px 0' }}>
 
-      {/* Feed */}
-      <div style={{ padding: '16px 16px 0' }}>
+        {/* Windows of Opportunity */}
+        {windows.length > 0 && (
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Zap size={14} color="#C9A84C" />
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#C9A84C', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Windows of Opportunity</span>
+              </div>
+              <span style={{ fontSize: 10, color: '#7A6E62' }}>Rising — fewer backers</span>
+            </div>
+            <div style={{ display: 'flex', gap: 12, overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: 4 }}>
+              {windows.map(u => <OpportunityCard key={u.id} user={u} navigate={navigate} />)}
+            </div>
+          </div>
+        )}
 
-        {/* Leaderboard */}
-        <div style={{ marginBottom: 24 }}>
-          <div style={{
-            fontSize: 11, fontWeight: 700, color: '#7A6E62',
-            letterSpacing: '0.1em', textTransform: 'uppercase',
-            marginBottom: 14,
-          }}>
-            This Week
+        {/* This Week leaderboard */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <TrendingUp size={14} color="#7A6E62" />
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#7A6E62', letterSpacing: '0.1em', textTransform: 'uppercase' }}>This Week</span>
+            </div>
           </div>
           <div style={{ display: 'flex', gap: 10, overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: 2 }}>
             {leaderboard.map((user, idx) => (
-              <div
-                key={user.id}
-                onClick={() => navigate(`/user/${user.id}`)}
-                style={{
-                  flexShrink: 0,
-                  width: 88,
-                  background: '#2A2520',
-                  border: `1px solid ${idx === 0 ? '#C9A84C44' : '#332C24'}`,
-                  borderRadius: 14,
-                  padding: '12px 8px',
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                }}
-              >
-                <div style={{
-                  fontSize: 10, fontWeight: 700,
-                  color: rankColors[idx],
-                  marginBottom: 8,
-                  letterSpacing: '0.05em',
-                }}>
-                  {rankLabels[idx]}
-                </div>
-                <img src={user.avatar} alt="" style={{
-                  width: 40, height: 40, borderRadius: '50%',
-                  border: `1.5px solid ${rankColors[idx]}55`,
-                  marginBottom: 8,
-                  display: 'block',
-                  margin: '0 auto 8px',
-                }} />
-                <div style={{ fontSize: 11, fontWeight: 600, color: '#B5A898', marginBottom: 4 }}>
-                  {user.name.split(' ')[0]}
-                </div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#C9A84C' }}>
-                  +{user.liveChange.toFixed(1)}%
-                </div>
+              <div key={user.id} onClick={() => navigate(`/user/${user.id}`)} style={{ flexShrink: 0, width: 86, background: '#1A1612', border: `1px solid ${idx === 0 ? '#C9A84C44' : '#2A2520'}`, borderRadius: 14, padding: '12px 8px', cursor: 'pointer', textAlign: 'center' }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: rankColors[idx], marginBottom: 8 }}>#{idx + 1}</div>
+                <img src={user.avatar} alt="" style={{ width: 38, height: 38, borderRadius: '50%', border: `1.5px solid ${rankColors[idx]}55`, display: 'block', margin: '0 auto 8px' }} />
+                <div style={{ fontSize: 10, fontWeight: 600, color: '#B5A898', marginBottom: 4 }}>{user.name.split(' ')[0]}</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: '#C9A84C' }}>+{user.liveChange.toFixed(1)}%</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* User cards */}
+        {/* Missions CTA */}
+        <div onClick={() => navigate('/missions')} style={{ background: '#1A1612', border: '1px solid #2A2520', borderRadius: 16, padding: '16px 18px', marginBottom: 24, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: '#8B85C122', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <Target size={22} color="#8B85C1" />
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: '#F2EDE6', marginBottom: 2 }}>Prove your value</div>
+            <div style={{ fontSize: 12, color: '#7A6E62' }}>4 missions match your profile — complete one to raise your valuation</div>
+          </div>
+          <ChevronRight size={18} color="#7A6E62" />
+        </div>
+
+        {/* People list */}
         {filtered.map((user, i) => (
-          <UserCard
-            key={user.id}
-            user={{ ...user, change: parseFloat(user.liveChange.toFixed(1)) }}
-            animate={true}
-            index={i}
-          />
+          <UserCard key={user.id} user={{ ...user, change: parseFloat(user.liveChange.toFixed(1)) }} animate={true} index={i} />
         ))}
       </div>
 
-      {/* FAB button (TASK-13) */}
-      <button
-        onClick={() => setShowFAB(true)}
-        style={{
-          position: 'fixed', bottom: 90, right: 20,
-          width: 56, height: 56, borderRadius: '50%',
-          background: '#C9A84C', border: 'none',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', zIndex: 90,
-          boxShadow: '0 4px 20px #C9A84C55',
-        }}
-      >
-        <Plus size={24} color="#221E1A" strokeWidth={3} />
-      </button>
-
-      {/* FAB modal */}
-      {showFAB && (
-        <div style={{
-          position: 'fixed', inset: 0, background: '#000000cc',
-          backdropFilter: 'blur(8px)', zIndex: 200,
-          display: 'flex', alignItems: 'flex-end',
-        }} onClick={() => setShowFAB(false)}>
-          <div
-            style={{
-              width: '100%', maxWidth: 430, margin: '0 auto',
-              background: '#2A2520', borderRadius: '24px 24px 0 0',
-              padding: '24px 20px 40px',
-              border: '1px solid #1F1F1F',
-              animation: 'slideUpFull 0.3s ease',
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div style={{ width: 36, height: 4, background: '#3E3528', borderRadius: 2, margin: '0 auto 20px' }} />
-            <div style={{ fontSize: 17, fontWeight: 700, color: '#F2EDE6', marginBottom: 16 }}>Create Post</div>
-
-            {/* Post type chips */}
-            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', marginBottom: 16, scrollbarWidth: 'none' }}>
-              {POST_TYPES.map(pt => (
-                <button
-                  key={pt.id}
-                  onClick={() => setPostType(pt.id)}
-                  style={{
-                    background: postType === pt.id ? `${pt.color}22` : '#332D27',
-                    border: `1px solid ${postType === pt.id ? pt.color : '#3E3528'}`,
-                    borderRadius: 20, padding: '7px 14px',
-                    color: postType === pt.id ? pt.color : '#7A6E62',
-                    fontSize: 12, fontWeight: 600, cursor: 'pointer',
-                    whiteSpace: 'nowrap', flexShrink: 0,
-                  }}
-                >
-                  {pt.label}
+      {/* Thesis onboarding */}
+      {showThesis && (
+        <div style={{ position: 'fixed', inset: 0, background: '#000000dd', backdropFilter: 'blur(12px)', zIndex: 300, display: 'flex', alignItems: 'flex-end' }}>
+          <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#1E1B17', borderRadius: '24px 24px 0 0', padding: '32px 24px 48px', border: '1px solid #2A2520' }}>
+            <div style={{ width: 36, height: 4, background: '#3E3528', borderRadius: 2, margin: '0 auto 28px' }} />
+            <div style={{ fontSize: 22, fontWeight: 800, color: '#F2EDE6', marginBottom: 6 }}>What do you believe in?</div>
+            <div style={{ fontSize: 14, color: '#7A6E62', marginBottom: 24, lineHeight: 1.5 }}>
+              Your investment thesis shapes who you discover. Pick what resonates.
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 28 }}>
+              {THESIS_OPTIONS.map(t => (
+                <button key={t.id} onClick={() => toggleThesis(t.id)} style={{
+                  background: selectedThesis.includes(t.id) ? `${t.color}22` : '#2A2520',
+                  border: `1.5px solid ${selectedThesis.includes(t.id) ? t.color : '#332C24'}`,
+                  borderRadius: 20, padding: '9px 18px',
+                  color: selectedThesis.includes(t.id) ? t.color : '#7A6E62',
+                  fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                }}>
+                  {t.label}
                 </button>
               ))}
             </div>
-
-            <textarea
-              value={postText}
-              onChange={e => setPostText(e.target.value.slice(0, 280))}
-              placeholder="What's on your mind?"
-              rows={4}
-              style={{
-                width: '100%', background: '#332D27',
-                border: '1px solid #252525', borderRadius: 14,
-                padding: '14px 16px', color: '#F2EDE6',
-                fontSize: 15, outline: 'none', resize: 'none',
-                fontFamily: 'inherit', marginBottom: 8,
-              }}
-            />
-            <div style={{ fontSize: 11, color: postText.length > 250 ? '#C0564A' : '#7A6E62', textAlign: 'right', marginBottom: 12 }}>
-              {postText.length}/280
-            </div>
-
-            <input
-              value={postImage}
-              onChange={e => setPostImage(e.target.value)}
-              placeholder="Image URL (optional)"
-              style={{
-                width: '100%', background: '#332D27',
-                border: '1px solid #252525', borderRadius: 12,
-                padding: '12px 16px', color: '#F2EDE6',
-                fontSize: 14, outline: 'none', marginBottom: 16,
-              }}
-            />
-
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button
-                onClick={() => setShowFAB(false)}
-                style={{
-                  flex: 1, background: '#332D27', color: '#7A6E62',
-                  border: '1px solid #252525', borderRadius: 14,
-                  padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer',
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={submitPost}
-                disabled={!postText.trim()}
-                style={{
-                  flex: 2,
-                  background: postText.trim() ? '#C9A84C' : '#332D27',
-                  color: postText.trim() ? '#221E1A' : '#7A6E62',
-                  border: 'none', borderRadius: 14,
-                  padding: 14, fontSize: 15, fontWeight: 700,
-                  cursor: postText.trim() ? 'pointer' : 'default',
-                }}
-              >
-                Post
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Posted toast */}
-      {postToast && (
-        <div style={{
-          position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)',
-          background: '#C9A84C', color: '#221E1A',
-          borderRadius: 20, padding: '10px 20px',
-          fontSize: 13, fontWeight: 700, zIndex: 300,
-          display: 'flex', alignItems: 'center', gap: 6,
-          animation: 'slideUp 0.3s ease',
-          boxShadow: '0 8px 24px #C9A84C44',
-        }}>
-          <CheckCircle size={14} />
-          Posted!
-        </div>
-      )}
-
-      {/* Weekly Digest overlay (TASK-08) */}
-      {showDigest && (
-        <div style={{
-          position: 'fixed', inset: 0, background: '#000000ee',
-          backdropFilter: 'blur(12px)', zIndex: 250,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: '20px',
-        }}>
-          <div style={{
-            background: '#2A2520', borderRadius: 24,
-            padding: '32px 24px',
-            border: '1px solid #1F1F1F',
-            width: '100%', maxWidth: 390,
-            animation: 'scaleIn 0.4s ease',
-          }}>
-            <div style={{ textAlign: 'center', marginBottom: 24 }}>
-              <div style={{ fontSize: 40, marginBottom: 12 }}>📊</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color: '#F2EDE6', marginBottom: 4 }}>Your Week on Any1</div>
-              <div style={{ fontSize: 13, color: '#7A6E62' }}>
-                {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
-              {[
-                { emoji: '📈', label: 'Portfolio grew', value: '+4.2%', color: '#C9A84C' },
-                { emoji: '💰', label: 'Best bet: Oren Cohen', value: '+12.3%', color: '#D4A843' },
-                { emoji: '👥', label: 'New followers', value: '3 people', color: '#7B6FBF' },
-                { emoji: '🎯', label: 'Missions available', value: '4 open', color: '#4BBFB5' },
-                { emoji: '⭐', label: 'Rep earned', value: '+15 points', color: '#D4A843' },
-              ].map(item => (
-                <div key={item.label} style={{
-                  background: '#332D27', borderRadius: 14, padding: '14px 16px',
-                  display: 'flex', alignItems: 'center', gap: 12,
-                }}>
-                  <span style={{ fontSize: 20 }}>{item.emoji}</span>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, color: '#7A6E62' }}>{item.label}</div>
-                  </div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: item.color }}>{item.value}</div>
-                </div>
-              ))}
-            </div>
-
-            <button
-              onClick={dismissDigest}
-              style={{
-                width: '100%', background: '#C9A84C', color: '#221E1A',
-                border: 'none', borderRadius: 14,
-                padding: 16, fontSize: 15, fontWeight: 800, cursor: 'pointer',
-              }}
-            >
-              Let's go!
+            <button onClick={finishThesis} style={{
+              width: '100%', background: selectedThesis.length > 0 ? '#C9A84C' : '#2A2520',
+              color: selectedThesis.length > 0 ? '#221E1A' : '#7A6E62',
+              border: 'none', borderRadius: 14, padding: 16,
+              fontSize: 15, fontWeight: 800, cursor: 'pointer',
+            }}>
+              {selectedThesis.length > 0 ? 'Build my market' : 'Skip for now'}
             </button>
           </div>
         </div>
@@ -635,6 +398,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-

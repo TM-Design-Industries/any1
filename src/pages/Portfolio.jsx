@@ -83,14 +83,29 @@ export default function Portfolio() {
     }, 1200);
   };
 
-  const positions = useMemo(() => myPortfolio.map(p => {
-    const user = mockUsers.find(u => u.id === p.userId);
-    const value = p.shares * (p.currentPrice / 1000);
-    const cost = p.shares * (p.buyPrice / 1000);
-    const pnl = value - cost;
-    const pnlPct = ((value - cost) / cost) * 100;
-    return { ...p, user, value, cost, pnl, pnlPct };
-  }), [refreshKey]);
+  // Merge mock portfolio + real user investments from localStorage
+  const positions = useMemo(() => {
+    const lsPortfolio = JSON.parse(localStorage.getItem('any1_portfolio') || '[]');
+    const combined = [...myPortfolio];
+    lsPortfolio.forEach(lp => {
+      if (!combined.find(p => p.userId === lp.userId)) {
+        combined.push({ userId: lp.userId, shares: lp.shares, buyPrice: lp.buyPrice, currentPrice: mockUsers.find(u => u.id === lp.userId)?.marketCap || lp.buyPrice });
+      }
+    });
+    return combined.map(p => {
+      const user = mockUsers.find(u => u.id === p.userId);
+      if (!user) return null;
+      const value = p.shares * (p.currentPrice / 1000);
+      const cost = p.shares * (p.buyPrice / 1000);
+      const pnl = value - cost;
+      const pnlPct = ((value - cost) / cost) * 100;
+      return { ...p, user, value, cost, pnl, pnlPct };
+    }).filter(Boolean);
+  }, [refreshKey]);
+
+  const backerCards = useMemo(() => {
+    try { return JSON.parse(localStorage.getItem('any1_backer_cards') || '[]'); } catch { return []; }
+  }, [refreshKey]);
 
   const totalValue = positions.reduce((s, p) => s + p.value, 0);
   const totalCost = positions.reduce((s, p) => s + p.cost, 0);
@@ -252,17 +267,59 @@ export default function Portfolio() {
         })}
 
         {/* Add position */}
-        <button
-          onClick={() => navigate('/discover')}
-          style={{
-            width: '100%', background: 'transparent',
-            border: '1px dashed #1F1F1F', borderRadius: 16,
-            padding: 16, color: '#7A6E62', fontSize: 14,
-            cursor: 'pointer', marginTop: 6,
-          }}
-        >
-          + Add position
+        <button onClick={() => navigate('/discover')} style={{ width: '100%', background: 'transparent', border: '1px dashed #2A2520', borderRadius: 16, padding: 16, color: '#7A6E62', fontSize: 14, cursor: 'pointer', marginTop: 6 }}>
+          + Back someone new
         </button>
+
+        {/* Backer Cards */}
+        {backerCards.length > 0 && (
+          <div style={{ marginTop: 28 }}>
+            <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 14, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Your Backer Cards
+            </div>
+            {backerCards.map((card, i) => {
+              const user = mockUsers.find(u => u.id === card.userId);
+              const currentCap = user?.marketCap || card.valuationAtBuy;
+              const returnPct = ((currentCap - card.valuationAtBuy) / card.valuationAtBuy * 100).toFixed(1);
+              const isPos = parseFloat(returnPct) >= 0;
+              return (
+                <div key={i} onClick={() => navigate(`/user/${card.userId}`)} style={{
+                  background: 'linear-gradient(135deg, #1E1B17 0%, #2A2218 100%)',
+                  border: '1px solid #C9A84C33',
+                  borderRadius: 18, padding: '18px 20px',
+                  marginBottom: 12, cursor: 'pointer',
+                  position: 'relative', overflow: 'hidden',
+                }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, #C9A84C, transparent)' }} />
+                  <div style={{ position: 'absolute', bottom: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: '#C9A84C08' }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                    <img src={card.avatar || user?.avatar} alt="" style={{ width: 40, height: 40, borderRadius: '50%', border: '1.5px solid #C9A84C44' }} />
+                    <div>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: '#F2EDE6' }}>I backed {card.name}</div>
+                      <div style={{ fontSize: 11, color: '#7A6E62' }}>on {card.date}</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                    <div>
+                      <div style={{ fontSize: 10, color: '#7A6E62', marginBottom: 2 }}>Valuation at entry</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#B5A898' }}>${(card.valuationAtBuy / 1000).toFixed(0)}k</div>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ fontSize: 10, color: '#7A6E62', marginBottom: 2 }}>Amount</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#C9A84C' }}>${card.amount}</div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: 10, color: '#7A6E62', marginBottom: 2 }}>Since entry</div>
+                      <div style={{ fontSize: 16, fontWeight: 800, color: isPos ? '#7A9E7E' : '#C0564A' }}>
+                        {isPos ? '+' : ''}{returnPct}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <BottomNav />
