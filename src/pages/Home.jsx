@@ -21,20 +21,20 @@ const MOCK_NOTIFS = [
 ];
 
 const NOTIF_COLOR = {
-  invest: '#C9A84C',
+  invest: '#D4A843',
   follow: '#7B6FBF',
   price: '#8B9E6E',
-  mission: '#5FBFB5',
-  milestone: '#888',
+  mission: '#4BBFB5',
+  milestone: '#B5A898',
 };
 
 // POST types for FAB
 const POST_TYPES = [
   { id: 'update', label: 'Update', color: '#7B6FBF' },
   { id: 'milestone', label: 'Milestone', color: '#8B9E6E' },
-  { id: 'insight', label: 'Insight', color: '#C9A84C' },
-  { id: 'work', label: 'Work', color: '#5FBFB5' },
-  { id: 'thought', label: 'Thought', color: '#888' },
+  { id: 'insight', label: 'Insight', color: '#D4A843' },
+  { id: 'work', label: 'Work', color: '#4BBFB5' },
+  { id: 'thought', label: 'Thought', color: '#B5A898' },
 ];
 
 // simulate live price ticks
@@ -158,29 +158,29 @@ export default function Home() {
     .sort((a, b) => b.liveChange - a.liveChange)
     .slice(0, 5);
 
-  const rankColors = ['#C9A84C', '#AAAAAA', '#CD7F32', '#555', '#555'];
+  const rankColors = ['#D4A843', '#AAAAAA', '#CD7F32', '#7A6E62', '#7A6E62'];
   const rankLabels = ['#1', '#2', '#3', '#4', '#5'];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0A', paddingBottom: 90, position: 'relative' }}>
+    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 90, position: 'relative' }}>
 
       {/* Header */}
       <div style={{
         padding: '54px 20px 0',
-        background: 'linear-gradient(180deg, #0F0F0F 0%, #0A0A0A 100%)',
+        background: 'linear-gradient(180deg, #0F0F0F 0%, #1C1814 100%)',
         borderBottom: '1px solid #1A1A1A',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <span style={{ fontSize: 26, fontWeight: 900, color: '#FFF', letterSpacing: '-0.5px' }}>
+          <span style={{ fontSize: 26, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-0.5px' }}>
             ANY<span style={{ color: '#8B9E6E' }}>1</span>
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <button
               onClick={() => navigate('/market')}
               style={{
-                background: '#111', border: '1px solid #1F1F1F',
+                background: '#252019', border: '1px solid #1F1F1F',
                 borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
-                fontSize: 11, color: '#555', fontWeight: 600,
+                fontSize: 11, color: '#7A6E62', fontWeight: 600,
                 display: 'flex', alignItems: 'center', gap: 4,
               }}
             >
@@ -190,9 +190,9 @@ export default function Home() {
             <button
               onClick={() => navigate('/missions')}
               style={{
-                background: '#111', border: '1px solid #1F1F1F',
+                background: '#252019', border: '1px solid #1F1F1F',
                 borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
-                fontSize: 11, color: '#555', fontWeight: 600,
+                fontSize: 11, color: '#7A6E62', fontWeight: 600,
                 display: 'flex', alignItems: 'center', gap: 4,
               }}
             >
@@ -202,19 +202,19 @@ export default function Home() {
             <button
               onClick={() => setShowNotifs(v => !v)}
               style={{
-                background: '#111', border: '1px solid #1F1F1F',
+                background: '#252019', border: '1px solid #1F1F1F',
                 borderRadius: 10, padding: 8, cursor: 'pointer',
                 position: 'relative',
               }}
             >
-              <Bell size={18} color={showNotifs ? '#8B9E6E' : '#555'} />
+              <Bell size={18} color={showNotifs ? '#8B9E6E' : '#7A6E62'} />
               {unreadCount > 0 && (
                 <div style={{
                   position: 'absolute', top: 4, right: 4,
                   width: 16, height: 16, borderRadius: '50%',
-                  background: '#E05555',
+                  background: '#C0564A',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 9, fontWeight: 800, color: '#FFF',
+                  fontSize: 9, fontWeight: 800, color: '#F2EDE6',
                 }}>
                   {unreadCount}
                 </div>
@@ -225,18 +225,18 @@ export default function Home() {
 
         {/* Stat bar (replaces ticker - TASK-11) */}
         <div style={{
-          background: '#111', border: '1px solid #1A1A1A',
+          background: '#252019', border: '1px solid #1A1A1A',
           borderRadius: 10, padding: '8px 14px',
           display: 'flex', alignItems: 'center', gap: 6,
-          marginBottom: 10, fontSize: 12, color: '#555',
+          marginBottom: 10, fontSize: 12, color: '#7A6E62',
         }}>
-          <span style={{ color: '#FFF', fontWeight: 600 }}>Market:</span>
+          <span style={{ color: '#F2EDE6', fontWeight: 600 }}>Market:</span>
           <span>${(totalMarketCap / 1000).toFixed(0)}k total</span>
-          <span style={{ color: '#333' }}>-</span>
+          <span style={{ color: '#3E3528' }}>-</span>
           <span>{enriched.length} people</span>
-          <span style={{ color: '#333' }}>-</span>
+          <span style={{ color: '#3E3528' }}>-</span>
           <span style={{ color: '#8B9E6E' }}>+{upCount} up</span>
-          <span style={{ color: '#E05555' }}>-{downCount} down today</span>
+          <span style={{ color: '#C0564A' }}>-{downCount} down today</span>
         </div>
 
         {/* Type filter */}
@@ -248,9 +248,9 @@ export default function Home() {
               style={{
                 display: 'flex', alignItems: 'center', gap: 5,
                 background: typeFilter === t.id ? `${t.color}22` : 'transparent',
-                border: `1px solid ${typeFilter === t.id ? t.color : '#1F1F1F'}`,
+                border: `1px solid ${typeFilter === t.id ? t.color : '#332C24'}`,
                 borderRadius: 20, padding: '5px 12px',
-                color: typeFilter === t.id ? t.color : '#444',
+                color: typeFilter === t.id ? t.color : '#7A6E62',
                 fontSize: 11, fontWeight: 600,
                 cursor: 'pointer', whiteSpace: 'nowrap',
               }}
@@ -268,8 +268,8 @@ export default function Home() {
               onClick={() => setFilter(f)}
               style={{
                 background: filter === f ? '#8B9E6E' : 'transparent',
-                color: filter === f ? '#0A0A0A' : '#555',
-                border: `1px solid ${filter === f ? '#8B9E6E' : '#1F1F1F'}`,
+                color: filter === f ? '#1C1814' : '#7A6E62',
+                border: `1px solid ${filter === f ? '#8B9E6E' : '#332C24'}`,
                 borderRadius: 16, padding: '5px 14px',
                 fontSize: 11, fontWeight: 700,
                 cursor: 'pointer', letterSpacing: '0.03em',
@@ -286,20 +286,20 @@ export default function Home() {
         <div style={{
           position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)',
           width: '100%', maxWidth: 430, zIndex: 150,
-          background: '#0A0A0A', borderBottom: '1px solid #1F1F1F',
+          background: '#1C1814', borderBottom: '1px solid #1F1F1F',
           animation: 'slideDown 0.3s ease',
           maxHeight: '70vh', overflowY: 'auto',
         }}>
           <div style={{ padding: '54px 16px 0' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#FFF' }}>Notifications</div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: '#F2EDE6' }}>Notifications</div>
               <div style={{ display: 'flex', gap: 8 }}>
                 <button
                   onClick={markAllRead}
                   style={{
                     background: 'none', border: '1px solid #1F1F1F',
                     borderRadius: 8, padding: '4px 10px',
-                    fontSize: 11, color: '#555', cursor: 'pointer',
+                    fontSize: 11, color: '#7A6E62', cursor: 'pointer',
                   }}
                 >
                   Mark all read
@@ -308,7 +308,7 @@ export default function Home() {
                   onClick={() => setShowNotifs(false)}
                   style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
                 >
-                  <X size={18} color="#555" />
+                  <X size={18} color="#7A6E62" />
                 </button>
               </div>
             </div>
@@ -330,7 +330,7 @@ export default function Home() {
                     navigate(notif.link);
                   }}
                 >
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: isRead ? '#333' : NOTIF_COLOR[notif.type], flexShrink: 0 }} />
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: isRead ? '#3E3528' : NOTIF_COLOR[notif.type], flexShrink: 0 }} />
                   {notif.avatar ? (
                     <img src={notif.avatar} alt="" style={{ width: 38, height: 38, borderRadius: '50%', flexShrink: 0 }} />
                   ) : (
@@ -344,23 +344,23 @@ export default function Home() {
                     </div>
                   )}
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, color: '#FFF', lineHeight: 1.4, fontWeight: isRead ? 400 : 600 }}>
+                    <div style={{ fontSize: 13, color: '#F2EDE6', lineHeight: 1.4, fontWeight: isRead ? 400 : 600 }}>
                       {notif.text}
                     </div>
-                    <div style={{ fontSize: 11, color: '#444', marginTop: 2 }}>{notif.time}</div>
+                    <div style={{ fontSize: 11, color: '#7A6E62', marginTop: 2 }}>{notif.time}</div>
                   </div>
                   <button
                     onClick={e => { e.stopPropagation(); dismissNotif(notif.id); }}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
                   >
-                    <X size={14} color="#333" />
+                    <X size={14} color="#3E3528" />
                   </button>
                 </div>
               );
             })}
 
             {notifs.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '32px 0', color: '#444', fontSize: 14 }}>
+              <div style={{ textAlign: 'center', padding: '32px 0', color: '#7A6E62', fontSize: 14 }}>
                 All caught up!
               </div>
             )}
@@ -383,7 +383,7 @@ export default function Home() {
 
         {/* Leaderboard (TASK-05) */}
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: '#FFF', marginBottom: 12 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: '#F2EDE6', marginBottom: 12 }}>
             This Week <span style={{ fontSize: 16 }}>🔥</span>
           </div>
           <div style={{ display: 'flex', gap: 10, overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: 4 }}>
@@ -394,8 +394,8 @@ export default function Home() {
                 style={{
                   flexShrink: 0,
                   width: 100,
-                  background: idx === 0 ? '#1A1400' : '#111',
-                  border: `1px solid ${idx === 0 ? '#C9A84C66' : '#1F1F1F'}`,
+                  background: idx === 0 ? '#1A1400' : '#252019',
+                  border: `1px solid ${idx === 0 ? '#C9A84C66' : '#332C24'}`,
                   borderRadius: 16, padding: 12,
                   cursor: 'pointer',
                   textAlign: 'center',
@@ -414,7 +414,7 @@ export default function Home() {
                   border: `2px solid ${rankColors[idx]}66`,
                   marginBottom: 8,
                 }} />
-                <div style={{ fontSize: 11, fontWeight: 600, color: '#FFF', marginBottom: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#F2EDE6', marginBottom: 4 }}>
                   {user.name.split(' ')[0]}
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: '#8B9E6E' }}>
@@ -448,7 +448,7 @@ export default function Home() {
           boxShadow: '0 4px 20px #8B9E6E55',
         }}
       >
-        <Plus size={24} color="#0A0A0A" strokeWidth={3} />
+        <Plus size={24} color="#1C1814" strokeWidth={3} />
       </button>
 
       {/* FAB modal */}
@@ -461,15 +461,15 @@ export default function Home() {
           <div
             style={{
               width: '100%', maxWidth: 430, margin: '0 auto',
-              background: '#111', borderRadius: '24px 24px 0 0',
+              background: '#252019', borderRadius: '24px 24px 0 0',
               padding: '24px 20px 40px',
               border: '1px solid #1F1F1F',
               animation: 'slideUpFull 0.3s ease',
             }}
             onClick={e => e.stopPropagation()}
           >
-            <div style={{ width: 36, height: 4, background: '#333', borderRadius: 2, margin: '0 auto 20px' }} />
-            <div style={{ fontSize: 17, fontWeight: 700, color: '#FFF', marginBottom: 16 }}>Create Post</div>
+            <div style={{ width: 36, height: 4, background: '#3E3528', borderRadius: 2, margin: '0 auto 20px' }} />
+            <div style={{ fontSize: 17, fontWeight: 700, color: '#F2EDE6', marginBottom: 16 }}>Create Post</div>
 
             {/* Post type chips */}
             <div style={{ display: 'flex', gap: 8, overflowX: 'auto', marginBottom: 16, scrollbarWidth: 'none' }}>
@@ -478,10 +478,10 @@ export default function Home() {
                   key={pt.id}
                   onClick={() => setPostType(pt.id)}
                   style={{
-                    background: postType === pt.id ? `${pt.color}22` : '#1A1A1A',
-                    border: `1px solid ${postType === pt.id ? pt.color : '#252525'}`,
+                    background: postType === pt.id ? `${pt.color}22` : '#2E2820',
+                    border: `1px solid ${postType === pt.id ? pt.color : '#3E3528'}`,
                     borderRadius: 20, padding: '7px 14px',
-                    color: postType === pt.id ? pt.color : '#555',
+                    color: postType === pt.id ? pt.color : '#7A6E62',
                     fontSize: 12, fontWeight: 600, cursor: 'pointer',
                     whiteSpace: 'nowrap', flexShrink: 0,
                   }}
@@ -497,14 +497,14 @@ export default function Home() {
               placeholder="What's on your mind?"
               rows={4}
               style={{
-                width: '100%', background: '#1A1A1A',
+                width: '100%', background: '#2E2820',
                 border: '1px solid #252525', borderRadius: 14,
-                padding: '14px 16px', color: '#FFF',
+                padding: '14px 16px', color: '#F2EDE6',
                 fontSize: 15, outline: 'none', resize: 'none',
                 fontFamily: 'inherit', marginBottom: 8,
               }}
             />
-            <div style={{ fontSize: 11, color: postText.length > 250 ? '#E05555' : '#444', textAlign: 'right', marginBottom: 12 }}>
+            <div style={{ fontSize: 11, color: postText.length > 250 ? '#C0564A' : '#7A6E62', textAlign: 'right', marginBottom: 12 }}>
               {postText.length}/280
             </div>
 
@@ -513,9 +513,9 @@ export default function Home() {
               onChange={e => setPostImage(e.target.value)}
               placeholder="Image URL (optional)"
               style={{
-                width: '100%', background: '#1A1A1A',
+                width: '100%', background: '#2E2820',
                 border: '1px solid #252525', borderRadius: 12,
-                padding: '12px 16px', color: '#FFF',
+                padding: '12px 16px', color: '#F2EDE6',
                 fontSize: 14, outline: 'none', marginBottom: 16,
               }}
             />
@@ -524,7 +524,7 @@ export default function Home() {
               <button
                 onClick={() => setShowFAB(false)}
                 style={{
-                  flex: 1, background: '#1A1A1A', color: '#555',
+                  flex: 1, background: '#2E2820', color: '#7A6E62',
                   border: '1px solid #252525', borderRadius: 14,
                   padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 }}
@@ -536,8 +536,8 @@ export default function Home() {
                 disabled={!postText.trim()}
                 style={{
                   flex: 2,
-                  background: postText.trim() ? '#8B9E6E' : '#1A1A1A',
-                  color: postText.trim() ? '#0A0A0A' : '#444',
+                  background: postText.trim() ? '#8B9E6E' : '#2E2820',
+                  color: postText.trim() ? '#1C1814' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
                   cursor: postText.trim() ? 'pointer' : 'default',
@@ -554,7 +554,7 @@ export default function Home() {
       {postToast && (
         <div style={{
           position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#0A0A0A',
+          background: '#8B9E6E', color: '#1C1814',
           borderRadius: 20, padding: '10px 20px',
           fontSize: 13, fontWeight: 700, zIndex: 300,
           display: 'flex', alignItems: 'center', gap: 6,
@@ -575,7 +575,7 @@ export default function Home() {
           padding: '20px',
         }}>
           <div style={{
-            background: '#111', borderRadius: 24,
+            background: '#252019', borderRadius: 24,
             padding: '32px 24px',
             border: '1px solid #1F1F1F',
             width: '100%', maxWidth: 390,
@@ -583,8 +583,8 @@ export default function Home() {
           }}>
             <div style={{ textAlign: 'center', marginBottom: 24 }}>
               <div style={{ fontSize: 40, marginBottom: 12 }}>📊</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color: '#FFF', marginBottom: 4 }}>Your Week on Any1</div>
-              <div style={{ fontSize: 13, color: '#555' }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: '#F2EDE6', marginBottom: 4 }}>Your Week on Any1</div>
+              <div style={{ fontSize: 13, color: '#7A6E62' }}>
                 {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
               </div>
             </div>
@@ -592,18 +592,18 @@ export default function Home() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
               {[
                 { emoji: '📈', label: 'Portfolio grew', value: '+4.2%', color: '#8B9E6E' },
-                { emoji: '💰', label: 'Best bet: Oren Cohen', value: '+12.3%', color: '#C9A84C' },
+                { emoji: '💰', label: 'Best bet: Oren Cohen', value: '+12.3%', color: '#D4A843' },
                 { emoji: '👥', label: 'New followers', value: '3 people', color: '#7B6FBF' },
-                { emoji: '🎯', label: 'Missions available', value: '4 open', color: '#5FBFB5' },
-                { emoji: '⭐', label: 'Rep earned', value: '+15 points', color: '#C9A84C' },
+                { emoji: '🎯', label: 'Missions available', value: '4 open', color: '#4BBFB5' },
+                { emoji: '⭐', label: 'Rep earned', value: '+15 points', color: '#D4A843' },
               ].map(item => (
                 <div key={item.label} style={{
-                  background: '#1A1A1A', borderRadius: 14, padding: '14px 16px',
+                  background: '#2E2820', borderRadius: 14, padding: '14px 16px',
                   display: 'flex', alignItems: 'center', gap: 12,
                 }}>
                   <span style={{ fontSize: 20 }}>{item.emoji}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, color: '#555' }}>{item.label}</div>
+                    <div style={{ fontSize: 13, color: '#7A6E62' }}>{item.label}</div>
                   </div>
                   <div style={{ fontSize: 15, fontWeight: 700, color: item.color }}>{item.value}</div>
                 </div>
@@ -613,7 +613,7 @@ export default function Home() {
             <button
               onClick={dismissDigest}
               style={{
-                width: '100%', background: '#8B9E6E', color: '#0A0A0A',
+                width: '100%', background: '#8B9E6E', color: '#1C1814',
                 border: 'none', borderRadius: 14,
                 padding: 16, fontSize: 15, fontWeight: 800, cursor: 'pointer',
               }}
@@ -628,3 +628,4 @@ export default function Home() {
     </div>
   );
 }
+

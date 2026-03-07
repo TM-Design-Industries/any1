@@ -66,7 +66,7 @@ export default function App() {
         maxWidth: 430,
         margin: '0 auto',
         minHeight: '100vh',
-        background: '#0A0A0A',
+        background: '#1C1814',
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
         position: 'relative',
       }}>

@@ -18,7 +18,7 @@ export default function UserPortfolio() {
   const positive = pnl >= 0;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0A', paddingBottom: 40 }}>
+    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 40 }}>
       {/* Header */}
       <div style={{
         padding: '54px 20px 16px',
@@ -32,12 +32,12 @@ export default function UserPortfolio() {
           pointerEvents: 'none',
         }} />
         <button onClick={() => navigate(-1)} style={{
-          background: '#1A1A1A', border: '1px solid #1F1F1F',
+          background: '#2E2820', border: '1px solid #1F1F1F',
           borderRadius: 10, padding: 8, cursor: 'pointer',
         }}>
-          <ArrowLeft size={18} color="#FFF" />
+          <ArrowLeft size={18} color="#F2EDE6" />
         </button>
-        <div style={{ fontSize: 16, fontWeight: 600, color: '#FFF' }}>
+        <div style={{ fontSize: 16, fontWeight: 600, color: '#F2EDE6' }}>
           My position in {user.name.split(' ')[0]}
         </div>
       </div>
@@ -50,8 +50,8 @@ export default function UserPortfolio() {
             border: `2px solid ${user.color}55`,
           }} />
           <div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: '#FFF' }}>{user.name}</div>
-            <div style={{ fontSize: 13, color: '#555' }}>{user.handle}</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#F2EDE6' }}>{user.name}</div>
+            <div style={{ fontSize: 13, color: '#7A6E62' }}>{user.handle}</div>
           </div>
         </div>
 
@@ -62,16 +62,16 @@ export default function UserPortfolio() {
           borderRadius: 20, padding: '24px 20px', marginBottom: 16,
           position: 'relative', overflow: 'hidden',
         }}>
-          <div style={{ fontSize: 12, color: '#555', marginBottom: 8, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 12, color: '#7A6E62', marginBottom: 8, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             My Return
           </div>
           <div style={{
             fontSize: 40, fontWeight: 900, letterSpacing: '-1.5px',
-            color: positive ? '#8B9E6E' : '#E05555', marginBottom: 4,
+            color: positive ? '#8B9E6E' : '#C0564A', marginBottom: 4,
           }}>
             {positive ? '+' : ''}{pnlPct.toFixed(2)}%
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: positive ? '#8B9E6E' : '#E05555', fontSize: 15, fontWeight: 600 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: positive ? '#8B9E6E' : '#C0564A', fontSize: 15, fontWeight: 600 }}>
             {positive ? <TrendingUp size={15} /> : <TrendingDown size={15} />}
             {positive ? '+' : ''}${pnl.toFixed(2)}
           </div>
@@ -79,7 +79,7 @@ export default function UserPortfolio() {
 
         {/* Chart */}
         <div style={{
-          background: '#111', border: '1px solid #1F1F1F',
+          background: '#252019', border: '1px solid #1F1F1F',
           borderRadius: 16, padding: 16, marginBottom: 16,
         }}>
           <MiniChart base={user.marketCap} change={user.change} width={320} height={70} />
@@ -98,15 +98,15 @@ export default function UserPortfolio() {
             padding: '12px 0',
             borderBottom: '1px solid #1A1A1A',
           }}>
-            <span style={{ color: '#555', fontSize: 14 }}>{row.label}</span>
-            <span style={{ color: '#FFF', fontSize: 14, fontWeight: 600 }}>{row.value}</span>
+            <span style={{ color: '#7A6E62', fontSize: 14 }}>{row.label}</span>
+            <span style={{ color: '#F2EDE6', fontSize: 14, fontWeight: 600 }}>{row.value}</span>
           </div>
         ))}
 
         {/* Sell button */}
         <button style={{
           width: '100%', marginTop: 24,
-          background: '#1A1A1A', color: '#E05555',
+          background: '#2E2820', color: '#C0564A',
           border: '1px solid #E0555533',
           borderRadius: 14, padding: 14,
           fontSize: 14, fontWeight: 600, cursor: 'pointer',
@@ -117,3 +117,4 @@ export default function UserPortfolio() {
     </div>
   );
 }
+

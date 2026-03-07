@@ -47,8 +47,8 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
       style={{
         position: 'absolute',
         width: '100%',
-        background: '#111',
-        border: `1px solid ${typeInfo?.color || '#1F1F1F'}33`,
+        background: '#252019',
+        border: `1px solid ${typeInfo?.color || '#332C24'}33`,
         borderRadius: 24,
         overflow: 'hidden',
         cursor: isTop ? 'grab' : 'default',
@@ -73,7 +73,7 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
         padding: '4px 12px', opacity: nopeOpacity,
         transform: 'rotate(15deg)',
       }}>
-        <span style={{ color: '#E05555', fontWeight: 900, fontSize: 22, letterSpacing: 2 }}>PASS</span>
+        <span style={{ color: '#C0564A', fontWeight: 900, fontSize: 22, letterSpacing: 2 }}>PASS</span>
       </div>
 
       {/* Avatar full-width */}
@@ -96,18 +96,18 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
         {/* Market cap pill */}
         <div style={{
           position: 'absolute', top: 16, left: 16,
-          background: '#0A0A0Aaa',
+          background: '#1C1814aa',
           backdropFilter: 'blur(8px)',
           borderRadius: 20,
           padding: '5px 12px',
           border: '1px solid #1F1F1F',
         }}>
-          <span style={{ color: '#FFF', fontWeight: 700, fontSize: 13 }}>
+          <span style={{ color: '#F2EDE6', fontWeight: 700, fontSize: 13 }}>
             ${user.marketCap.toLocaleString()}
           </span>
           <span style={{
             marginLeft: 6, fontSize: 11, fontWeight: 600,
-            color: user.change >= 0 ? '#8B9E6E' : '#E05555',
+            color: user.change >= 0 ? '#8B9E6E' : '#C0564A',
           }}>
             {user.change >= 0 ? '+' : ''}{user.change}%
           </span>
@@ -118,32 +118,32 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
       <div style={{ padding: '16px 18px 20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
           <div>
-            <span style={{ fontSize: 20, fontWeight: 800, color: '#FFF' }}>{user.name}</span>
-            <span style={{ fontSize: 13, color: '#555', marginLeft: 8 }}>{user.handle}</span>
+            <span style={{ fontSize: 20, fontWeight: 800, color: '#F2EDE6' }}>{user.name}</span>
+            <span style={{ fontSize: 13, color: '#7A6E62', marginLeft: 8 }}>{user.handle}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <Star size={12} color="#C9A84C" fill="#C9A84C" />
-            <span style={{ fontSize: 13, color: '#C9A84C', fontWeight: 700 }}>{user.reputation}</span>
+            <Star size={12} color="#D4A843" fill="#D4A843" />
+            <span style={{ fontSize: 13, color: '#D4A843', fontWeight: 700 }}>{user.reputation}</span>
           </div>
         </div>
 
-        <div style={{ fontSize: 14, color: '#888', marginBottom: 12, lineHeight: 1.4 }}>
+        <div style={{ fontSize: 14, color: '#B5A898', marginBottom: 12, lineHeight: 1.4 }}>
           {user.bio}
         </div>
 
         {/* Stats row */}
         <div style={{ display: 'flex', gap: 16, marginBottom: 14 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <Users size={13} color="#555" />
-            <span style={{ fontSize: 12, color: '#555' }}>{user.investors} investors</span>
+            <Users size={13} color="#7A6E62" />
+            <span style={{ fontSize: 12, color: '#7A6E62' }}>{user.investors} investors</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <Briefcase size={13} color="#555" />
-            <span style={{ fontSize: 12, color: '#555' }}>{user.missions} missions</span>
+            <Briefcase size={13} color="#7A6E62" />
+            <span style={{ fontSize: 12, color: '#7A6E62' }}>{user.missions} missions</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <TrendingUp size={13} color="#555" />
-            <span style={{ fontSize: 12, color: '#555' }}>${user.collateral.toLocaleString()} locked</span>
+            <TrendingUp size={13} color="#7A6E62" />
+            <span style={{ fontSize: 12, color: '#7A6E62' }}>${user.collateral.toLocaleString()} locked</span>
           </div>
         </div>
 
@@ -151,9 +151,9 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {user.tags?.map(tag => (
             <span key={tag} style={{
-              fontSize: 11, color: typeInfo?.color || '#555',
-              background: `${typeInfo?.color || '#555'}15`,
-              border: `1px solid ${typeInfo?.color || '#555'}33`,
+              fontSize: 11, color: typeInfo?.color || '#7A6E62',
+              background: `${typeInfo?.color || '#7A6E62'}15`,
+              border: `1px solid ${typeInfo?.color || '#7A6E62'}33`,
               borderRadius: 6, padding: '3px 10px',
             }}>
               {tag}
@@ -164,3 +164,4 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
     </div>
   );
 }
+

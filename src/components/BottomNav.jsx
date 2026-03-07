@@ -20,7 +20,7 @@ export default function BottomNav() {
       transform: 'translateX(-50%)',
       width: '100%',
       maxWidth: 430,
-      background: '#0A0A0Aee',
+      background: '#1C1814ee',
       backdropFilter: 'blur(20px)',
       borderTop: '1px solid #1F1F1F',
       display: 'flex',
@@ -64,3 +64,4 @@ export default function BottomNav() {
     </nav>
   );
 }
+

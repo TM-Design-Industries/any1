@@ -51,7 +51,7 @@ export default function Discover() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0A0A0A',
+      background: '#1C1814',
       paddingBottom: 90,
       display: 'flex',
       flexDirection: 'column',
@@ -60,8 +60,8 @@ export default function Discover() {
       {/* Header */}
       <div style={{ padding: '54px 20px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <div style={{ fontSize: 22, fontWeight: 700, color: '#FFF' }}>Discover</div>
-          <div style={{ fontSize: 13, color: '#444' }}>{filtered.length} left</div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: '#F2EDE6' }}>Discover</div>
+          <div style={{ fontSize: 13, color: '#7A6E62' }}>{filtered.length} left</div>
         </div>
 
         {/* Filters */}
@@ -71,11 +71,11 @@ export default function Discover() {
               key={t.id}
               onClick={() => setFilter(t.id)}
               style={{
-                background: filter === t.id ? `${t.color}20` : '#111',
+                background: filter === t.id ? `${t.color}20` : '#252019',
                 border: `1px solid ${filter === t.id ? t.color : '#1E1E1E'}`,
                 borderRadius: 20,
                 padding: '6px 14px',
-                color: filter === t.id ? t.color : '#444',
+                color: filter === t.id ? t.color : '#7A6E62',
                 fontSize: 12,
                 fontWeight: 600,
                 cursor: 'pointer',
@@ -97,12 +97,12 @@ export default function Discover() {
             justifyContent: 'center', height: 400, gap: 16,
           }}>
             <div style={{ fontSize: 48 }}>👀</div>
-            <div style={{ color: '#FFF', fontWeight: 700, fontSize: 18 }}>You've seen everyone</div>
-            <div style={{ color: '#555', fontSize: 14 }}>{interested.length} people you're interested in</div>
+            <div style={{ color: '#F2EDE6', fontWeight: 700, fontSize: 18 }}>You've seen everyone</div>
+            <div style={{ color: '#7A6E62', fontSize: 14 }}>{interested.length} people you're interested in</div>
             <button
               onClick={() => { setStack([...mockUsers].reverse()); setPassed([]); setInterested([]); }}
               style={{
-                background: '#2EC4B6', color: '#0A0A0A',
+                background: '#2EC4B6', color: '#1C1814',
                 border: 'none', borderRadius: 14, padding: '12px 24px',
                 fontSize: 14, fontWeight: 700, cursor: 'pointer', marginTop: 8,
               }}
@@ -138,7 +138,7 @@ export default function Discover() {
                 position: 'absolute', bottom: -32, left: 0, right: 0,
                 textAlign: 'center',
               }}>
-                <span style={{ fontSize: 12, color: '#444' }}>{getHint(topUser)}</span>
+                <span style={{ fontSize: 12, color: '#7A6E62' }}>{getHint(topUser)}</span>
               </div>
             )}
           </>
@@ -160,16 +160,16 @@ export default function Discover() {
               onClick={() => topUser && handlePass(topUser)}
               style={{
                 width: 58, height: 58, borderRadius: '50%',
-                background: '#161616',
+                background: '#252019',
                 border: '1.5px solid #E0555533',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
               }}
             >
-              <X size={22} color="#E05555" />
+              <X size={22} color="#C0564A" />
             </button>
-            <span style={{ fontSize: 10, color: '#333', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Pass</span>
+            <span style={{ fontSize: 10, color: '#3E3528', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Pass</span>
           </div>
 
           {/* Undo - small */}
@@ -177,14 +177,14 @@ export default function Discover() {
             onClick={handleUndo}
             style={{
               width: 36, height: 36, borderRadius: '50%',
-              background: '#111',
+              background: '#252019',
               border: '1px solid #1E1E1E',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer',
               marginBottom: 18,
             }}
           >
-            <RotateCcw size={14} color="#333" />
+            <RotateCcw size={14} color="#3E3528" />
           </button>
 
           {/* Interested */}
@@ -202,7 +202,7 @@ export default function Discover() {
             >
               <Heart size={22} color="#2EC4B6" />
             </button>
-            <span style={{ fontSize: 10, color: '#333', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Interested</span>
+            <span style={{ fontSize: 10, color: '#3E3528', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Interested</span>
           </div>
 
           {/* Invest */}
@@ -219,7 +219,7 @@ export default function Discover() {
                 transition: 'all 0.2s ease',
               }}
             >
-              <DollarSign size={26} color="#0A0A0A" strokeWidth={2.5} />
+              <DollarSign size={26} color="#1C1814" strokeWidth={2.5} />
             </button>
             <span style={{ fontSize: 10, color: '#F5C842', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Invest</span>
           </div>
@@ -238,3 +238,4 @@ export default function Discover() {
     </div>
   );
 }
+

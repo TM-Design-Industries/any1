@@ -11,7 +11,7 @@ const TYPES = [
     icon: (
       <svg width={22} height={22} viewBox="0 0 24 24" fill="none">
         <path d="M12 3L20 9L12 21L4 9L12 3Z" fill="#F5C842" />
-        <path d="M4 9H20M8 9L12 3M16 9L12 3M8 9L12 21M16 9L12 21" stroke="#0A0A0A" strokeWidth="1.2" strokeLinejoin="round" />
+        <path d="M4 9H20M8 9L12 3M16 9L12 3M8 9L12 21M16 9L12 21" stroke="#1C1814" strokeWidth="1.2" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -85,7 +85,7 @@ export default function Onboarding() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0A0A0A',
+      background: '#1C1814',
       display: 'flex',
       flexDirection: 'column',
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
@@ -94,14 +94,14 @@ export default function Onboarding() {
 
         {/* Logo */}
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 36, fontWeight: 300, color: '#FFF', letterSpacing: '-1px' }}>
+          <div style={{ fontSize: 36, fontWeight: 300, color: '#F2EDE6', letterSpacing: '-1px' }}>
             any<span style={{ fontWeight: 900, color: selectedType?.color || '#2EC4B6' }}>1</span>
           </div>
         </div>
 
         {/* Name input */}
         <div>
-          <div style={{ fontSize: 11, color: '#444', marginBottom: 8, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 8, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             Your name
           </div>
           <input
@@ -111,11 +111,11 @@ export default function Onboarding() {
             autoFocus
             style={{
               width: '100%',
-              background: '#111',
+              background: '#252019',
               border: `1px solid ${name ? (selectedType?.color || '#2EC4B6') : '#222'}`,
               borderRadius: 14,
               padding: '14px 16px',
-              color: '#FFF',
+              color: '#F2EDE6',
               fontSize: 16,
               outline: 'none',
               boxSizing: 'border-box',
@@ -126,7 +126,7 @@ export default function Onboarding() {
 
         {/* Role selection */}
         <div>
-          <div style={{ fontSize: 11, color: '#444', marginBottom: 12, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 12, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             Who are you?
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -135,7 +135,7 @@ export default function Onboarding() {
                 key={t.id}
                 onClick={() => setType(t.id)}
                 style={{
-                  background: type === t.id ? `${t.color}12` : '#111',
+                  background: type === t.id ? `${t.color}12` : '#252019',
                   border: `1.5px solid ${type === t.id ? t.color : '#1E1E1E'}`,
                   borderRadius: 16,
                   padding: '14px 18px',
@@ -162,12 +162,12 @@ export default function Onboarding() {
                   <div style={{
                     fontSize: 15,
                     fontWeight: 700,
-                    color: type === t.id ? t.color : '#FFF',
+                    color: type === t.id ? t.color : '#F2EDE6',
                     marginBottom: 2,
                   }}>
                     {t.label}
                   </div>
-                  <div style={{ fontSize: 12, color: '#444' }}>{t.desc}</div>
+                  <div style={{ fontSize: 12, color: '#7A6E62' }}>{t.desc}</div>
                 </div>
               </button>
             ))}
@@ -183,7 +183,7 @@ export default function Onboarding() {
           style={{
             width: '100%',
             background: canGo ? (selectedType?.color || '#2EC4B6') : '#181818',
-            color: canGo ? '#0A0A0A' : '#333',
+            color: canGo ? '#1C1814' : '#3E3528',
             border: 'none',
             borderRadius: 16,
             padding: '16px',
@@ -206,3 +206,4 @@ export default function Onboarding() {
     </div>
   );
 }
+

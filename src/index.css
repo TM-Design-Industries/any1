@@ -6,16 +6,16 @@
 }
 
 body {
-  background: #0A0A0A;
-  color: #FFFFFF;
+  background: #1C1814;
+  color: #F2EDE6;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
 
 ::-webkit-scrollbar { display: none; }
-input::placeholder { color: #444; }
-textarea::placeholder { color: #444; }
+input::placeholder { color: #7A6E62; }
+textarea::placeholder { color: #7A6E62; }
 
 button {
   -webkit-tap-highlight-color: transparent;

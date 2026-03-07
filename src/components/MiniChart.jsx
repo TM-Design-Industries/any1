@@ -18,7 +18,7 @@ export default function MiniChart({ base, change, width = 80, height = 32 }) {
   const lastX = width;
   const fillPts = `${firstX},${height} ${pts} ${lastX},${height}`;
 
-  const lineColor = change >= 0 ? '#8B9E6E' : '#E05555';
+  const lineColor = change >= 0 ? '#8B9E6E' : '#C0564A';
   const fillColor = change >= 0 ? '#8B9E6E18' : '#E0555518';
 
   return (
@@ -47,3 +47,4 @@ export default function MiniChart({ base, change, width = 80, height = 32 }) {
     </svg>
   );
 }
+

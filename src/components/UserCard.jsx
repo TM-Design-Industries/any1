@@ -29,7 +29,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
     <div
       onClick={() => navigate(`/user/${user.id}`)}
       style={{
-        background: '#111111',
+        background: '#252019',
         border: '1px solid #1F1F1F',
         borderRadius: 20,
         padding: '0',
@@ -79,7 +79,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
               <span style={{
                 background: '#E0555522', border: '1px solid #E0555555',
                 borderRadius: 8, padding: '2px 7px',
-                fontSize: 10, color: '#E05555', fontWeight: 700,
+                fontSize: 10, color: '#C0564A', fontWeight: 700,
               }}>
                 🔥 Hot
               </span>
@@ -88,7 +88,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
               <span style={{
                 background: '#C9A84C22', border: '1px solid #C9A84C55',
                 borderRadius: 8, padding: '2px 7px',
-                fontSize: 10, color: '#C9A84C', fontWeight: 700,
+                fontSize: 10, color: '#D4A843', fontWeight: 700,
               }}>
                 New
               </span>
@@ -127,14 +127,14 @@ export default function UserCard({ user, animate = false, index = 0 }) {
 
           {/* Name + handle + rep */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 700, fontSize: 15, color: '#FFF', marginBottom: 1 }}>
+            <div style={{ fontWeight: 700, fontSize: 15, color: '#F2EDE6', marginBottom: 1 }}>
               {user.name}
             </div>
-            <div style={{ fontSize: 12, color: '#444', marginBottom: 4 }}>{user.handle}</div>
+            <div style={{ fontSize: 12, color: '#7A6E62', marginBottom: 4 }}>{user.handle}</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              <Star size={10} color="#C9A84C" fill="#C9A84C" />
-              <span style={{ fontSize: 11, color: '#C9A84C', fontWeight: 600 }}>{user.reputation}</span>
-              <span style={{ fontSize: 11, color: '#333', marginLeft: 4 }}>rep</span>
+              <Star size={10} color="#D4A843" fill="#D4A843" />
+              <span style={{ fontSize: 11, color: '#D4A843', fontWeight: 600 }}>{user.reputation}</span>
+              <span style={{ fontSize: 11, color: '#3E3528', marginLeft: 4 }}>rep</span>
               {isOnline && (
                 <span style={{ fontSize: 10, color: '#4CAF50', marginLeft: 6 }}>online</span>
               )}
@@ -147,7 +147,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
             <div style={{
               display: 'flex', alignItems: 'center', gap: 3,
               fontSize: 12, fontWeight: 700,
-              color: positive ? '#8B9E6E' : '#E05555',
+              color: positive ? '#8B9E6E' : '#C0564A',
             }}>
               {positive ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
               {positive ? '+' : ''}{user.change}%
@@ -156,7 +156,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
         </div>
 
         {/* Row 2: bio */}
-        <div style={{ fontSize: 13, color: '#666', lineHeight: 1.4 }}>
+        <div style={{ fontSize: 13, color: '#7A6E62', lineHeight: 1.4 }}>
           {user.bio}
         </div>
 
@@ -165,8 +165,8 @@ export default function UserCard({ user, animate = false, index = 0 }) {
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {user.tags?.slice(0, 3).map(tag => (
               <span key={tag} style={{
-                fontSize: 10, color: '#555',
-                background: '#1A1A1A', border: '1px solid #252525',
+                fontSize: 10, color: '#7A6E62',
+                background: '#2E2820', border: '1px solid #252525',
                 borderRadius: 6, padding: '3px 8px',
                 letterSpacing: '0.03em',
               }}>
@@ -175,11 +175,11 @@ export default function UserCard({ user, animate = false, index = 0 }) {
             ))}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#FFF' }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#F2EDE6' }}>
               ${user.marketCap.toLocaleString()}
             </div>
             {mutualText && (
-              <div style={{ fontSize: 10, color: '#555', textAlign: 'right' }}>
+              <div style={{ fontSize: 10, color: '#7A6E62', textAlign: 'right' }}>
                 {mutualText}
               </div>
             )}
@@ -189,3 +189,4 @@ export default function UserCard({ user, animate = false, index = 0 }) {
     </div>
   );
 }
+

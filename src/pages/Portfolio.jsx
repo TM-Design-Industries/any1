@@ -101,21 +101,21 @@ export default function Portfolio() {
   const sortedPos = [...positions].sort((a, b) => b.pnlPct - a.pnlPct);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0A', paddingBottom: 90 }}>
+    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 90 }}>
       {/* Header */}
       <div style={{ padding: '54px 20px 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-          <div style={{ fontSize: 22, fontWeight: 700, color: '#FFF' }}>Portfolio</div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: '#F2EDE6' }}>Portfolio</div>
           <button
             onClick={handleRefresh}
             style={{
-              background: '#111', border: '1px solid #1F1F1F',
+              background: '#252019', border: '1px solid #1F1F1F',
               borderRadius: 10, padding: 8, cursor: 'pointer',
             }}
           >
             <RefreshCw
               size={16}
-              color="#555"
+              color="#7A6E62"
               style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }}
             />
           </button>
@@ -123,7 +123,7 @@ export default function Portfolio() {
 
         {/* Hero card */}
         <div style={{
-          background: '#111',
+          background: '#252019',
           border: '1px solid #1F1F1F',
           borderRadius: 20,
           padding: '24px 20px 16px',
@@ -133,7 +133,7 @@ export default function Portfolio() {
         }}>
           <div style={{
             position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-            background: totalPnl >= 0 ? '#8B9E6E' : '#E05555', opacity: 0.7,
+            background: totalPnl >= 0 ? '#8B9E6E' : '#C0564A', opacity: 0.7,
           }} />
           <div style={{
             position: 'absolute', top: 0, right: 0,
@@ -143,15 +143,15 @@ export default function Portfolio() {
             transform: 'translate(60px, -60px)',
           }} />
 
-          <div style={{ fontSize: 11, color: '#555', marginBottom: 6, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 6, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             Total Portfolio Value
           </div>
-          <div style={{ fontSize: 42, fontWeight: 900, color: '#FFF', letterSpacing: '-1.5px', marginBottom: 6 }}>
+          <div style={{ fontSize: 42, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-1.5px', marginBottom: 6 }}>
             ${totalValue.toFixed(2)}
           </div>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
-            color: totalPnl >= 0 ? '#8B9E6E' : '#E05555',
+            color: totalPnl >= 0 ? '#8B9E6E' : '#C0564A',
             fontSize: 16, fontWeight: 700, marginBottom: 20,
           }}>
             {totalPnl >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
@@ -167,9 +167,9 @@ export default function Portfolio() {
                 onClick={() => setChartTab(t)}
                 style={{
                   background: chartTab === t ? '#8B9E6E22' : 'transparent',
-                  border: `1px solid ${chartTab === t ? '#8B9E6E' : '#1F1F1F'}`,
+                  border: `1px solid ${chartTab === t ? '#8B9E6E' : '#332C24'}`,
                   borderRadius: 8, padding: '4px 12px',
-                  color: chartTab === t ? '#8B9E6E' : '#444',
+                  color: chartTab === t ? '#8B9E6E' : '#7A6E62',
                   fontSize: 11, fontWeight: 700, cursor: 'pointer',
                 }}
               >
@@ -183,7 +183,7 @@ export default function Portfolio() {
       </div>
 
       <div style={{ padding: '0 16px' }}>
-        <div style={{ fontSize: 11, color: '#444', marginBottom: 14, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+        <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 14, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           {positions.length} positions
         </div>
 
@@ -193,8 +193,8 @@ export default function Portfolio() {
             <div key={pos.userId}>
               {isBest && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                  <Star size={12} color="#C9A84C" fill="#C9A84C" />
-                  <span style={{ fontSize: 11, color: '#C9A84C', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                  <Star size={12} color="#D4A843" fill="#D4A843" />
+                  <span style={{ fontSize: 11, color: '#D4A843', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                     Best Performer
                   </span>
                 </div>
@@ -202,8 +202,8 @@ export default function Portfolio() {
               <div
                 onClick={() => navigate(`/portfolio/${pos.userId}`)}
                 style={{
-                  background: isBest ? '#1A1400' : '#111',
-                  border: `1px solid ${isBest ? '#C9A84C44' : '#1F1F1F'}`,
+                  background: isBest ? '#1A1400' : '#252019',
+                  border: `1px solid ${isBest ? '#C9A84C44' : '#332C24'}`,
                   borderRadius: 16,
                   padding: 16,
                   marginBottom: 10,
@@ -226,22 +226,22 @@ export default function Portfolio() {
                 }} />
 
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600, fontSize: 15, color: '#FFF', marginBottom: 2 }}>
+                  <div style={{ fontWeight: 600, fontSize: 15, color: '#F2EDE6', marginBottom: 2 }}>
                     {pos.user.name}
                   </div>
-                  <div style={{ fontSize: 12, color: '#555' }}>
+                  <div style={{ fontSize: 12, color: '#7A6E62' }}>
                     {pos.shares} shares
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
                   <MiniChart base={pos.user.marketCap} change={pos.user.change} width={60} height={24} />
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#FFF' }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#F2EDE6' }}>
                     ${pos.value.toFixed(2)}
                   </div>
                   <div style={{
                     fontSize: 12, fontWeight: 600,
-                    color: pos.pnl >= 0 ? '#8B9E6E' : '#E05555',
+                    color: pos.pnl >= 0 ? '#8B9E6E' : '#C0564A',
                   }}>
                     {pos.pnl >= 0 ? '+' : ''}${pos.pnl.toFixed(2)} ({pos.pnl >= 0 ? '+' : ''}{pos.pnlPct.toFixed(1)}%)
                   </div>
@@ -257,7 +257,7 @@ export default function Portfolio() {
           style={{
             width: '100%', background: 'transparent',
             border: '1px dashed #1F1F1F', borderRadius: 16,
-            padding: 16, color: '#444', fontSize: 14,
+            padding: 16, color: '#7A6E62', fontSize: 14,
             cursor: 'pointer', marginTop: 6,
           }}
         >
@@ -269,3 +269,4 @@ export default function Portfolio() {
     </div>
   );
 }
+

@@ -8,12 +8,12 @@ import { TrendingUp, Lock, Users, Edit2, CheckCircle, Plus, ChevronDown, Chevron
 const PRESET_TAGS = ['Fintech', 'Design', 'Engineering', 'Marketing', 'VC', 'Web3', 'CleanTech', 'Media', 'Hardware', 'Growth', 'SaaS', 'OSS'];
 
 const LEVEL_SYSTEM = [
-  { min: 0, max: 20, name: 'Newcomer', color: '#666' },
-  { min: 21, max: 40, name: 'Explorer', color: '#5FBFB5' },
+  { min: 0, max: 20, name: 'Newcomer', color: '#7A6E62' },
+  { min: 21, max: 40, name: 'Explorer', color: '#4BBFB5' },
   { min: 41, max: 60, name: 'Contributor', color: '#7B6FBF' },
-  { min: 61, max: 80, name: 'Builder', color: '#C9A84C' },
+  { min: 61, max: 80, name: 'Builder', color: '#D4A843' },
   { min: 81, max: 100, name: 'Amplifier', color: '#8B9E6E' },
-  { min: 101, max: Infinity, name: 'Legend', color: '#E05555' },
+  { min: 101, max: Infinity, name: 'Legend', color: '#C0564A' },
 ];
 
 const XP_ACTIONS = [
@@ -46,9 +46,9 @@ const COVER_PRESETS = {
 const POST_TYPES = [
   { id: 'update', label: 'Update', color: '#7B6FBF' },
   { id: 'milestone', label: 'Milestone', color: '#8B9E6E' },
-  { id: 'insight', label: 'Insight', color: '#C9A84C' },
-  { id: 'work', label: 'Work', color: '#5FBFB5' },
-  { id: 'thought', label: 'Thought', color: '#888' },
+  { id: 'insight', label: 'Insight', color: '#D4A843' },
+  { id: 'work', label: 'Work', color: '#4BBFB5' },
+  { id: 'thought', label: 'Thought', color: '#B5A898' },
 ];
 
 export default function Profile() {
@@ -99,8 +99,8 @@ export default function Profile() {
     const all = [];
     all.push({ label: 'Verified', icon: '✓', color: '#8B9E6E', earned: true });
     all.push({ label: 'Early Adopter', icon: '🚀', color: '#7B6FBF', earned: true });
-    if (myPortfolio.length > 0) all.push({ label: 'First Investment', icon: '💰', color: '#C9A84C', earned: true });
-    if (appliedMissions.length > 0) all.push({ label: 'Active Surfer', icon: '🏄', color: '#5FBFB5', earned: true });
+    if (myPortfolio.length > 0) all.push({ label: 'First Investment', icon: '💰', color: '#D4A843', earned: true });
+    if (appliedMissions.length > 0) all.push({ label: 'Active Surfer', icon: '🏄', color: '#4BBFB5', earned: true });
     return all;
   }, [appliedMissions.length]);
 
@@ -126,7 +126,7 @@ export default function Profile() {
       label: 'Reputation',
       value: Math.round(rep * 0.3),
       max: 30,
-      color: '#C9A84C',
+      color: '#D4A843',
     },
     {
       label: 'Investors',
@@ -138,7 +138,7 @@ export default function Profile() {
       label: 'Missions',
       value: Math.round(missions * 3 * 0.15),
       max: 20,
-      color: '#5FBFB5',
+      color: '#4BBFB5',
     },
   ];
 
@@ -203,10 +203,10 @@ export default function Profile() {
     try { return JSON.parse(localStorage.getItem('any1_posts') || '[]'); } catch { return []; }
   }, [postToast]);
 
-  const typeColor = user.type === 'investor' ? '#C9A84C' : user.type === 'founder' ? '#7B6FBF' : '#5FBFB5';
+  const typeColor = user.type === 'investor' ? '#D4A843' : user.type === 'founder' ? '#7B6FBF' : '#4BBFB5';
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0A', paddingBottom: 90 }}>
+    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 90 }}>
       {/* Hero */}
       <div style={{
         padding: '54px 20px 24px',
@@ -236,36 +236,36 @@ export default function Profile() {
                 value={editName}
                 onChange={e => setEditName(e.target.value)}
                 style={{
-                  width: '100%', background: '#1A1A1A', border: `1px solid ${typeColor}`,
-                  borderRadius: 10, padding: '8px 12px', color: '#FFF', fontSize: 18,
+                  width: '100%', background: '#2E2820', border: `1px solid ${typeColor}`,
+                  borderRadius: 10, padding: '8px 12px', color: '#F2EDE6', fontSize: 18,
                   fontWeight: 800, outline: 'none', marginBottom: 6,
                 }}
               />
             ) : (
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#FFF', marginBottom: 2 }}>{user.name}</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: '#F2EDE6', marginBottom: 2 }}>{user.name}</div>
             )}
-            <div style={{ fontSize: 13, color: '#555', marginBottom: 6 }}>{user.handle}</div>
+            <div style={{ fontSize: 13, color: '#7A6E62', marginBottom: 6 }}>{user.handle}</div>
             {editMode ? (
               <textarea
                 value={editBio}
                 onChange={e => setEditBio(e.target.value)}
                 rows={2}
                 style={{
-                  width: '100%', background: '#1A1A1A', border: '1px solid #252525',
-                  borderRadius: 10, padding: '8px 12px', color: '#888',
+                  width: '100%', background: '#2E2820', border: '1px solid #252525',
+                  borderRadius: 10, padding: '8px 12px', color: '#B5A898',
                   fontSize: 13, outline: 'none', resize: 'none', fontFamily: 'inherit',
                 }}
               />
             ) : (
-              <div style={{ fontSize: 13, color: '#888' }}>{user.bio}</div>
+              <div style={{ fontSize: 13, color: '#B5A898' }}>{user.bio}</div>
             )}
           </div>
           <button
             onClick={() => editMode ? saveEdit() : setEditMode(true)}
             style={{
-              background: editMode ? '#8B9E6E' : '#111',
-              color: editMode ? '#0A0A0A' : '#555',
-              border: `1px solid ${editMode ? '#8B9E6E' : '#1F1F1F'}`,
+              background: editMode ? '#8B9E6E' : '#252019',
+              color: editMode ? '#1C1814' : '#7A6E62',
+              border: `1px solid ${editMode ? '#8B9E6E' : '#332C24'}`,
               borderRadius: 10, padding: '6px 12px',
               fontSize: 12, fontWeight: 700, cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: 4,
@@ -284,8 +284,8 @@ export default function Profile() {
               onChange={e => setEditLocation(e.target.value)}
               placeholder="Location"
               style={{
-                width: '100%', background: '#1A1A1A', border: '1px solid #252525',
-                borderRadius: 10, padding: '8px 12px', color: '#FFF',
+                width: '100%', background: '#2E2820', border: '1px solid #252525',
+                borderRadius: 10, padding: '8px 12px', color: '#F2EDE6',
                 fontSize: 13, outline: 'none',
               }}
             />
@@ -295,7 +295,7 @@ export default function Profile() {
         {/* Tags */}
         {editMode ? (
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 11, color: '#555', marginBottom: 8 }}>Tags (tap to toggle)</div>
+            <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 8 }}>Tags (tap to toggle)</div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               {PRESET_TAGS.map(tag => {
                 const sel = editTags.includes(tag);
@@ -305,9 +305,9 @@ export default function Profile() {
                     onClick={() => toggleEditTag(tag)}
                     style={{
                       fontSize: 11,
-                      color: sel ? typeColor : '#444',
-                      background: sel ? `${typeColor}15` : '#1A1A1A',
-                      border: `1px solid ${sel ? typeColor : '#252525'}`,
+                      color: sel ? typeColor : '#7A6E62',
+                      background: sel ? `${typeColor}15` : '#2E2820',
+                      border: `1px solid ${sel ? typeColor : '#3E3528'}`,
                       borderRadius: 6, padding: '4px 10px',
                       cursor: 'pointer', transition: 'all 0.15s',
                     }}
@@ -336,7 +336,7 @@ export default function Profile() {
         {/* Cover presets in edit mode */}
         {editMode && (
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 11, color: '#555', marginBottom: 8 }}>Cover image</div>
+            <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 8 }}>Cover image</div>
             <div style={{ display: 'flex', gap: 8, overflowX: 'auto' }}>
               {(COVER_PRESETS[user.type] || COVER_PRESETS.founder).map((url, i) => (
                 <img
@@ -364,11 +364,11 @@ export default function Profile() {
             { label: 'Investors', value: user.investors },
           ].map(s => (
             <div key={s.label} style={{
-              flex: 1, background: '#111', border: '1px solid #1F1F1F',
+              flex: 1, background: '#252019', border: '1px solid #1F1F1F',
               borderRadius: 12, padding: '12px 10px', textAlign: 'center',
             }}>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#FFF', marginBottom: 2 }}>{s.value}</div>
-              <div style={{ fontSize: 10, color: '#555', letterSpacing: '0.05em' }}>{s.label}</div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: '#F2EDE6', marginBottom: 2 }}>{s.value}</div>
+              <div style={{ fontSize: 10, color: '#7A6E62', letterSpacing: '0.05em' }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -378,17 +378,17 @@ export default function Profile() {
 
         {/* Any1 Score (TASK-16) */}
         <div style={{
-          background: '#111', border: '1px solid #1F1F1F',
+          background: '#252019', border: '1px solid #1F1F1F',
           borderRadius: 20, padding: 20, marginBottom: 16,
         }}>
-          <div style={{ fontSize: 11, color: '#555', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+          <div style={{ fontSize: 11, color: '#7A6E62', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
             Any1 Score
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12, marginBottom: 16 }}>
-            <div style={{ fontSize: 52, fontWeight: 900, color: '#FFF', letterSpacing: '-2px', lineHeight: 1 }}>
+            <div style={{ fontSize: 52, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-2px', lineHeight: 1 }}>
               {any1Score}
             </div>
-            <div style={{ fontSize: 14, color: '#555', marginBottom: 8 }}>/ 1000</div>
+            <div style={{ fontSize: 14, color: '#7A6E62', marginBottom: 8 }}>/ 1000</div>
             <div style={{ flex: 1 }}>
               <MiniChart base={any1Score} change={12} width={80} height={28} />
             </div>
@@ -397,10 +397,10 @@ export default function Profile() {
           {scoreBreakdown.map(item => (
             <div key={item.label} style={{ marginBottom: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                <span style={{ fontSize: 12, color: '#555' }}>{item.label}</span>
+                <span style={{ fontSize: 12, color: '#7A6E62' }}>{item.label}</span>
                 <span style={{ fontSize: 12, color: item.color, fontWeight: 600 }}>{item.value}</span>
               </div>
-              <div style={{ background: '#1A1A1A', borderRadius: 4, height: 4, overflow: 'hidden' }}>
+              <div style={{ background: '#2E2820', borderRadius: 4, height: 4, overflow: 'hidden' }}>
                 <div style={{
                   width: `${Math.min(100, (item.value / item.max) * 100)}%`,
                   height: '100%', background: item.color, borderRadius: 4,
@@ -413,13 +413,13 @@ export default function Profile() {
 
         {/* Chart */}
         <div style={{
-          background: '#111', border: '1px solid #1F1F1F',
+          background: '#252019', border: '1px solid #1F1F1F',
           borderRadius: 16, padding: '16px', marginBottom: 16,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
-              <div style={{ fontSize: 12, color: '#555', marginBottom: 4 }}>MY VALUE</div>
-              <div style={{ fontSize: 28, fontWeight: 800, color: '#FFF', letterSpacing: '-0.5px' }}>
+              <div style={{ fontSize: 12, color: '#7A6E62', marginBottom: 4 }}>MY VALUE</div>
+              <div style={{ fontSize: 28, fontWeight: 800, color: '#F2EDE6', letterSpacing: '-0.5px' }}>
                 ${user.marketCap.toLocaleString()}
               </div>
             </div>
@@ -433,22 +433,22 @@ export default function Profile() {
 
         {/* Reputation System (TASK-06) */}
         <div style={{
-          background: '#111', border: '1px solid #1F1F1F',
+          background: '#252019', border: '1px solid #1F1F1F',
           borderRadius: 16, padding: 16, marginBottom: 16,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Star size={14} color="#C9A84C" fill="#C9A84C" />
-                <span style={{ fontSize: 18, fontWeight: 800, color: '#FFF' }}>{rep}</span>
-                <span style={{ fontSize: 11, color: '#555' }}>rep</span>
+                <Star size={14} color="#D4A843" fill="#D4A843" />
+                <span style={{ fontSize: 18, fontWeight: 800, color: '#F2EDE6' }}>{rep}</span>
+                <span style={{ fontSize: 11, color: '#7A6E62' }}>rep</span>
               </div>
               <div style={{ fontSize: 12, color: level.color, fontWeight: 600, marginTop: 2 }}>
                 {level.name}
               </div>
             </div>
             {nextLevel && (
-              <div style={{ fontSize: 11, color: '#444', textAlign: 'right' }}>
+              <div style={{ fontSize: 11, color: '#7A6E62', textAlign: 'right' }}>
                 <div>Next: {nextLevel.name}</div>
                 <div style={{ color: nextLevel.color }}>{nextLevel.min - rep} more</div>
               </div>
@@ -456,7 +456,7 @@ export default function Profile() {
           </div>
 
           {/* Progress bar */}
-          <div style={{ background: '#1A1A1A', borderRadius: 8, height: 8, overflow: 'hidden', marginBottom: 14 }}>
+          <div style={{ background: '#2E2820', borderRadius: 8, height: 8, overflow: 'hidden', marginBottom: 14 }}>
             <div style={{
               width: `${progress}%`, height: '100%',
               background: `linear-gradient(90deg, ${level.color}, ${nextLevel?.color || level.color})`,
@@ -489,7 +489,7 @@ export default function Profile() {
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: 4,
-              color: '#555', fontSize: 12, padding: 0,
+              color: '#7A6E62', fontSize: 12, padding: 0,
             }}
           >
             {showXPTable ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -503,7 +503,7 @@ export default function Profile() {
                   display: 'flex', justifyContent: 'space-between',
                   padding: '8px 0', borderBottom: '1px solid #1A1A1A',
                 }}>
-                  <span style={{ fontSize: 12, color: '#888' }}>{row.action}</span>
+                  <span style={{ fontSize: 12, color: '#B5A898' }}>{row.action}</span>
                   <span style={{ fontSize: 12, color: '#8B9E6E', fontWeight: 700 }}>{row.xp}</span>
                 </div>
               ))}
@@ -516,7 +516,7 @@ export default function Profile() {
           <button
             onClick={() => setShowCollateral(true)}
             style={{
-              flex: 1, background: '#8B9E6E', color: '#0A0A0A',
+              flex: 1, background: '#8B9E6E', color: '#1C1814',
               border: 'none', borderRadius: 14, padding: '14px',
               fontSize: 14, fontWeight: 700, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
@@ -526,7 +526,7 @@ export default function Profile() {
             Add Collateral
           </button>
           <button style={{
-            flex: 1, background: '#1A1A1A', color: '#888',
+            flex: 1, background: '#2E2820', color: '#B5A898',
             border: '1px solid #1F1F1F', borderRadius: 14, padding: '14px',
             fontSize: 14, fontWeight: 600, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
@@ -551,16 +551,16 @@ export default function Profile() {
         {/* My posts */}
         {localPosts.length > 0 && (
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 13, color: '#555', marginBottom: 12, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            <div style={{ fontSize: 13, color: '#7A6E62', marginBottom: 12, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               My Posts
             </div>
             {localPosts.slice(0, 3).map(post => (
               <div key={post.id} style={{
-                background: '#111', border: '1px solid #1A1A1A',
+                background: '#252019', border: '1px solid #1A1A1A',
                 borderRadius: 16, padding: '14px 16px', marginBottom: 10,
               }}>
                 <div style={{ fontSize: 13, color: '#CCC', lineHeight: 1.5, marginBottom: 8 }}>{post.text}</div>
-                <div style={{ fontSize: 11, color: '#444' }}>{post.time} - {post.type}</div>
+                <div style={{ fontSize: 11, color: '#7A6E62' }}>{post.time} - {post.type}</div>
               </div>
             ))}
           </div>
@@ -579,7 +579,7 @@ export default function Profile() {
           boxShadow: '0 4px 20px #8B9E6E55',
         }}
       >
-        <Plus size={24} color="#0A0A0A" strokeWidth={3} />
+        <Plus size={24} color="#1C1814" strokeWidth={3} />
       </button>
 
       {/* FAB modal */}
@@ -592,24 +592,24 @@ export default function Profile() {
           <div
             style={{
               width: '100%', maxWidth: 430, margin: '0 auto',
-              background: '#111', borderRadius: '24px 24px 0 0',
+              background: '#252019', borderRadius: '24px 24px 0 0',
               padding: '24px 20px 40px', border: '1px solid #1F1F1F',
               animation: 'slideUpFull 0.3s ease',
             }}
             onClick={e => e.stopPropagation()}
           >
-            <div style={{ width: 36, height: 4, background: '#333', borderRadius: 2, margin: '0 auto 20px' }} />
-            <div style={{ fontSize: 17, fontWeight: 700, color: '#FFF', marginBottom: 16 }}>Create Post</div>
+            <div style={{ width: 36, height: 4, background: '#3E3528', borderRadius: 2, margin: '0 auto 20px' }} />
+            <div style={{ fontSize: 17, fontWeight: 700, color: '#F2EDE6', marginBottom: 16 }}>Create Post</div>
             <div style={{ display: 'flex', gap: 8, overflowX: 'auto', marginBottom: 16, scrollbarWidth: 'none' }}>
               {POST_TYPES.map(pt => (
                 <button
                   key={pt.id}
                   onClick={() => setPostType(pt.id)}
                   style={{
-                    background: postType === pt.id ? `${pt.color}22` : '#1A1A1A',
-                    border: `1px solid ${postType === pt.id ? pt.color : '#252525'}`,
+                    background: postType === pt.id ? `${pt.color}22` : '#2E2820',
+                    border: `1px solid ${postType === pt.id ? pt.color : '#3E3528'}`,
                     borderRadius: 20, padding: '7px 14px',
-                    color: postType === pt.id ? pt.color : '#555',
+                    color: postType === pt.id ? pt.color : '#7A6E62',
                     fontSize: 12, fontWeight: 600, cursor: 'pointer',
                     whiteSpace: 'nowrap', flexShrink: 0,
                   }}
@@ -624,13 +624,13 @@ export default function Profile() {
               placeholder="What's on your mind?"
               rows={4}
               style={{
-                width: '100%', background: '#1A1A1A', border: '1px solid #252525',
-                borderRadius: 14, padding: '14px 16px', color: '#FFF',
+                width: '100%', background: '#2E2820', border: '1px solid #252525',
+                borderRadius: 14, padding: '14px 16px', color: '#F2EDE6',
                 fontSize: 15, outline: 'none', resize: 'none',
                 fontFamily: 'inherit', marginBottom: 8,
               }}
             />
-            <div style={{ fontSize: 11, color: postText.length > 250 ? '#E05555' : '#444', textAlign: 'right', marginBottom: 12 }}>
+            <div style={{ fontSize: 11, color: postText.length > 250 ? '#C0564A' : '#7A6E62', textAlign: 'right', marginBottom: 12 }}>
               {postText.length}/280
             </div>
             <input
@@ -638,8 +638,8 @@ export default function Profile() {
               onChange={e => setPostImage(e.target.value)}
               placeholder="Image URL (optional)"
               style={{
-                width: '100%', background: '#1A1A1A', border: '1px solid #252525',
-                borderRadius: 12, padding: '12px 16px', color: '#FFF',
+                width: '100%', background: '#2E2820', border: '1px solid #252525',
+                borderRadius: 12, padding: '12px 16px', color: '#F2EDE6',
                 fontSize: 14, outline: 'none', marginBottom: 16,
               }}
             />
@@ -647,7 +647,7 @@ export default function Profile() {
               <button
                 onClick={() => setShowFAB(false)}
                 style={{
-                  flex: 1, background: '#1A1A1A', color: '#555',
+                  flex: 1, background: '#2E2820', color: '#7A6E62',
                   border: '1px solid #252525', borderRadius: 14,
                   padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 }}
@@ -659,8 +659,8 @@ export default function Profile() {
                 disabled={!postText.trim()}
                 style={{
                   flex: 2,
-                  background: postText.trim() ? '#8B9E6E' : '#1A1A1A',
-                  color: postText.trim() ? '#0A0A0A' : '#444',
+                  background: postText.trim() ? '#8B9E6E' : '#2E2820',
+                  color: postText.trim() ? '#1C1814' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
                   cursor: postText.trim() ? 'pointer' : 'default',
@@ -682,16 +682,16 @@ export default function Profile() {
         }}>
           <div style={{
             width: '100%', maxWidth: 430, margin: '0 auto',
-            background: '#111', borderRadius: '24px 24px 0 0',
+            background: '#252019', borderRadius: '24px 24px 0 0',
             padding: '24px 20px 40px', border: '1px solid #1F1F1F',
             animation: 'slideUpFull 0.3s ease',
           }}>
-            <div style={{ width: 36, height: 4, background: '#333', borderRadius: 2, margin: '0 auto 20px' }} />
+            <div style={{ width: 36, height: 4, background: '#3E3528', borderRadius: 2, margin: '0 auto 20px' }} />
 
             {lockDone ? (
               <div style={{ textAlign: 'center', padding: '32px 0' }}>
                 <div style={{ fontSize: 48, marginBottom: 16, animation: 'matchPop 0.6s ease' }}>🔒</div>
-                <div style={{ fontSize: 20, fontWeight: 800, color: '#FFF', marginBottom: 8 }}>
+                <div style={{ fontSize: 20, fontWeight: 800, color: '#F2EDE6', marginBottom: 8 }}>
                   ${collateralSlider.toLocaleString()} locked!
                 </div>
                 <div style={{ fontSize: 14, color: '#8B9E6E' }}>
@@ -700,13 +700,13 @@ export default function Profile() {
               </div>
             ) : (
               <>
-                <div style={{ fontSize: 17, fontWeight: 700, color: '#FFF', marginBottom: 6 }}>Add Collateral</div>
-                <div style={{ fontSize: 13, color: '#555', marginBottom: 24 }}>
+                <div style={{ fontSize: 17, fontWeight: 700, color: '#F2EDE6', marginBottom: 6 }}>Add Collateral</div>
+                <div style={{ fontSize: 13, color: '#7A6E62', marginBottom: 24 }}>
                   Lock funds to increase your market cap
                 </div>
 
                 <div style={{ textAlign: 'center', marginBottom: 8 }}>
-                  <div style={{ fontSize: 36, fontWeight: 900, color: '#FFF', letterSpacing: '-1px' }}>
+                  <div style={{ fontSize: 36, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-1px' }}>
                     ${collateralSlider.toLocaleString()}
                   </div>
                 </div>
@@ -721,19 +721,19 @@ export default function Profile() {
                   style={{ width: '100%', accentColor: '#8B9E6E', marginBottom: 20 }}
                 />
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#444', marginBottom: 24 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#7A6E62', marginBottom: 24 }}>
                   <span>$0</span>
                   <span>$50,000</span>
                 </div>
 
                 {/* Live preview */}
                 <div style={{
-                  background: '#1A1A1A', borderRadius: 14, padding: '14px 16px', marginBottom: 20,
+                  background: '#2E2820', borderRadius: 14, padding: '14px 16px', marginBottom: 20,
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 }}>
                   <div>
-                    <div style={{ fontSize: 11, color: '#555', marginBottom: 4 }}>Est. Market Cap</div>
-                    <div style={{ fontSize: 18, fontWeight: 700, color: '#FFF' }}>
+                    <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 4 }}>Est. Market Cap</div>
+                    <div style={{ fontSize: 18, fontWeight: 700, color: '#F2EDE6' }}>
                       ~${previewMarketCap.toLocaleString()}
                     </div>
                   </div>
@@ -744,7 +744,7 @@ export default function Profile() {
                   <button
                     onClick={() => setShowCollateral(false)}
                     style={{
-                      flex: 1, background: '#1A1A1A', color: '#555',
+                      flex: 1, background: '#2E2820', color: '#7A6E62',
                       border: '1px solid #252525', borderRadius: 14,
                       padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer',
                     }}
@@ -754,7 +754,7 @@ export default function Profile() {
                   <button
                     onClick={confirmCollateral}
                     style={{
-                      flex: 2, background: '#8B9E6E', color: '#0A0A0A',
+                      flex: 2, background: '#8B9E6E', color: '#1C1814',
                       border: 'none', borderRadius: 14,
                       padding: 14, fontSize: 15, fontWeight: 700, cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
@@ -774,7 +774,7 @@ export default function Profile() {
       {savedToast && (
         <div style={{
           position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#0A0A0A',
+          background: '#8B9E6E', color: '#1C1814',
           borderRadius: 20, padding: '10px 20px',
           fontSize: 13, fontWeight: 700, zIndex: 300,
           display: 'flex', alignItems: 'center', gap: 6,
@@ -788,7 +788,7 @@ export default function Profile() {
       {postToast && (
         <div style={{
           position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#0A0A0A',
+          background: '#8B9E6E', color: '#1C1814',
           borderRadius: 20, padding: '10px 20px',
           fontSize: 13, fontWeight: 700, zIndex: 300,
           display: 'flex', alignItems: 'center', gap: 6,
@@ -803,3 +803,4 @@ export default function Profile() {
     </div>
   );
 }
+
