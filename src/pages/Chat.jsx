@@ -66,13 +66,13 @@ export default function Chat() {
 
   return (
     <div style={{
-      minHeight: '100vh', background: '#1C1814',
+      minHeight: '100vh', background: '#221E1A',
       display: 'flex', flexDirection: 'column',
     }}>
       {/* Header */}
       <div style={{
         padding: '54px 16px 14px',
-        background: '#1C1814',
+        background: '#221E1A',
         borderBottom: '1px solid #1F1F1F',
         display: 'flex', alignItems: 'center', gap: 12,
         position: 'sticky', top: 0, zIndex: 10,
@@ -80,7 +80,7 @@ export default function Chat() {
         <button
           onClick={() => navigate(-1)}
           style={{
-            background: '#252019', border: '1px solid #1F1F1F',
+            background: '#2A2520', border: '1px solid #1F1F1F',
             borderRadius: 10, padding: 8, cursor: 'pointer',
             flexShrink: 0,
           }}
@@ -98,7 +98,7 @@ export default function Chat() {
         <button
           onClick={() => navigate(`/user/${id}`)}
           style={{
-            background: '#252019', border: '1px solid #1F1F1F',
+            background: '#2A2520', border: '1px solid #1F1F1F',
             borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
             fontSize: 12, color: '#7A6E62',
           }}
@@ -126,8 +126,8 @@ export default function Chat() {
             )}
             <div style={{ maxWidth: '75%' }}>
               <div style={{
-                background: msg.from === 'me' ? '#8B9E6E' : '#2E2820',
-                color: msg.from === 'me' ? '#1C1814' : '#F2EDE6',
+                background: msg.from === 'me' ? '#8B9E6E' : '#332D27',
+                color: msg.from === 'me' ? '#221E1A' : '#F2EDE6',
                 borderRadius: msg.from === 'me' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                 padding: '10px 14px',
                 fontSize: 14, lineHeight: 1.5,
@@ -151,7 +151,7 @@ export default function Chat() {
       {/* Input bar */}
       <div style={{
         padding: '12px 16px 32px',
-        background: '#1C1814',
+        background: '#221E1A',
         borderTop: '1px solid #1F1F1F',
         display: 'flex', gap: 10, alignItems: 'center',
       }}>
@@ -161,7 +161,7 @@ export default function Chat() {
           onKeyDown={e => e.key === 'Enter' && sendMessage()}
           placeholder="Message..."
           style={{
-            flex: 1, background: '#2E2820',
+            flex: 1, background: '#332D27',
             border: '1px solid #252525', borderRadius: 20,
             padding: '12px 16px', color: '#F2EDE6',
             fontSize: 14, outline: 'none',
@@ -171,7 +171,7 @@ export default function Chat() {
           onClick={sendMessage}
           style={{
             width: 44, height: 44, borderRadius: '50%',
-            background: input.trim() ? '#8B9E6E' : '#2E2820',
+            background: input.trim() ? '#8B9E6E' : '#332D27',
             border: `1px solid ${input.trim() ? '#8B9E6E' : '#3E3528'}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: input.trim() ? 'pointer' : 'default',
@@ -179,10 +179,11 @@ export default function Chat() {
             transition: 'all 0.2s ease',
           }}
         >
-          <Send size={16} color={input.trim() ? '#1C1814' : '#7A6E62'} />
+          <Send size={16} color={input.trim() ? '#221E1A' : '#7A6E62'} />
         </button>
       </div>
     </div>
   );
 }
+
 

@@ -101,7 +101,7 @@ export default function Portfolio() {
   const sortedPos = [...positions].sort((a, b) => b.pnlPct - a.pnlPct);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 90 }}>
+    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 90 }}>
       {/* Header */}
       <div style={{ padding: '54px 20px 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
@@ -109,7 +109,7 @@ export default function Portfolio() {
           <button
             onClick={handleRefresh}
             style={{
-              background: '#252019', border: '1px solid #1F1F1F',
+              background: '#2A2520', border: '1px solid #1F1F1F',
               borderRadius: 10, padding: 8, cursor: 'pointer',
             }}
           >
@@ -123,7 +123,7 @@ export default function Portfolio() {
 
         {/* Hero card */}
         <div style={{
-          background: '#252019',
+          background: '#2A2520',
           border: '1px solid #1F1F1F',
           borderRadius: 20,
           padding: '24px 20px 16px',
@@ -202,7 +202,7 @@ export default function Portfolio() {
               <div
                 onClick={() => navigate(`/portfolio/${pos.userId}`)}
                 style={{
-                  background: isBest ? '#1A1400' : '#252019',
+                  background: isBest ? '#1A1400' : '#2A2520',
                   border: `1px solid ${isBest ? '#C9A84C44' : '#332C24'}`,
                   borderRadius: 16,
                   padding: 16,
@@ -269,4 +269,5 @@ export default function Portfolio() {
     </div>
   );
 }
+
 

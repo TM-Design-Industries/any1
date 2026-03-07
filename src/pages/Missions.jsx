@@ -125,19 +125,19 @@ export default function Missions() {
   const typeStyle = selected ? MISSION_TYPES[selected.type] : null;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 40 }}>
+    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 40 }}>
       {/* Header */}
       <div style={{
         padding: '54px 20px 16px',
         borderBottom: '1px solid #1F1F1F',
-        background: '#1C1814',
+        background: '#221E1A',
         position: 'sticky', top: 0, zIndex: 10,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
           <button
             onClick={() => navigate(-1)}
             style={{
-              background: '#252019', border: '1px solid #1F1F1F',
+              background: '#2A2520', border: '1px solid #1F1F1F',
               borderRadius: 10, padding: 8, cursor: 'pointer',
             }}
           >
@@ -162,8 +162,8 @@ export default function Missions() {
               key={f}
               onClick={() => setFilter(f)}
               style={{
-                background: filter === f ? '#8B9E6E' : '#252019',
-                color: filter === f ? '#1C1814' : '#7A6E62',
+                background: filter === f ? '#8B9E6E' : '#2A2520',
+                color: filter === f ? '#221E1A' : '#7A6E62',
                 border: `1px solid ${filter === f ? '#8B9E6E' : '#332C24'}`,
                 borderRadius: 16, padding: '6px 14px',
                 fontSize: 11, fontWeight: 700,
@@ -189,7 +189,7 @@ export default function Missions() {
               key={mission.id}
               onClick={() => setSelected(mission)}
               style={{
-                background: '#252019', border: '1px solid #1F1F1F',
+                background: '#2A2520', border: '1px solid #1F1F1F',
                 borderRadius: 20, padding: 16,
                 marginBottom: 12, cursor: 'pointer',
                 position: 'relative', overflow: 'hidden',
@@ -228,7 +228,7 @@ export default function Missions() {
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
                 {mission.tags.map(tag => (
                   <span key={tag} style={{
-                    fontSize: 10, color: '#7A6E62', background: '#2E2820',
+                    fontSize: 10, color: '#7A6E62', background: '#332D27',
                     borderRadius: 6, padding: '2px 8px', border: '1px solid #252525',
                   }}>{tag}</span>
                 ))}
@@ -257,7 +257,7 @@ export default function Missions() {
                     <button
                       onClick={e => { e.stopPropagation(); setSelected(mission); setShowApply(true); }}
                       style={{
-                        background: '#8B9E6E', color: '#1C1814',
+                        background: '#8B9E6E', color: '#221E1A',
                         border: 'none', borderRadius: 10,
                         padding: '6px 12px', fontSize: 12, fontWeight: 700,
                         cursor: 'pointer',
@@ -283,7 +283,7 @@ export default function Missions() {
           <div
             style={{
               width: '100%', maxWidth: 430, margin: '0 auto',
-              background: '#252019', borderRadius: '24px 24px 0 0',
+              background: '#2A2520', borderRadius: '24px 24px 0 0',
               padding: '24px 20px 40px',
               border: '1px solid #1F1F1F',
               animation: 'slideUpFull 0.3s ease',
@@ -315,7 +315,7 @@ export default function Missions() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: 10,
                   marginBottom: 20, cursor: 'pointer',
-                  padding: '12px', background: '#2E2820', borderRadius: 14,
+                  padding: '12px', background: '#332D27', borderRadius: 14,
                 }}
                 onClick={() => { navigate(`/user/${creator.id}`); setSelected(null); }}
               >
@@ -340,7 +340,7 @@ export default function Missions() {
                 { label: 'Deadline', value: selected.deadline, color: '#F2EDE6' },
               ].map(s => (
                 <div key={s.label} style={{
-                  flex: 1, background: '#2E2820', borderRadius: 12,
+                  flex: 1, background: '#332D27', borderRadius: 12,
                   padding: '12px 10px', textAlign: 'center',
                 }}>
                   <div style={{ fontSize: 14, fontWeight: 700, color: s.color }}>{s.value}</div>
@@ -353,7 +353,7 @@ export default function Missions() {
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 24 }}>
               {selected.tags.map(tag => (
                 <span key={tag} style={{
-                  fontSize: 11, color: '#7A6E62', background: '#2E2820',
+                  fontSize: 11, color: '#7A6E62', background: '#332D27',
                   borderRadius: 8, padding: '4px 10px',
                 }}>{tag}</span>
               ))}
@@ -371,7 +371,7 @@ export default function Missions() {
               </div>
             ) : selected.status === 'completed' ? (
               <div style={{
-                background: '#2E2820', borderRadius: 14, padding: 16,
+                background: '#332D27', borderRadius: 14, padding: 16,
                 textAlign: 'center', color: '#7A6E62', fontSize: 14,
               }}>
                 This mission is completed
@@ -380,7 +380,7 @@ export default function Missions() {
               <button
                 onClick={() => setShowApply(true)}
                 style={{
-                  width: '100%', background: '#8B9E6E', color: '#1C1814',
+                  width: '100%', background: '#8B9E6E', color: '#221E1A',
                   border: 'none', borderRadius: 14,
                   padding: 16, fontSize: 15, fontWeight: 700, cursor: 'pointer',
                 }}
@@ -401,7 +401,7 @@ export default function Missions() {
         }}>
           <div style={{
             width: '100%', maxWidth: 430, margin: '0 auto',
-            background: '#252019', borderRadius: '24px 24px 0 0',
+            background: '#2A2520', borderRadius: '24px 24px 0 0',
             padding: '24px 20px 40px',
             border: '1px solid #1F1F1F',
             animation: 'slideUpFull 0.3s ease',
@@ -421,7 +421,7 @@ export default function Missions() {
               placeholder="Tell them what makes you the right person for this mission..."
               rows={5}
               style={{
-                width: '100%', background: '#2E2820',
+                width: '100%', background: '#332D27',
                 border: '1px solid #252525', borderRadius: 14,
                 padding: '14px 16px', color: '#F2EDE6', fontSize: 14,
                 outline: 'none', resize: 'none', fontFamily: 'inherit',
@@ -433,7 +433,7 @@ export default function Missions() {
               <button
                 onClick={() => { setShowApply(false); setWhyText(''); }}
                 style={{
-                  flex: 1, background: '#2E2820', color: '#7A6E62',
+                  flex: 1, background: '#332D27', color: '#7A6E62',
                   border: '1px solid #252525', borderRadius: 14,
                   padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 }}
@@ -445,8 +445,8 @@ export default function Missions() {
                 disabled={!whyText.trim()}
                 style={{
                   flex: 2,
-                  background: whyText.trim() ? '#8B9E6E' : '#2E2820',
-                  color: whyText.trim() ? '#1C1814' : '#7A6E62',
+                  background: whyText.trim() ? '#8B9E6E' : '#332D27',
+                  color: whyText.trim() ? '#221E1A' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
                   cursor: whyText.trim() ? 'pointer' : 'default',
@@ -461,4 +461,5 @@ export default function Missions() {
     </div>
   );
 }
+
 

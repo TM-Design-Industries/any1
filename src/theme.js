@@ -1,8 +1,8 @@
 export const T = {
   // Backgrounds
-  bg:        '#1C1814',
-  surface:   '#252019',
-  surface2:  '#2E2820',
+  bg:        '#221E1A',
+  surface:   '#2A2520',
+  surface2:  '#332D27',
 
   // Borders
   border:    '#332C24',
@@ -29,3 +29,4 @@ export const T = {
     expert:   '#D4663A',
   },
 };
+

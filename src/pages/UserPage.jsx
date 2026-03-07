@@ -80,7 +80,7 @@ export default function UserPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 40, position: 'relative' }}>
+    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 40, position: 'relative' }}>
 
       {/* Floating Invest button - always visible */}
       {!invested && (
@@ -92,7 +92,7 @@ export default function UserPage() {
             right: 16,
             zIndex: 200,
             background: '#F5C842',
-            color: '#1C1814',
+            color: '#221E1A',
             border: 'none',
             borderRadius: 22,
             padding: '10px 20px',
@@ -149,7 +149,7 @@ export default function UserPage() {
           onClick={() => navigate(-1)}
           style={{
             position: 'absolute', top: 52, left: 16,
-            background: '#1C1814cc', backdropFilter: 'blur(8px)',
+            background: '#221E1Acc', backdropFilter: 'blur(8px)',
             border: '1px solid #ffffff22', borderRadius: 10,
             padding: 8, cursor: 'pointer',
           }}
@@ -163,7 +163,7 @@ export default function UserPage() {
           <div style={{ position: 'relative', width: 76, height: 76 }}>
             <div style={{
               width: 76, height: 76, borderRadius: '50%',
-              border: '3px solid #1C1814',
+              border: '3px solid #221E1A',
               overflow: 'hidden',
             }}>
               <img src={user.avatar} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -187,7 +187,7 @@ export default function UserPage() {
             <button
               onClick={() => navigate(`/chat/${id}`)}
               style={{
-                background: '#2E2820',
+                background: '#332D27',
                 color: '#8B9E6E',
                 border: '1px solid #8B9E6E44',
                 borderRadius: 20, padding: '7px 12px',
@@ -201,8 +201,8 @@ export default function UserPage() {
             <button
               onClick={() => setFollowing(f => !f)}
               style={{
-                background: following ? '#2E2820' : typeInfo.color,
-                color: following ? typeInfo.color : '#1C1814',
+                background: following ? '#332D27' : typeInfo.color,
+                color: following ? typeInfo.color : '#221E1A',
                 border: `1px solid ${typeInfo.color}`,
                 borderRadius: 20, padding: '7px 14px',
                 fontSize: 13, fontWeight: 700, cursor: 'pointer',
@@ -277,7 +277,7 @@ export default function UserPage() {
           )}
         </div>
 
-        <div style={{ background: '#2E2820', borderRadius: 6, height: 6, overflow: 'hidden', marginBottom: 10 }}>
+        <div style={{ background: '#332D27', borderRadius: 6, height: 6, overflow: 'hidden', marginBottom: 10 }}>
           <div style={{
             width: `${progress}%`, height: '100%',
             background: `linear-gradient(90deg, ${level.color}, ${nextLevel?.color || level.color})`,
@@ -347,7 +347,7 @@ export default function UserPage() {
       {/* Tabs */}
       <div style={{
         display: 'flex', borderBottom: '1px solid #1A1A1A',
-        position: 'sticky', top: 0, background: '#1C1814', zIndex: 10,
+        position: 'sticky', top: 0, background: '#221E1A', zIndex: 10,
       }}>
         {['dashboard', 'posts'].map(t => (
           <button
@@ -383,7 +383,7 @@ export default function UserPage() {
                   const isPos = inv.return.startsWith('+') || inv.return === 'Exited';
                   return (
                     <div key={i} style={{
-                      background: '#252019', border: '1px solid #1A1A1A',
+                      background: '#2A2520', border: '1px solid #1A1A1A',
                       borderRadius: 16, padding: '14px 16px', marginBottom: 10,
                       display: 'flex', alignItems: 'center', gap: 12,
                       position: 'relative', overflow: 'hidden',
@@ -424,7 +424,7 @@ export default function UserPage() {
                   const st = STATUS_STYLE[v.status] || STATUS_STYLE.active;
                   return (
                     <div key={i} style={{
-                      background: '#252019', border: '1px solid #1A1A1A',
+                      background: '#2A2520', border: '1px solid #1A1A1A',
                       borderRadius: 16, padding: '16px', marginBottom: 10,
                       position: 'relative', overflow: 'hidden',
                     }}>
@@ -460,7 +460,7 @@ export default function UserPage() {
               <div>
                 <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
                   <div style={{
-                    flex: 1, background: '#252019', border: '1px solid #1A1A1A',
+                    flex: 1, background: '#2A2520', border: '1px solid #1A1A1A',
                     borderRadius: 14, padding: '12px', textAlign: 'center',
                   }}>
                     <div style={{ fontSize: 22, fontWeight: 800, color: '#4BBFB5' }}>
@@ -469,7 +469,7 @@ export default function UserPage() {
                     <div style={{ fontSize: 11, color: '#7A6E62', marginTop: 2 }}>Active</div>
                   </div>
                   <div style={{
-                    flex: 1, background: '#252019', border: '1px solid #1A1A1A',
+                    flex: 1, background: '#2A2520', border: '1px solid #1A1A1A',
                     borderRadius: 14, padding: '12px', textAlign: 'center',
                   }}>
                     <div style={{ fontSize: 22, fontWeight: 800, color: '#B5A898' }}>
@@ -478,7 +478,7 @@ export default function UserPage() {
                     <div style={{ fontSize: 11, color: '#7A6E62', marginTop: 2 }}>Completed</div>
                   </div>
                   <div style={{
-                    flex: 1, background: '#252019', border: '1px solid #1A1A1A',
+                    flex: 1, background: '#2A2520', border: '1px solid #1A1A1A',
                     borderRadius: 14, padding: '12px', textAlign: 'center',
                   }}>
                     <div style={{ fontSize: 22, fontWeight: 800, color: '#D4A843' }}>
@@ -493,7 +493,7 @@ export default function UserPage() {
                   const Icon = p.status === 'active' ? CheckCircle : p.status === 'completed' ? Clock : XCircle;
                   return (
                     <div key={i} style={{
-                      background: '#252019', border: '1px solid #1A1A1A',
+                      background: '#2A2520', border: '1px solid #1A1A1A',
                       borderRadius: 14, padding: '13px 16px', marginBottom: 8,
                       display: 'flex', alignItems: 'center', gap: 12,
                     }}>
@@ -524,7 +524,7 @@ export default function UserPage() {
             ) : (
               user.posts.map(post => (
                 <div key={post.id} style={{
-                  background: '#252019', border: '1px solid #1A1A1A',
+                  background: '#2A2520', border: '1px solid #1A1A1A',
                   borderRadius: 18, marginBottom: 14, overflow: 'hidden',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px 10px' }}>
@@ -612,7 +612,7 @@ export default function UserPage() {
         }}>
           <div style={{
             width: '100%', maxWidth: 430, margin: '0 auto',
-            background: '#252019', borderRadius: '24px 24px 0 0',
+            background: '#2A2520', borderRadius: '24px 24px 0 0',
             padding: '24px 20px 40px',
             border: '1px solid #1F1F1F',
             animation: 'slideUp 0.3s ease',
@@ -629,7 +629,7 @@ export default function UserPage() {
               {['0.10', '1.00', '5.00', '10.00'].map(v => (
                 <button key={v} onClick={() => setAmount(v)} style={{
                   flex: 1,
-                  background: amount === v ? '#8B9E6E22' : '#2E2820',
+                  background: amount === v ? '#8B9E6E22' : '#332D27',
                   border: `1px solid ${amount === v ? '#8B9E6E' : '#3E3528'}`,
                   borderRadius: 10, padding: '9px 4px',
                   color: amount === v ? '#8B9E6E' : '#7A6E62',
@@ -643,7 +643,7 @@ export default function UserPage() {
               value={amount}
               onChange={e => setAmount(e.target.value)}
               style={{
-                width: '100%', background: '#2E2820',
+                width: '100%', background: '#332D27',
                 border: '1px solid #252525', borderRadius: 12,
                 padding: '13px 16px', color: '#F2EDE6',
                 fontSize: 15, outline: 'none', marginBottom: 14,
@@ -652,7 +652,7 @@ export default function UserPage() {
             />
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => { setInvesting(false); setAmount(''); }} style={{
-                flex: 1, background: '#2E2820', color: '#7A6E62',
+                flex: 1, background: '#332D27', color: '#7A6E62',
                 border: '1px solid #252525', borderRadius: 14,
                 padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer',
               }}>Cancel</button>
@@ -660,8 +660,8 @@ export default function UserPage() {
                 onClick={() => { if (amount) { setInvested(true); setInvesting(false); } }}
                 style={{
                   flex: 2,
-                  background: amount ? '#8B9E6E' : '#2E2820',
-                  color: amount ? '#1C1814' : '#7A6E62',
+                  background: amount ? '#8B9E6E' : '#332D27',
+                  color: amount ? '#221E1A' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
                   cursor: amount ? 'pointer' : 'default',
@@ -677,7 +677,7 @@ export default function UserPage() {
       {invested && (
         <div style={{
           position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#1C1814',
+          background: '#8B9E6E', color: '#221E1A',
           borderRadius: 20, padding: '12px 24px',
           fontSize: 14, fontWeight: 700,
           zIndex: 300, display: 'flex', alignItems: 'center', gap: 8,
@@ -691,4 +691,5 @@ export default function UserPage() {
     </div>
   );
 }
+
 

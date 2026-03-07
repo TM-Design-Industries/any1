@@ -29,7 +29,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
     <div
       onClick={() => navigate(`/user/${user.id}`)}
       style={{
-        background: '#252019',
+        background: '#2A2520',
         border: '1px solid #1F1F1F',
         borderRadius: 20,
         padding: '0',
@@ -166,7 +166,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
             {user.tags?.slice(0, 3).map(tag => (
               <span key={tag} style={{
                 fontSize: 10, color: '#7A6E62',
-                background: '#2E2820', border: '1px solid #252525',
+                background: '#332D27', border: '1px solid #252525',
                 borderRadius: 6, padding: '3px 8px',
                 letterSpacing: '0.03em',
               }}>
@@ -189,5 +189,6 @@ export default function UserCard({ user, animate = false, index = 0 }) {
     </div>
   );
 }
+
 
 

@@ -85,7 +85,7 @@ export default function Onboarding() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#1C1814',
+      background: '#221E1A',
       display: 'flex',
       flexDirection: 'column',
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
@@ -111,7 +111,7 @@ export default function Onboarding() {
             autoFocus
             style={{
               width: '100%',
-              background: '#252019',
+              background: '#2A2520',
               border: `1px solid ${name ? (selectedType?.color || '#5AABA2') : '#222'}`,
               borderRadius: 14,
               padding: '14px 16px',
@@ -135,7 +135,7 @@ export default function Onboarding() {
                 key={t.id}
                 onClick={() => setType(t.id)}
                 style={{
-                  background: type === t.id ? `${t.color}12` : '#252019',
+                  background: type === t.id ? `${t.color}12` : '#2A2520',
                   border: `1.5px solid ${type === t.id ? t.color : '#1E1E1E'}`,
                   borderRadius: 16,
                   padding: '14px 18px',
@@ -183,7 +183,7 @@ export default function Onboarding() {
           style={{
             width: '100%',
             background: canGo ? (selectedType?.color || '#5AABA2') : '#181818',
-            color: canGo ? '#1C1814' : '#3E3528',
+            color: canGo ? '#221E1A' : '#3E3528',
             border: 'none',
             borderRadius: 16,
             padding: '16px',
@@ -206,5 +206,6 @@ export default function Onboarding() {
     </div>
   );
 }
+
 
 

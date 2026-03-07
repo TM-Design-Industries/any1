@@ -162,12 +162,12 @@ export default function Home() {
   const rankLabels = ['#1', '#2', '#3', '#4', '#5'];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 90, position: 'relative' }}>
+    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 90, position: 'relative' }}>
 
       {/* Header */}
       <div style={{
         padding: '54px 20px 0',
-        background: '#1C1814',
+        background: '#221E1A',
         borderBottom: '1px solid #332C24',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
@@ -178,7 +178,7 @@ export default function Home() {
             <button
               onClick={() => navigate('/market')}
               style={{
-                background: '#252019', border: '1px solid #1F1F1F',
+                background: '#2A2520', border: '1px solid #1F1F1F',
                 borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
                 fontSize: 11, color: '#7A6E62', fontWeight: 600,
                 display: 'flex', alignItems: 'center', gap: 4,
@@ -190,7 +190,7 @@ export default function Home() {
             <button
               onClick={() => navigate('/missions')}
               style={{
-                background: '#252019', border: '1px solid #1F1F1F',
+                background: '#2A2520', border: '1px solid #1F1F1F',
                 borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
                 fontSize: 11, color: '#7A6E62', fontWeight: 600,
                 display: 'flex', alignItems: 'center', gap: 4,
@@ -202,7 +202,7 @@ export default function Home() {
             <button
               onClick={() => setShowNotifs(v => !v)}
               style={{
-                background: '#252019', border: '1px solid #1F1F1F',
+                background: '#2A2520', border: '1px solid #1F1F1F',
                 borderRadius: 10, padding: 8, cursor: 'pointer',
                 position: 'relative',
               }}
@@ -225,7 +225,7 @@ export default function Home() {
 
         {/* Stat bar (replaces ticker - TASK-11) */}
         <div style={{
-          background: '#252019', border: '1px solid #1A1A1A',
+          background: '#2A2520', border: '1px solid #1A1A1A',
           borderRadius: 10, padding: '8px 14px',
           display: 'flex', alignItems: 'center', gap: 6,
           marginBottom: 10, fontSize: 12, color: '#7A6E62',
@@ -268,7 +268,7 @@ export default function Home() {
               onClick={() => setFilter(f)}
               style={{
                 background: filter === f ? '#8B9E6E' : 'transparent',
-                color: filter === f ? '#1C1814' : '#7A6E62',
+                color: filter === f ? '#221E1A' : '#7A6E62',
                 border: `1px solid ${filter === f ? '#8B9E6E' : '#332C24'}`,
                 borderRadius: 16, padding: '5px 14px',
                 fontSize: 11, fontWeight: 700,
@@ -286,7 +286,7 @@ export default function Home() {
         <div style={{
           position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)',
           width: '100%', maxWidth: 430, zIndex: 150,
-          background: '#1C1814', borderBottom: '1px solid #1F1F1F',
+          background: '#221E1A', borderBottom: '1px solid #1F1F1F',
           animation: 'slideDown 0.3s ease',
           maxHeight: '70vh', overflowY: 'auto',
         }}>
@@ -398,7 +398,7 @@ export default function Home() {
                 style={{
                   flexShrink: 0,
                   width: 88,
-                  background: '#252019',
+                  background: '#2A2520',
                   border: `1px solid ${idx === 0 ? '#8B9E6E44' : '#332C24'}`,
                   borderRadius: 14,
                   padding: '12px 8px',
@@ -455,7 +455,7 @@ export default function Home() {
           boxShadow: '0 4px 20px #8B9E6E55',
         }}
       >
-        <Plus size={24} color="#1C1814" strokeWidth={3} />
+        <Plus size={24} color="#221E1A" strokeWidth={3} />
       </button>
 
       {/* FAB modal */}
@@ -468,7 +468,7 @@ export default function Home() {
           <div
             style={{
               width: '100%', maxWidth: 430, margin: '0 auto',
-              background: '#252019', borderRadius: '24px 24px 0 0',
+              background: '#2A2520', borderRadius: '24px 24px 0 0',
               padding: '24px 20px 40px',
               border: '1px solid #1F1F1F',
               animation: 'slideUpFull 0.3s ease',
@@ -485,7 +485,7 @@ export default function Home() {
                   key={pt.id}
                   onClick={() => setPostType(pt.id)}
                   style={{
-                    background: postType === pt.id ? `${pt.color}22` : '#2E2820',
+                    background: postType === pt.id ? `${pt.color}22` : '#332D27',
                     border: `1px solid ${postType === pt.id ? pt.color : '#3E3528'}`,
                     borderRadius: 20, padding: '7px 14px',
                     color: postType === pt.id ? pt.color : '#7A6E62',
@@ -504,7 +504,7 @@ export default function Home() {
               placeholder="What's on your mind?"
               rows={4}
               style={{
-                width: '100%', background: '#2E2820',
+                width: '100%', background: '#332D27',
                 border: '1px solid #252525', borderRadius: 14,
                 padding: '14px 16px', color: '#F2EDE6',
                 fontSize: 15, outline: 'none', resize: 'none',
@@ -520,7 +520,7 @@ export default function Home() {
               onChange={e => setPostImage(e.target.value)}
               placeholder="Image URL (optional)"
               style={{
-                width: '100%', background: '#2E2820',
+                width: '100%', background: '#332D27',
                 border: '1px solid #252525', borderRadius: 12,
                 padding: '12px 16px', color: '#F2EDE6',
                 fontSize: 14, outline: 'none', marginBottom: 16,
@@ -531,7 +531,7 @@ export default function Home() {
               <button
                 onClick={() => setShowFAB(false)}
                 style={{
-                  flex: 1, background: '#2E2820', color: '#7A6E62',
+                  flex: 1, background: '#332D27', color: '#7A6E62',
                   border: '1px solid #252525', borderRadius: 14,
                   padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 }}
@@ -543,8 +543,8 @@ export default function Home() {
                 disabled={!postText.trim()}
                 style={{
                   flex: 2,
-                  background: postText.trim() ? '#8B9E6E' : '#2E2820',
-                  color: postText.trim() ? '#1C1814' : '#7A6E62',
+                  background: postText.trim() ? '#8B9E6E' : '#332D27',
+                  color: postText.trim() ? '#221E1A' : '#7A6E62',
                   border: 'none', borderRadius: 14,
                   padding: 14, fontSize: 15, fontWeight: 700,
                   cursor: postText.trim() ? 'pointer' : 'default',
@@ -561,7 +561,7 @@ export default function Home() {
       {postToast && (
         <div style={{
           position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)',
-          background: '#8B9E6E', color: '#1C1814',
+          background: '#8B9E6E', color: '#221E1A',
           borderRadius: 20, padding: '10px 20px',
           fontSize: 13, fontWeight: 700, zIndex: 300,
           display: 'flex', alignItems: 'center', gap: 6,
@@ -582,7 +582,7 @@ export default function Home() {
           padding: '20px',
         }}>
           <div style={{
-            background: '#252019', borderRadius: 24,
+            background: '#2A2520', borderRadius: 24,
             padding: '32px 24px',
             border: '1px solid #1F1F1F',
             width: '100%', maxWidth: 390,
@@ -605,7 +605,7 @@ export default function Home() {
                 { emoji: '⭐', label: 'Rep earned', value: '+15 points', color: '#D4A843' },
               ].map(item => (
                 <div key={item.label} style={{
-                  background: '#2E2820', borderRadius: 14, padding: '14px 16px',
+                  background: '#332D27', borderRadius: 14, padding: '14px 16px',
                   display: 'flex', alignItems: 'center', gap: 12,
                 }}>
                   <span style={{ fontSize: 20 }}>{item.emoji}</span>
@@ -620,7 +620,7 @@ export default function Home() {
             <button
               onClick={dismissDigest}
               style={{
-                width: '100%', background: '#8B9E6E', color: '#1C1814',
+                width: '100%', background: '#8B9E6E', color: '#221E1A',
                 border: 'none', borderRadius: 14,
                 padding: 16, fontSize: 15, fontWeight: 800, cursor: 'pointer',
               }}
@@ -635,4 +635,5 @@ export default function Home() {
     </div>
   );
 }
+
 

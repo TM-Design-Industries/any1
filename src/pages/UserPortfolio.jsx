@@ -18,7 +18,7 @@ export default function UserPortfolio() {
   const positive = pnl >= 0;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 40 }}>
+    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 40 }}>
       {/* Header */}
       <div style={{
         padding: '54px 20px 16px',
@@ -32,7 +32,7 @@ export default function UserPortfolio() {
           pointerEvents: 'none',
         }} />
         <button onClick={() => navigate(-1)} style={{
-          background: '#2E2820', border: '1px solid #1F1F1F',
+          background: '#332D27', border: '1px solid #1F1F1F',
           borderRadius: 10, padding: 8, cursor: 'pointer',
         }}>
           <ArrowLeft size={18} color="#F2EDE6" />
@@ -79,7 +79,7 @@ export default function UserPortfolio() {
 
         {/* Chart */}
         <div style={{
-          background: '#252019', border: '1px solid #1F1F1F',
+          background: '#2A2520', border: '1px solid #1F1F1F',
           borderRadius: 16, padding: 16, marginBottom: 16,
         }}>
           <MiniChart base={user.marketCap} change={user.change} width={320} height={70} />
@@ -106,7 +106,7 @@ export default function UserPortfolio() {
         {/* Sell button */}
         <button style={{
           width: '100%', marginTop: 24,
-          background: '#2E2820', color: '#C0564A',
+          background: '#332D27', color: '#C0564A',
           border: '1px solid #E0555533',
           borderRadius: 14, padding: 14,
           fontSize: 14, fontWeight: 600, cursor: 'pointer',
@@ -117,4 +117,5 @@ export default function UserPortfolio() {
     </div>
   );
 }
+
 

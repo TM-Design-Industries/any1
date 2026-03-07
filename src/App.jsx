@@ -66,7 +66,7 @@ export default function App() {
         maxWidth: 430,
         margin: '0 auto',
         minHeight: '100vh',
-        background: '#1C1814',
+        background: '#221E1A',
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
         position: 'relative',
       }}>
@@ -75,3 +75,4 @@ export default function App() {
     </BrowserRouter>
   );
 }
+

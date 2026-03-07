@@ -23,19 +23,19 @@ export default function Market() {
   users.sort((a, b) => b.marketCap - a.marketCap);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1C1814', paddingBottom: 40 }}>
+    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 40 }}>
       {/* Header */}
       <div style={{
         padding: '54px 20px 16px',
         borderBottom: '1px solid #1F1F1F',
-        background: '#1C1814',
+        background: '#221E1A',
         position: 'sticky', top: 0, zIndex: 10,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
           <button
             onClick={() => navigate(-1)}
             style={{
-              background: '#252019', border: '1px solid #1F1F1F',
+              background: '#2A2520', border: '1px solid #1F1F1F',
               borderRadius: 10, padding: 8, cursor: 'pointer',
             }}
           >
@@ -52,7 +52,7 @@ export default function Market() {
         {/* Search */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
-          background: '#252019', border: '1px solid #1F1F1F',
+          background: '#2A2520', border: '1px solid #1F1F1F',
           borderRadius: 14, padding: '10px 14px', marginBottom: 12,
         }}>
           <Search size={16} color="#7A6E62" />
@@ -74,8 +74,8 @@ export default function Market() {
               key={t}
               onClick={() => setTab(t)}
               style={{
-                background: tab === t ? '#8B9E6E' : '#252019',
-                color: tab === t ? '#1C1814' : '#7A6E62',
+                background: tab === t ? '#8B9E6E' : '#2A2520',
+                color: tab === t ? '#221E1A' : '#7A6E62',
                 border: `1px solid ${tab === t ? '#8B9E6E' : '#332C24'}`,
                 borderRadius: 16, padding: '6px 16px',
                 fontSize: 12, fontWeight: 700, cursor: 'pointer',
@@ -158,4 +158,5 @@ export default function Market() {
     </div>
   );
 }
+
 

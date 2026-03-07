@@ -51,7 +51,7 @@ export default function Discover() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#1C1814',
+      background: '#221E1A',
       paddingBottom: 90,
       display: 'flex',
       flexDirection: 'column',
@@ -71,7 +71,7 @@ export default function Discover() {
               key={t.id}
               onClick={() => setFilter(t.id)}
               style={{
-                background: filter === t.id ? `${t.color}20` : '#252019',
+                background: filter === t.id ? `${t.color}20` : '#2A2520',
                 border: `1px solid ${filter === t.id ? t.color : '#1E1E1E'}`,
                 borderRadius: 20,
                 padding: '6px 14px',
@@ -102,7 +102,7 @@ export default function Discover() {
             <button
               onClick={() => { setStack([...mockUsers].reverse()); setPassed([]); setInterested([]); }}
               style={{
-                background: '#2EC4B6', color: '#1C1814',
+                background: '#2EC4B6', color: '#221E1A',
                 border: 'none', borderRadius: 14, padding: '12px 24px',
                 fontSize: 14, fontWeight: 700, cursor: 'pointer', marginTop: 8,
               }}
@@ -160,7 +160,7 @@ export default function Discover() {
               onClick={() => topUser && handlePass(topUser)}
               style={{
                 width: 58, height: 58, borderRadius: '50%',
-                background: '#252019',
+                background: '#2A2520',
                 border: '1.5px solid #E0555533',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer',
@@ -177,7 +177,7 @@ export default function Discover() {
             onClick={handleUndo}
             style={{
               width: 36, height: 36, borderRadius: '50%',
-              background: '#252019',
+              background: '#2A2520',
               border: '1px solid #1E1E1E',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer',
@@ -219,7 +219,7 @@ export default function Discover() {
                 transition: 'all 0.2s ease',
               }}
             >
-              <DollarSign size={26} color="#1C1814" strokeWidth={2.5} />
+              <DollarSign size={26} color="#221E1A" strokeWidth={2.5} />
             </button>
             <span style={{ fontSize: 10, color: '#F5C842', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Invest</span>
           </div>
@@ -238,4 +238,5 @@ export default function Discover() {
     </div>
   );
 }
+
 

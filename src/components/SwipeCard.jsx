@@ -47,7 +47,7 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
       style={{
         position: 'absolute',
         width: '100%',
-        background: '#252019',
+        background: '#2A2520',
         border: `1px solid ${typeInfo?.color || '#332C24'}33`,
         borderRadius: 24,
         overflow: 'hidden',
@@ -96,7 +96,7 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
         {/* Market cap pill */}
         <div style={{
           position: 'absolute', top: 16, left: 16,
-          background: '#1C1814aa',
+          background: '#221E1Aaa',
           backdropFilter: 'blur(8px)',
           borderRadius: 20,
           padding: '5px 12px',
@@ -164,4 +164,5 @@ export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, isTop }) {
     </div>
   );
 }
+
 
