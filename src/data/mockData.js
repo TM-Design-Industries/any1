@@ -502,3 +502,4 @@ export const generateChart = (base, change, points = 20) => {
   data.push(base);
   return data;
 };
+
