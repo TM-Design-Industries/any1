@@ -20,12 +20,12 @@ export default function BottomNav() {
       transform: 'translateX(-50%)',
       width: '100%',
       maxWidth: 430,
-      background: '#1C1814ee',
+      background: '#1C1814F0',
       backdropFilter: 'blur(20px)',
-      borderTop: '1px solid #1F1F1F',
-      display: 'flex',
-      justifyContent: 'space-around',
-      padding: '10px 0 20px',
+      borderTop: '1px solid #332C24',
+      display: 'grid',
+      gridTemplateColumns: 'repeat(4, 1fr)',
+      padding: '10px 0 24px',
       zIndex: 100,
     }}>
       {tabs.map(({ icon: Icon, label, path }) => {
@@ -41,20 +41,21 @@ export default function BottomNav() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 4,
-              padding: '4px 16px',
+              justifyContent: 'center',
+              gap: 5,
+              padding: '4px 0',
             }}
           >
             <Icon
-              size={22}
-              color={active ? '#8B9E6E' : '#444444'}
-              strokeWidth={active ? 2.5 : 1.8}
+              size={20}
+              color={active ? '#8B9E6E' : '#5A4E44'}
+              strokeWidth={active ? 2.2 : 1.6}
             />
             <span style={{
               fontSize: 10,
-              color: active ? '#8B9E6E' : '#444444',
+              color: active ? '#8B9E6E' : '#5A4E44',
               fontWeight: active ? 600 : 400,
-              letterSpacing: '0.05em',
+              letterSpacing: '0.04em',
             }}>
               {label}
             </span>
@@ -64,4 +65,3 @@ export default function BottomNav() {
     </nav>
   );
 }
-

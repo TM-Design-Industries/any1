@@ -38,7 +38,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
         cursor: 'pointer',
         position: 'relative',
         overflow: 'hidden',
-        marginBottom: 12,
+        marginBottom: 10,
         animation: animate ? `slideUp 0.35s ease ${index * 0.07}s both` : 'none',
       }}
     >
@@ -70,7 +70,7 @@ export default function UserCard({ user, animate = false, index = 0 }) {
         zIndex: 1,
       }} />
 
-      <div style={{ position: 'relative', zIndex: 1, padding: '16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ position: 'relative', zIndex: 1, padding: '18px', display: 'flex', flexDirection: 'column', gap: 12 }}>
 
         {/* Badges row */}
         {(isHot || isNew) && (
@@ -189,4 +189,5 @@ export default function UserCard({ user, animate = false, index = 0 }) {
     </div>
   );
 }
+
 

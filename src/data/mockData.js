@@ -2,25 +2,25 @@ export const USER_TYPES = {
   investor: {
     id: 'investor',
     label: 'Investor',
-    color: '#D4A843',
+    color: '#7A9E7E',
     desc: 'Backs people and projects with capital',
   },
   founder: {
     id: 'founder',
     label: 'Founder',
-    color: '#7B6FF7',
+    color: '#8B85C1',
     desc: 'Builder with vision, domain expert, company owner',
   },
   surfer: {
     id: 'surfer',
     label: 'Surfer',
-    color: '#4BBFB5',
+    color: '#5AABA2',
     desc: 'Joins many projects, multitasker, no founder lock-in',
   },
   expert: {
     id: 'expert',
     label: 'Expert',
-    color: '#D4663A',
+    color: '#B8714F',
     desc: 'Master of one craft — chef, musician, mechanic, artist',
   },
 };
@@ -37,7 +37,7 @@ export const mockUsers = [
     collateral: 15000,
     investors: 34,
     bio: 'Serial founder. Shipped 3 products. Currently building in fintech. Obsessed with systems that scale.',
-    color: '#7B6FF7',
+    color: '#8B85C1',
     type: 'founder',
     tags: ['SaaS', 'Fintech', 'Product'],
     missions: 4,
@@ -52,7 +52,7 @@ export const mockUsers = [
     posts: [
       { id: 'p1', type: 'update', text: 'Just closed our seed round. 18 months of building in silence. Now we talk.', time: '2h ago', likes: 142, comments: 28, image: null },
       { id: 'p2', type: 'milestone', text: 'PayFlow hit 1,000 active merchants. From zero to here in 8 months.', time: '1w ago', likes: 318, comments: 67, image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=300&fit=crop' },
-      { id: 'p3', type: 'thought', text: 'The best founders I know don\'t celebrate milestones. They\'re already 3 steps ahead.', time: '2w ago', likes: 89, comments: 12, image: null },
+      { id: 'p3', type: 'thought', text: "The best founders I know don't celebrate milestones. They're already 3 steps ahead.", time: '2w ago', likes: 89, comments: 12, image: null },
     ],
   },
   {
@@ -66,7 +66,7 @@ export const mockUsers = [
     collateral: 9000,
     investors: 21,
     bio: 'Angel investor with a design background. I back founders who care about craft. 12 bets so far.',
-    color: '#D4A843',
+    color: '#7A9E7E',
     type: 'investor',
     tags: ['Angel', 'Design', 'Media'],
     missions: 2,
@@ -80,8 +80,8 @@ export const mockUsers = [
       { name: 'Loom', role: 'Angel', amount: '$20K', return: 'Exited', status: 'exited' },
     ],
     posts: [
-      { id: 'p1', type: 'update', text: 'Just wrote my first check of 2025. Backed a team building tools for independent designers. They remind me of myself 10 years ago.', time: '3h ago', likes: 97, comments: 14, image: null },
-      { id: 'p2', type: 'insight', text: 'Good design isn\'t a layer on top. It\'s the architecture. That\'s why I only back founders who get this.', time: '4d ago', likes: 203, comments: 31, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=300&fit=crop' },
+      { id: 'p1', type: 'update', text: 'Just wrote my first check of 2025. Backed a team building tools for independent designers.', time: '3h ago', likes: 97, comments: 14, image: null },
+      { id: 'p2', type: 'insight', text: "Good design isn't a layer on top. It's the architecture.", time: '4d ago', likes: 203, comments: 31, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=300&fit=crop' },
     ],
   },
   {
@@ -95,7 +95,7 @@ export const mockUsers = [
     collateral: 30000,
     investors: 89,
     bio: 'Managing Partner @ Apex Ventures. Backed 40+ companies across 3 continents. Pattern recognition is my edge.',
-    color: '#D4A843',
+    color: '#7A9E7E',
     type: 'investor',
     tags: ['VC', 'Strategy', 'Scale'],
     missions: 1,
@@ -110,7 +110,7 @@ export const mockUsers = [
       { name: 'Figma', role: 'Seed', amount: '$100K', return: 'Exited', status: 'exited' },
     ],
     posts: [
-      { id: 'p1', type: 'insight', text: 'The companies that win in the next decade won\'t be the ones who move fastest. They\'ll be the ones who move correctly.', time: '5h ago', likes: 412, comments: 88, image: null },
+      { id: 'p1', type: 'insight', text: "The companies that win in the next decade won't be the ones who move fastest. They'll be the ones who move correctly.", time: '5h ago', likes: 412, comments: 88, image: null },
       { id: 'p2', type: 'update', text: 'Closed our Fund III at $180M. Took 4 months. The bar for what we back has never been higher.', time: '3d ago', likes: 891, comments: 143, image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=300&fit=crop' },
     ],
   },
@@ -125,7 +125,7 @@ export const mockUsers = [
     collateral: 7500,
     investors: 12,
     bio: 'Tech writer & content surfer. Words are my stack. 3 bylines this week alone.',
-    color: '#4BBFB5',
+    color: '#5AABA2',
     type: 'surfer',
     tags: ['Writing', 'Media', 'Tech'],
     missions: 7,
@@ -137,11 +137,10 @@ export const mockUsers = [
       { name: 'Notion Blog', role: 'Content Lead', status: 'active', deliverable: '4 posts/mo' },
       { name: 'Primer', role: 'Copy', status: 'active', deliverable: 'Product copy' },
       { name: 'Seed Camp', role: 'Newsletter', status: 'completed', deliverable: '12 editions' },
-      { name: 'Base10', role: 'Ghost-writer', status: 'completed', deliverable: 'Thought leadership' },
     ],
     posts: [
-      { id: 'p1', type: 'update', text: 'Week 3 of writing for 3 different companies simultaneously. Zero burnout. The trick: each one has a completely different voice.', time: '1h ago', likes: 54, comments: 9, image: null },
-      { id: 'p2', type: 'work', text: 'New piece is live: "Why the best startups think like editors." Wrote this one in a coffee shop in Florentin.', time: '3d ago', likes: 128, comments: 22, image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&h=300&fit=crop' },
+      { id: 'p1', type: 'update', text: 'Week 3 of writing for 3 different companies simultaneously. Zero burnout.', time: '1h ago', likes: 54, comments: 9, image: null },
+      { id: 'p2', type: 'work', text: 'New piece is live: "Why the best startups think like editors."', time: '3d ago', likes: 128, comments: 22, image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&h=300&fit=crop' },
     ],
   },
   {
@@ -155,7 +154,7 @@ export const mockUsers = [
     collateral: 20000,
     investors: 47,
     bio: 'Full-stack engineer. I build, contribute, and move on. 12 open repos, 3 active contracts.',
-    color: '#4BBFB5',
+    color: '#5AABA2',
     type: 'surfer',
     tags: ['Engineering', 'OSS', 'Backend'],
     missions: 12,
@@ -167,12 +166,10 @@ export const mockUsers = [
       { name: 'Limelight AI', role: 'Backend Lead', status: 'active', deliverable: 'API infra' },
       { name: 'Deel', role: 'Contract Engineer', status: 'active', deliverable: 'Payroll engine' },
       { name: 'Wix', role: 'Contract', status: 'completed', deliverable: 'Editor refactor' },
-      { name: 'Fiverr', role: 'API Integration', status: 'completed', deliverable: 'Partner API' },
-      { name: 'monday.com', role: 'Feature Dev', status: 'completed', deliverable: 'Automations' },
     ],
     posts: [
-      { id: 'p1', type: 'work', text: 'Shipped a full auth system in 4 days for a client. Supabase + Next.js + custom JWT refresh. Clean.', time: '6h ago', likes: 176, comments: 34, image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop' },
-      { id: 'p2', type: 'thought', text: 'People ask why I don\'t join full-time. I make more, learn more, and stress less. The math isn\'t complicated.', time: '5d ago', likes: 234, comments: 41, image: null },
+      { id: 'p1', type: 'work', text: 'Shipped a full auth system in 4 days for a client. Supabase + Next.js + custom JWT refresh.', time: '6h ago', likes: 176, comments: 34, image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=300&fit=crop' },
+      { id: 'p2', type: 'thought', text: "People ask why I don't join full-time. I make more, learn more, and stress less.", time: '5d ago', likes: 234, comments: 41, image: null },
     ],
   },
   {
@@ -186,7 +183,7 @@ export const mockUsers = [
     collateral: 4000,
     investors: 8,
     bio: 'Building my first company. Community-first, Web3-native. Learning in public.',
-    color: '#7B6FF7',
+    color: '#8B85C1',
     type: 'founder',
     tags: ['Web3', 'Community', 'Growth'],
     missions: 2,
@@ -212,7 +209,7 @@ export const mockUsers = [
     collateral: 25000,
     investors: 55,
     bio: 'Backed 40+ startups over 20 years. CleanTech, Hardware, DeepTech. I like hard problems.',
-    color: '#D4A843',
+    color: '#7A9E7E',
     type: 'investor',
     tags: ['Angel', 'Hardware', 'CleanTech'],
     missions: 0,
@@ -223,11 +220,9 @@ export const mockUsers = [
       { name: 'SolarEdge', role: 'Seed', amount: '$200K', return: 'Exited', status: 'exited' },
       { name: 'Mobileye', role: 'Angel', amount: '$150K', return: 'Exited', status: 'exited' },
       { name: 'StoreDot', role: 'Series A', amount: '$300K', return: '+180%', status: 'active' },
-      { name: 'Tactile', role: 'Seed', amount: '$50K', return: '+40%', status: 'active' },
     ],
     posts: [
       { id: 'p1', type: 'insight', text: 'After 20 years backing founders: the ones who win treat failure as data, not identity.', time: '1d ago', likes: 521, comments: 74, image: null },
-      { id: 'p2', type: 'update', text: 'Visited StoreDot\'s lab today. What they\'re doing with battery density is genuinely insane.', time: '1w ago', likes: 334, comments: 56, image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=300&fit=crop' },
     ],
   },
   {
@@ -241,7 +236,7 @@ export const mockUsers = [
     collateral: 10000,
     investors: 29,
     bio: 'Growth surfer. Running marketing for 6 startups simultaneously. Social is my playground.',
-    color: '#4BBFB5',
+    color: '#5AABA2',
     type: 'surfer',
     tags: ['Marketing', 'Growth', 'Social'],
     missions: 9,
@@ -252,11 +247,9 @@ export const mockUsers = [
       { name: 'Any1', role: 'Growth Lead', status: 'active', deliverable: 'GTM strategy' },
       { name: 'Wolt', role: 'Social', status: 'active', deliverable: 'Campaign mgmt' },
       { name: 'Monday.com', role: 'Growth', status: 'active', deliverable: 'EU expansion' },
-      { name: 'Fiverr', role: 'Content', status: 'completed', deliverable: 'Creator campaign' },
     ],
     posts: [
-      { id: 'p1', type: 'work', text: 'Launched 3 campaigns this week for 3 different brands. All in different verticals. This is what I live for.', time: '2h ago', likes: 93, comments: 17, image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=300&fit=crop' },
-      { id: 'p2', type: 'thought', text: 'People think working for many companies at once is chaotic. It\'s actually the opposite — diversity of context makes you sharper.', time: '4d ago', likes: 187, comments: 29, image: null },
+      { id: 'p1', type: 'work', text: 'Launched 3 campaigns this week for 3 different brands. All in different verticals.', time: '2h ago', likes: 93, comments: 17, image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=300&fit=crop' },
     ],
   },
 ];
@@ -272,7 +265,7 @@ export const myProfile = {
   collateral: 3000,
   investors: 5,
   bio: 'New to Any1. Building my value.',
-  color: '#7B6FF7',
+  color: '#8B85C1',
   type: 'founder',
   tags: ['Startup', 'Vision'],
   missions: 1,
@@ -301,5 +294,3 @@ export const generateChart = (base, change, points = 20) => {
   data.push(base);
   return data;
 };
-
-

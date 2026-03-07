@@ -6,46 +6,46 @@ const TYPES = [
   {
     id: 'investor',
     label: 'Investor',
-    color: '#F5C842',
+    color: '#7A9E7E',
     desc: 'Back people with capital',
     icon: (
-      <svg width={22} height={22} viewBox="0 0 24 24" fill="none">
-        <path d="M12 3L20 9L12 21L4 9L12 3Z" fill="#F5C842" />
-        <path d="M4 9H20M8 9L12 3M16 9L12 3M8 9L12 21M16 9L12 21" stroke="#1C1814" strokeWidth="1.2" strokeLinejoin="round" />
+      <svg width={18} height={18} viewBox="0 0 16 16" fill="none">
+        <path d="M8 2L13 6L8 14L3 6L8 2Z" fill="black" fillOpacity="0.7" />
+        <path d="M3 6H13M6 6L8 2M10 6L8 2M6 6L8 14M10 6L8 14" stroke="black" strokeWidth="0.7" strokeOpacity="0.25" strokeLinejoin="round" />
       </svg>
     ),
   },
   {
     id: 'founder',
     label: 'Founder',
-    color: '#7C6FF7',
+    color: '#8B85C1',
     desc: 'Build with vision, own your company',
     icon: (
-      <svg width={22} height={22} viewBox="0 0 24 24" fill="none">
-        <path d="M12 3L19 12H14V21H10V12H5L12 3Z" fill="#7C6FF7" />
+      <svg width={18} height={18} viewBox="0 0 16 16" fill="none">
+        <path d="M8 2L12 8H9.5V14H6.5V8H4L8 2Z" fill="black" fillOpacity="0.7" />
       </svg>
     ),
   },
   {
     id: 'surfer',
     label: 'Surfer',
-    color: '#2EC4B6',
+    color: '#5AABA2',
     desc: 'Multi-project, stay flexible',
     icon: (
-      <svg width={22} height={22} viewBox="0 0 24 24" fill="none">
-        <path d="M3 12C5 8 8 6 11 8C14 10 17 8 21 5" stroke="#2EC4B6" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M3 17C5 13 8 11 11 13C14 15 17 13 21 10" stroke="#2EC4B6" strokeWidth="1.5" strokeLinecap="round" />
+      <svg width={18} height={18} viewBox="0 0 16 16" fill="none">
+        <path d="M2 9C4 6 6 5 8 7C10 9 12 8 14 5" stroke="black" strokeWidth="1.8" strokeOpacity="0.7" strokeLinecap="round" />
+        <path d="M2 12C4 9 6 8 8 10C10 12 12 11 14 8" stroke="black" strokeWidth="1" strokeOpacity="0.3" strokeLinecap="round" />
       </svg>
     ),
   },
   {
     id: 'expert',
     label: 'Expert',
-    color: '#E8622A',
+    color: '#B8714F',
     desc: 'Master of one craft',
     icon: (
-      <svg width={22} height={22} viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L14.4 9.2H22L16 13.6L18.4 20.8L12 16.4L5.6 20.8L8 13.6L2 9.2H9.6L12 2Z" fill="#E8622A" />
+      <svg width={18} height={18} viewBox="0 0 16 16" fill="none">
+        <path d="M8 1.5L9.5 6H14L10.5 8.5L12 13L8 10.5L4 13L5.5 8.5L2 6H6.5L8 1.5Z" fill="black" fillOpacity="0.7" />
       </svg>
     ),
   },
@@ -75,7 +75,7 @@ export default function Onboarding() {
       avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face',
       cover: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=400&fit=crop',
       location: 'Tel Aviv',
-      color: selectedType?.color || '#2EC4B6',
+      color: selectedType?.color || '#5AABA2',
       tags: [],
     };
     localStorage.setItem('any1_user', JSON.stringify(userData));
@@ -95,7 +95,7 @@ export default function Onboarding() {
         {/* Logo */}
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 36, fontWeight: 300, color: '#F2EDE6', letterSpacing: '-1px' }}>
-            any<span style={{ fontWeight: 900, color: selectedType?.color || '#2EC4B6' }}>1</span>
+            any<span style={{ fontWeight: 900, color: selectedType?.color || '#5AABA2' }}>1</span>
           </div>
         </div>
 
@@ -112,7 +112,7 @@ export default function Onboarding() {
             style={{
               width: '100%',
               background: '#252019',
-              border: `1px solid ${name ? (selectedType?.color || '#2EC4B6') : '#222'}`,
+              border: `1px solid ${name ? (selectedType?.color || '#5AABA2') : '#222'}`,
               borderRadius: 14,
               padding: '14px 16px',
               color: '#F2EDE6',
@@ -182,7 +182,7 @@ export default function Onboarding() {
           disabled={!canGo}
           style={{
             width: '100%',
-            background: canGo ? (selectedType?.color || '#2EC4B6') : '#181818',
+            background: canGo ? (selectedType?.color || '#5AABA2') : '#181818',
             color: canGo ? '#1C1814' : '#3E3528',
             border: 'none',
             borderRadius: 16,
@@ -195,7 +195,7 @@ export default function Onboarding() {
             justifyContent: 'center',
             gap: 8,
             transition: 'all 0.25s ease',
-            boxShadow: canGo ? `0 8px 24px ${selectedType?.color || '#2EC4B6'}44` : 'none',
+            boxShadow: canGo ? `0 8px 24px ${selectedType?.color || '#5AABA2'}44` : 'none',
             letterSpacing: '-0.2px',
           }}
         >
@@ -206,4 +206,5 @@ export default function Onboarding() {
     </div>
   );
 }
+
 

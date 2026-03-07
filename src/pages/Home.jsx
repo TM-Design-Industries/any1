@@ -158,7 +158,7 @@ export default function Home() {
     .sort((a, b) => b.liveChange - a.liveChange)
     .slice(0, 5);
 
-  const rankColors = ['#D4A843', '#AAAAAA', '#CD7F32', '#7A6E62', '#7A6E62'];
+  const rankColors = ['#8B9E6E', '#B5A898', '#B5A898', '#7A6E62', '#7A6E62'];
   const rankLabels = ['#1', '#2', '#3', '#4', '#5'];
 
   return (
@@ -167,8 +167,8 @@ export default function Home() {
       {/* Header */}
       <div style={{
         padding: '54px 20px 0',
-        background: 'linear-gradient(180deg, #0F0F0F 0%, #1C1814 100%)',
-        borderBottom: '1px solid #1A1A1A',
+        background: '#1C1814',
+        borderBottom: '1px solid #332C24',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <span style={{ fontSize: 26, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-0.5px' }}>
@@ -379,45 +379,52 @@ export default function Home() {
       )}
 
       {/* Feed */}
-      <div style={{ padding: '12px 14px 0' }}>
+      <div style={{ padding: '16px 16px 0' }}>
 
-        {/* Leaderboard (TASK-05) */}
-        <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: '#F2EDE6', marginBottom: 12 }}>
-            This Week <span style={{ fontSize: 16 }}>🔥</span>
+        {/* Leaderboard */}
+        <div style={{ marginBottom: 24 }}>
+          <div style={{
+            fontSize: 11, fontWeight: 700, color: '#7A6E62',
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            marginBottom: 14,
+          }}>
+            This Week
           </div>
-          <div style={{ display: 'flex', gap: 10, overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: 4 }}>
+          <div style={{ display: 'flex', gap: 10, overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: 2 }}>
             {leaderboard.map((user, idx) => (
               <div
                 key={user.id}
                 onClick={() => navigate(`/user/${user.id}`)}
                 style={{
                   flexShrink: 0,
-                  width: 100,
-                  background: idx === 0 ? '#1A1400' : '#252019',
-                  border: `1px solid ${idx === 0 ? '#C9A84C66' : '#332C24'}`,
-                  borderRadius: 16, padding: 12,
+                  width: 88,
+                  background: '#252019',
+                  border: `1px solid ${idx === 0 ? '#8B9E6E44' : '#332C24'}`,
+                  borderRadius: 14,
+                  padding: '12px 8px',
                   cursor: 'pointer',
                   textAlign: 'center',
-                  animation: idx === 0 ? 'goldGlow 2s infinite' : 'none',
                 }}
               >
                 <div style={{
-                  fontSize: 12, fontWeight: 800,
+                  fontSize: 10, fontWeight: 700,
                   color: rankColors[idx],
                   marginBottom: 8,
+                  letterSpacing: '0.05em',
                 }}>
                   {rankLabels[idx]}
                 </div>
                 <img src={user.avatar} alt="" style={{
-                  width: 44, height: 44, borderRadius: '50%',
-                  border: `2px solid ${rankColors[idx]}66`,
+                  width: 40, height: 40, borderRadius: '50%',
+                  border: `1.5px solid ${rankColors[idx]}55`,
                   marginBottom: 8,
+                  display: 'block',
+                  margin: '0 auto 8px',
                 }} />
-                <div style={{ fontSize: 11, fontWeight: 600, color: '#F2EDE6', marginBottom: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#B5A898', marginBottom: 4 }}>
                   {user.name.split(' ')[0]}
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 800, color: '#8B9E6E' }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#8B9E6E' }}>
                   +{user.liveChange.toFixed(1)}%
                 </div>
               </div>
