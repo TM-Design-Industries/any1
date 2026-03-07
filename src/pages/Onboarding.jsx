@@ -51,7 +51,7 @@ const TYPES = [
   },
 ];
 
-export default function Onboarding() {
+export default function Onboarding({ onComplete }) {
   const navigate = useNavigate();
   const [type, setType] = useState(null);
   const [name, setName] = useState('');
@@ -75,10 +75,11 @@ export default function Onboarding() {
       avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face',
       cover: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=400&fit=crop',
       location: 'Tel Aviv',
-      color: selectedType?.color || '#5AABA2',
+      color: selectedType?.color || '#C9A84C',
       tags: [],
     };
     localStorage.setItem('any1_user', JSON.stringify(userData));
+    if (onComplete) onComplete();
     navigate('/');
   };
 

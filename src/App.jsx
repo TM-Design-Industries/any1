@@ -38,7 +38,7 @@ function AppRouter() {
     return (
       <Routes>
         <Route path="*" element={<Navigate to="/onboarding" replace />} />
-        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/onboarding" element={<Onboarding onComplete={() => setHasUser(true)} />} />
       </Routes>
     );
   }
