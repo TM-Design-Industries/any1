@@ -118,7 +118,7 @@ export const mockUsers = [
     id: '4',
     name: 'Shira Katz',
     handle: '@shirak',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face',
+    avatar: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=300&h=300&fit=crop&crop=face',
     cover: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=400&fit=crop',
     marketCap: 19400,
     change: 0.6,
