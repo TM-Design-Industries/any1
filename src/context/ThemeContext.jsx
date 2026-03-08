@@ -3,40 +3,40 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export const DARK = {
-  bg:       '#221E1A',
-  surface:  '#2A2520',
-  surface2: '#1A1612',
-  border:   '#2A2520',
-  border2:  '#3E3528',
-  text:     '#F2EDE6',
-  text2:    '#B5A898',
-  muted:    '#7A6E62',
-  accent:   '#C9A84C',
-  up:       '#7A9E7E',
-  down:     '#C0564A',
-  navBg:    '#1A1612F0',
-  headerBg: '#221E1A',
-  inputBg:  '#1A1612',
-  cardBg:   '#2A2520',
+  bg:       '#1C1A18',
+  surface:  '#252320',
+  surface2: '#161412',
+  border:   '#2E2B27',
+  border2:  '#3A3630',
+  text:     '#EDE9E3',
+  text2:    '#A89F94',
+  muted:    '#706660',
+  accent:   '#C2A45A',
+  up:       '#6B9470',
+  down:     '#B85449',
+  navBg:    '#161412F0',
+  headerBg: '#1C1A18',
+  inputBg:  '#161412',
+  cardBg:   '#252320',
   isDark:   true,
 };
 
 export const LIGHT = {
-  bg:       '#F0EDEA',
-  surface:  '#E3E2E1',
-  surface2: '#F5F3F1',
-  border:   '#D4D0CB',
-  border2:  '#C8C3BC',
-  text:     '#2A2218',
-  text2:    '#5A4E44',
-  muted:    '#8C7E72',
-  accent:   '#C9A84C',
-  up:       '#4A7A4E',
-  down:     '#A03428',
-  navBg:    '#E3E2E1F0',
-  headerBg: '#F0EDEA',
-  inputBg:  '#E3E2E1',
-  cardBg:   '#E3E2E1',
+  bg:       '#F2EFE9',
+  surface:  '#E8E4DC',
+  surface2: '#F8F5F0',
+  border:   '#D8D3C8',
+  border2:  '#C9C3B6',
+  text:     '#1E1C19',
+  text2:    '#4A4540',
+  muted:    '#847870',
+  accent:   '#C2A45A',
+  up:       '#4A7A50',
+  down:     '#9B3E35',
+  navBg:    '#E8E4DCF0',
+  headerBg: '#F2EFE9',
+  inputBg:  '#E8E4DC',
+  cardBg:   '#E8E4DC',
   isDark:   false,
 };
 
@@ -54,7 +54,6 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('any1_theme', next ? 'dark' : 'light');
   };
 
-  // Apply bg to body
   useEffect(() => {
     document.body.style.background = theme.bg;
   }, [isDark]);
