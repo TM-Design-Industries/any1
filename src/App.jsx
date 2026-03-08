@@ -20,7 +20,6 @@ function AppRouter() {
   const [hasUser, setHasUser] = useState(false);
   const [ready, setReady] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const { theme } = useTheme();
 
   useEffect(() => {
     const stored = localStorage.getItem('any1_user');
@@ -76,17 +75,38 @@ export default function App() {
 
 function AppInner() {
   const { theme } = useTheme();
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 430
+  );
+
+  useEffect(() => {
+    const handler = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+
+  const isWide = windowWidth >= 768;
+
   return (
     <div style={{
-      maxWidth: 430,
-      margin: '0 auto',
       minHeight: '100vh',
-      background: theme.bg,
+      background: isWide ? '#0F0E0D' : theme.bg,
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'center',
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-      position: 'relative',
-      transition: 'background 0.3s ease',
     }}>
-      <AppRouter />
+      <div style={{
+        width: '100%',
+        maxWidth: 430,
+        minHeight: '100vh',
+        background: theme.bg,
+        position: 'relative',
+        transition: 'background 0.3s ease',
+        boxShadow: isWide ? '0 0 80px rgba(0,0,0,0.7)' : 'none',
+      }}>
+        <AppRouter />
+      </div>
     </div>
   );
 }
