@@ -72,7 +72,7 @@ export default function SettingsDrawer({ open, onClose }) {
               <div style={{ fontSize: 11, color: theme.muted }}>Switch appearance</div>
             </div>
             {/* Toggle switch */}
-            <div onClick={toggle} style={{ width: 46, height: 26, borderRadius: 13, background: mode === 'dark' ? '#7B6FBF' : '#D4A843', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', flexShrink: 0 }}>
+            <div onClick={toggleTheme} style={{ width: 46, height: 26, borderRadius: 13, background: mode === 'dark' ? '#7B6FBF' : '#D4A843', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', flexShrink: 0 }}>
               <div style={{ position: 'absolute', top: 3, left: mode === 'dark' ? 22 : 3, width: 20, height: 20, borderRadius: '50%', background: '#fff', transition: 'left 0.3s', boxShadow: '0 1px 4px #00000033' }} />
             </div>
           </div>
