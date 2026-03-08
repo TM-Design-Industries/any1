@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import { mockUsers, USER_TYPES, generateChart } from '../data/mockData';
 import BottomNav from '../components/BottomNav';
 import MiniChart from '../components/MiniChart';
@@ -40,6 +41,7 @@ const ACTIONS = [
 
 export default function Profile({ onSettingsOpen }) {
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const base = ME || {};
   const [userData, setUserData] = useState(() => {
     try {
