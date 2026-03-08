@@ -61,6 +61,9 @@ export default function Profile({ onSettingsOpen }) {
 
   // Modals
   const [editMode, setEditMode] = useState(false);
+  const [publicView, setPublicView] = useState(false);
+  const [avatar, setAvatar] = useState(() => localStorage.getItem('any1_avatar') || user?.avatar);
+  const [cover, setCover] = useState(() => localStorage.getItem('any1_cover') || null);
   const [editBio, setEditBio] = useState(user.bio || '');
   const [editLocation, setEditLocation] = useState(user.location || '');
   const [savedToast, setSavedToast] = useState(false);
@@ -78,6 +81,30 @@ export default function Profile({ onSettingsOpen }) {
   });
 
   const allPosts = [...(user.posts || []), ...myPosts];
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const b64 = ev.target.result;
+      setAvatar(b64);
+      localStorage.setItem('any1_avatar', b64);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCoverChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const b64 = ev.target.result;
+      setCover(b64);
+      localStorage.setItem('any1_cover', b64);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const saveEdit = () => {
     const updated = { ...user, bio: editBio, location: editLocation };

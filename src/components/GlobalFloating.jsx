@@ -1,147 +1,139 @@
 import { useState } from 'react';
-import { Bell, MessageCircle, X, TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
+import { Bell, MessageCircle, X } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
-const MOCK_NOTIFS = [
-  { id: 'n1', type: 'price', icon: TrendingUp,  text: 'Ahavat Gordon up 11.7%',       sub: 'You backed them',          time: '3m ago',  color: '#7A9E7E', link: '/user/15' },
-  { id: 'n2', type: 'back',  icon: DollarSign,  text: 'Oren Cohen backed you',        sub: '+$50 to your valuation',   time: '12m ago', color: '#C9A84C', link: '/profile' },
-  { id: 'n3', type: 'price', icon: TrendingDown,text: 'Eyal Shani down 2.1%',         sub: 'Portfolio impact: -$0.80', time: '1h ago',  color: '#C0564A', link: '/user/11' },
-  { id: 'n4', type: 'price', icon: TrendingUp,  text: 'Omer Adam up 9.3% today',      sub: 'Market momentum',          time: '2h ago',  color: '#7A9E7E', link: '/user/14' },
+const NOTIFICATIONS = [
+  { id: 'n1', text: 'Oren Cohen believed in you', sub: 'backed you for $10', time: '2m', link: '/user/3', read: false },
+  { id: 'n2', text: 'Noa Ben David is following you', sub: 'started following', time: '15m', link: '/user/6', read: false },
+  { id: 'n3', text: 'Your portfolio is up 8.3% today', sub: 'Great day!', time: '1h', link: '/portfolio', read: false },
+  { id: 'n4', text: 'Maya Levi applied to your mission', sub: 'Design mission', time: '2h', link: '/missions', read: true },
+  { id: 'n5', text: 'Ahavat Gordon up 11.7%', sub: 'you believed in them', time: '3h', link: '/user/15', read: true },
 ];
 
-const MOCK_MESSAGES = [
-  { id: 'm1', from: 'Dovi Frances', avatar: '/dovi-frances.jpg', text: 'Interested in discussing a collaboration on your next project.', time: '5m ago',  read: false, link: '/user/12' },
-  { id: 'm2', from: 'Yehuda Levi',  avatar: '/yehuda-levi.jpg',  text: 'Great work on the Air One project! Would love to connect.', time: '1h ago',  read: false, link: '/user/10' },
-  { id: 'm3', from: 'Eyal Shani',   avatar: '/eyal-shani.jpg',   text: 'Looking for a designer for a new Miznon concept.',           time: '3h ago',  read: true,  link: '/user/11' },
+const MESSAGES = [
+  { id: 'm1', from: 'Dovi Frances', text: 'Loved your last post', time: '5m', link: '/chat/2', read: false, avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face' },
+  { id: 'm2', from: 'Eyal Shani', text: 'Want to collaborate?', time: '1h', link: '/chat/4', read: false, avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=60&h=60&fit=crop&crop=face' },
+  { id: 'm3', from: 'Omer Adam', text: 'Thanks for the support!', time: '2h', link: '/chat/5', read: true, avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face' },
 ];
 
 export default function GlobalFloating() {
   const { theme } = useTheme();
   const navigate = useNavigate();
-  const [panel, setPanel] = useState(null); // null | 'notifs' | 'messages'
-  const [readN, setReadN] = useState([]);
-  const [readM, setReadM] = useState([]);
+  const [panel, setPanel] = useState(null);
+  const [readNotifs, setReadNotifs] = useState([]);
+  const [readMsgs, setReadMsgs] = useState([]);
 
-  const unreadN = MOCK_NOTIFS.filter(n => !readN.includes(n.id)).length;
-  const unreadM = MOCK_MESSAGES.filter(m => !m.read && !readM.includes(m.id)).length;
+  const unreadNotifs = NOTIFICATIONS.filter(n => !n.read && !readNotifs.includes(n.id)).length;
+  const unreadMsgs = MESSAGES.filter(m => !m.read && !readMsgs.includes(m.id)).length;
 
-  const openPanel = (p) => {
-    setPanel(prev => prev === p ? null : p);
-    if (p === 'notifs') setReadN(MOCK_NOTIFS.map(n => n.id));
-    if (p === 'messages') setReadM(MOCK_MESSAGES.map(m => m.id));
+  const togglePanel = (p) => {
+    if (panel === p) { setPanel(null); return; }
+    setPanel(p);
+    if (p === 'notifs') setReadNotifs(NOTIFICATIONS.map(n => n.id));
+    if (p === 'messages') setReadMsgs(MESSAGES.map(m => m.id));
   };
+
+  const btnStyle = (active) => ({
+    width: 34, height: 34, borderRadius: '50%',
+    background: active ? `${theme.accent}22` : `${theme.surface2}cc`,
+    border: `1px solid ${active ? theme.accent : theme.border}`,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    cursor: 'pointer', position: 'relative',
+    backdropFilter: 'blur(8px)',
+  });
 
   return (
     <>
-      {/* Floating buttons - top right */}
+      {/* Top-right floating icons */}
       <div style={{
-        position: 'fixed', top: 52, right: 16, zIndex: 500,
-        display: 'flex', gap: 8, alignItems: 'center',
+        position: 'fixed', top: 52, right: 16,
+        display: 'flex', gap: 8, zIndex: 200,
       }}>
-        {/* Messages */}
-        <button onClick={() => openPanel('messages')} style={{
-          width: 36, height: 36, borderRadius: '50%',
-          background: panel === 'messages' ? `${theme.accent}22` : `${theme.surface2}cc`,
-          backdropFilter: 'blur(12px)',
-          border: `1px solid ${panel === 'messages' ? theme.accent : theme.border}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', position: 'relative',
-        }}>
-          <MessageCircle size={16} color={panel === 'messages' ? theme.accent : theme.muted} strokeWidth={1.8} />
-          {unreadM > 0 && (
-            <div style={{ position: 'absolute', top: -2, right: -2, width: 14, height: 14, borderRadius: '50%', background: '#C0564A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 800, color: '#fff', border: `1.5px solid ${theme.bg}` }}>
-              {unreadM}
+        <button onClick={() => togglePanel('notifs')} style={btnStyle(panel === 'notifs')}>
+          <Bell size={16} color={panel === 'notifs' ? theme.accent : theme.muted} strokeWidth={1.8} />
+          {unreadNotifs > 0 && (
+            <div style={{ position: 'absolute', top: -3, right: -3, width: 15, height: 15, borderRadius: '50%', background: theme.down, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 800, color: '#fff', border: `1.5px solid ${theme.bg}` }}>
+              {unreadNotifs}
             </div>
           )}
         </button>
 
-        {/* Notifications */}
-        <button onClick={() => openPanel('notifs')} style={{
-          width: 36, height: 36, borderRadius: '50%',
-          background: panel === 'notifs' ? `${theme.accent}22` : `${theme.surface2}cc`,
-          backdropFilter: 'blur(12px)',
-          border: `1px solid ${panel === 'notifs' ? theme.accent : theme.border}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', position: 'relative',
-        }}>
-          <Bell size={16} color={panel === 'notifs' ? theme.accent : theme.muted} strokeWidth={1.8} />
-          {unreadN > 0 && (
-            <div style={{ position: 'absolute', top: -2, right: -2, width: 14, height: 14, borderRadius: '50%', background: '#C0564A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 800, color: '#fff', border: `1.5px solid ${theme.bg}` }}>
-              {unreadN}
+        <button onClick={() => togglePanel('messages')} style={btnStyle(panel === 'messages')}>
+          <MessageCircle size={16} color={panel === 'messages' ? theme.accent : theme.muted} strokeWidth={1.8} />
+          {unreadMsgs > 0 && (
+            <div style={{ position: 'absolute', top: -3, right: -3, width: 15, height: 15, borderRadius: '50%', background: theme.down, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 800, color: '#fff', border: `1.5px solid ${theme.bg}` }}>
+              {unreadMsgs}
             </div>
           )}
         </button>
       </div>
 
-      {/* Overlay */}
-      {panel && <div style={{ position: 'fixed', inset: 0, zIndex: 498 }} onClick={() => setPanel(null)} />}
-
       {/* Notifications panel */}
       {panel === 'notifs' && (
         <div style={{
-          position: 'fixed', top: 94, right: 16, width: 300, maxHeight: '60vh',
+          position: 'fixed', top: 92, right: 12, width: 300, maxHeight: '60vh',
           background: theme.surface, border: `1px solid ${theme.border}`,
-          borderRadius: 18, zIndex: 499, overflow: 'hidden',
-          boxShadow: '0 8px 40px #00000066',
-          animation: 'fadeDown 0.2s ease',
+          borderRadius: 16, zIndex: 200, overflowY: 'auto',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+          animation: 'slideDown 0.2s ease',
         }}>
-          <style>{`@keyframes fadeDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }`}</style>
+          <style>{`@keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }`}</style>
           <div style={{ padding: '14px 16px 10px', borderBottom: `1px solid ${theme.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: 14, fontWeight: 700, color: theme.text }}>Alerts</span>
             <button onClick={() => setPanel(null)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={15} color={theme.muted} /></button>
           </div>
-          <div style={{ overflowY: 'auto', maxHeight: 'calc(60vh - 48px)' }}>
-            {MOCK_NOTIFS.map(n => {
-              const Icon = n.icon;
-              return (
-                <div key={n.id} onClick={() => { setPanel(null); navigate(n.link); }} style={{ display: 'flex', gap: 10, padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, cursor: 'pointer' }}>
-                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: `${n.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Icon size={14} color={n.color} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 13, color: theme.text, fontWeight: 600, marginBottom: 2 }}>{n.text}</div>
-                    <div style={{ fontSize: 11, color: theme.muted }}>{n.sub} · {n.time}</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {NOTIFICATIONS.map(n => (
+            <div key={n.id} onClick={() => { setPanel(null); navigate(n.link); }} style={{ display: 'flex', gap: 10, padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, cursor: 'pointer' }}
+              onMouseEnter={e => e.currentTarget.style.background = theme.surface2}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: n.read ? theme.border2 : theme.accent, marginTop: 5, flexShrink: 0 }} />
+              <div>
+                <div style={{ fontSize: 13, color: theme.text, fontWeight: n.read ? 400 : 600, marginBottom: 2 }}>{n.text}</div>
+                <div style={{ fontSize: 11, color: theme.muted }}>{n.sub} · {n.time}</div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
       {/* Messages panel */}
       {panel === 'messages' && (
         <div style={{
-          position: 'fixed', top: 94, right: 16, width: 300, maxHeight: '60vh',
+          position: 'fixed', top: 92, right: 12, width: 300, maxHeight: '60vh',
           background: theme.surface, border: `1px solid ${theme.border}`,
-          borderRadius: 18, zIndex: 499, overflow: 'hidden',
-          boxShadow: '0 8px 40px #00000066',
-          animation: 'fadeDown 0.2s ease',
+          borderRadius: 16, zIndex: 200, overflowY: 'auto',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+          animation: 'slideDown 0.2s ease',
         }}>
           <div style={{ padding: '14px 16px 10px', borderBottom: `1px solid ${theme.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: 14, fontWeight: 700, color: theme.text }}>Messages</span>
             <button onClick={() => setPanel(null)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={15} color={theme.muted} /></button>
           </div>
-          <div style={{ overflowY: 'auto', maxHeight: 'calc(60vh - 48px)' }}>
-            {MOCK_MESSAGES.map(m => {
-              const isUnread = !m.read && !readM.includes(m.id);
-              return (
-                <div key={m.id} onClick={() => { setPanel(null); navigate(m.link); }} style={{ display: 'flex', gap: 10, padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, cursor: 'pointer', background: isUnread ? `${theme.accent}08` : 'transparent' }}>
-                  <img src={m.avatar} alt="" style={{ width: 36, height: 36, borderRadius: '50%', flexShrink: 0, objectFit: 'cover' }} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
-                      <span style={{ fontSize: 13, fontWeight: isUnread ? 700 : 600, color: theme.text }}>{m.from}</span>
-                      <span style={{ fontSize: 10, color: theme.muted }}>{m.time}</span>
-                    </div>
-                    <div style={{ fontSize: 12, color: theme.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.text}</div>
+          {MESSAGES.map(m => {
+            const isUnread = !m.read && !readMsgs.includes(m.id);
+            return (
+              <div key={m.id} onClick={() => { setPanel(null); navigate(m.link); }} style={{ display: 'flex', gap: 10, padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, cursor: 'pointer', background: isUnread ? `${theme.accent}08` : 'transparent' }}
+                onMouseEnter={e => e.currentTarget.style.background = theme.surface2}
+                onMouseLeave={e => e.currentTarget.style.background = isUnread ? `${theme.accent}08` : 'transparent'}>
+                <img src={m.avatar} alt="" style={{ width: 36, height: 36, borderRadius: '50%', flexShrink: 0, objectFit: 'cover' }} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 13, fontWeight: isUnread ? 700 : 600, color: theme.text }}>{m.from}</span>
+                    <span style={{ fontSize: 10, color: theme.muted }}>{m.time}</span>
                   </div>
-                  {isUnread && <div style={{ width: 7, height: 7, borderRadius: '50%', background: theme.accent, flexShrink: 0, marginTop: 4 }} />}
+                  <div style={{ fontSize: 12, color: theme.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.text}</div>
                 </div>
-              );
-            })}
-          </div>
+                {isUnread && <div style={{ width: 7, height: 7, borderRadius: '50%', background: theme.accent, flexShrink: 0, marginTop: 4 }} />}
+              </div>
+            );
+          })}
         </div>
+      )}
+
+      {/* Click outside to close */}
+      {panel && (
+        <div onClick={() => setPanel(null)} style={{ position: 'fixed', inset: 0, zIndex: 199 }} />
       )}
     </>
   );

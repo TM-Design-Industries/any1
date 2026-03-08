@@ -3,7 +3,7 @@ import { X, Sun, Moon, DollarSign, ChevronRight, Shield, Bell, HelpCircle, LogOu
 import { useTheme } from '../context/ThemeContext';
 
 export default function SettingsDrawer({ open, onClose }) {
-  const { theme, isDark, toggle } = useTheme();
+  const { theme, mode, toggleTheme } = useTheme();
   const [depositOpen, setDepositOpen] = useState(false);
   const [depositAmount, setDepositAmount] = useState('');
   const [depositDone, setDepositDone] = useState(false);
@@ -64,16 +64,16 @@ export default function SettingsDrawer({ open, onClose }) {
 
           {/* Theme toggle */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 12px', marginBottom: 4 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 12, background: `${isDark ? '#7B6FBF' : '#D4A843'}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {isDark ? <Moon size={18} color="#7B6FBF" /> : <Sun size={18} color="#D4A843" />}
+            <div style={{ width: 38, height: 38, borderRadius: 12, background: `${mode === 'dark' ? '#7B6FBF' : '#D4A843'}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {mode === 'dark' ? <Moon size={18} color="#7B6FBF" /> : <Sun size={18} color="#D4A843" />}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: theme.text }}>{isDark ? 'Dark mode' : 'Light mode'}</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: theme.text }}>{mode === 'dark' ? 'Dark mode' : 'Light mode'}</div>
               <div style={{ fontSize: 11, color: theme.muted }}>Switch appearance</div>
             </div>
             {/* Toggle switch */}
-            <div onClick={toggle} style={{ width: 46, height: 26, borderRadius: 13, background: isDark ? '#7B6FBF' : '#D4A843', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', flexShrink: 0 }}>
-              <div style={{ position: 'absolute', top: 3, left: isDark ? 22 : 3, width: 20, height: 20, borderRadius: '50%', background: '#fff', transition: 'left 0.3s', boxShadow: '0 1px 4px #00000033' }} />
+            <div onClick={toggle} style={{ width: 46, height: 26, borderRadius: 13, background: mode === 'dark' ? '#7B6FBF' : '#D4A843', cursor: 'pointer', position: 'relative', transition: 'background 0.3s', flexShrink: 0 }}>
+              <div style={{ position: 'absolute', top: 3, left: mode === 'dark' ? 22 : 3, width: 20, height: 20, borderRadius: '50%', background: '#fff', transition: 'left 0.3s', boxShadow: '0 1px 4px #00000033' }} />
             </div>
           </div>
 

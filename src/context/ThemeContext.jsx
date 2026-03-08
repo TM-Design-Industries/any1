@@ -1,68 +1,46 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
-const ThemeContext = createContext();
-
-export const DARK = {
-  bg:       '#1C1A18',
-  surface:  '#252320',
-  surface2: '#161412',
-  border:   '#2E2B27',
-  border2:  '#3A3630',
-  text:     '#EDE9E3',
-  text2:    '#A89F94',
-  muted:    '#706660',
-  accent:   '#C2A45A',
-  up:       '#6B9470',
-  down:     '#B85449',
-  navBg:    '#161412F0',
-  headerBg: '#1C1A18',
-  inputBg:  '#161412',
-  cardBg:   '#252320',
-  isDark:   true,
+const DARK = {
+  bg: '#1C1A18', surface: '#252220', surface2: '#2A2520',
+  text: '#F2EDE6', text2: '#C8BFB4', muted: '#7A6E62',
+  border: '#2E2A24', border2: '#3E3528',
+  accent: '#C9A84C', up: '#6B9470', down: '#B85449',
+  navBg: 'rgba(26,22,18,0.96)',
 };
 
-export const LIGHT = {
-  bg:       '#F2EFE9',
-  surface:  '#E8E4DC',
-  surface2: '#F8F5F0',
-  border:   '#D8D3C8',
-  border2:  '#C9C3B6',
-  text:     '#1E1C19',
-  text2:    '#4A4540',
-  muted:    '#847870',
-  accent:   '#C2A45A',
-  up:       '#4A7A50',
-  down:     '#9B3E35',
-  navBg:    '#E8E4DCF0',
-  headerBg: '#F2EFE9',
-  inputBg:  '#E8E4DC',
-  cardBg:   '#E8E4DC',
-  isDark:   false,
+const LIGHT = {
+  bg: '#E3E2E1', surface: '#D8D6D4', surface2: '#CECCC9',
+  text: '#1C1A18', text2: '#3A3530', muted: '#6B6560',
+  border: '#C8C5C0', border2: '#B8B4AE',
+  accent: '#9E7A28', up: '#3D6B42', down: '#8B3B32',
+  navBg: 'rgba(227,226,225,0.96)',
 };
+
+const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  const [isDark, setIsDark] = useState(() => {
-    const saved = localStorage.getItem('any1_theme');
-    return saved ? saved === 'dark' : true;
-  });
-
-  const theme = isDark ? DARK : LIGHT;
-
-  const toggle = () => {
-    const next = !isDark;
-    setIsDark(next);
-    localStorage.setItem('any1_theme', next ? 'dark' : 'light');
-  };
+  const [mode, setMode] = useState(() => localStorage.getItem('any1_theme') || 'dark');
+  const theme = mode === 'dark' ? DARK : LIGHT;
 
   useEffect(() => {
     document.body.style.background = theme.bg;
-  }, [isDark]);
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const next = mode === 'dark' ? 'light' : 'dark';
+    setMode(next);
+    localStorage.setItem('any1_theme', next);
+  };
 
   return (
-    <ThemeContext.Provider value={{ theme, isDark, toggle }}>
+    <ThemeContext.Provider value={{ theme, mode, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 }
 
-export const useTheme = () => useContext(ThemeContext);
+export function useTheme() {
+  return useContext(ThemeContext);
+}
