@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Send } from 'lucide-react';
 import { mockUsers } from '../data/mockData';
+import { useTheme } from '../context/ThemeContext';
 
 const MOCK_CONVOS = {
   '1': [
@@ -27,6 +28,7 @@ const MOCK_CONVOS = {
 export default function Chat() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const user = mockUsers.find(u => u.id === id);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
@@ -50,12 +52,7 @@ export default function Chat() {
     if (!input.trim()) return;
     const now = new Date();
     const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    const newMsg = {
-      id: Date.now(),
-      from: 'me',
-      text: input.trim(),
-      time: timeStr,
-    };
+    const newMsg = { id: Date.now(), from: 'me', text: input.trim(), time: timeStr };
     const updated = [...messages, newMsg];
     setMessages(updated);
     localStorage.setItem(storageKey, JSON.stringify(updated));
@@ -65,44 +62,33 @@ export default function Chat() {
   if (!user) return null;
 
   return (
-    <div style={{
-      minHeight: '100vh', background: '#221E1A',
-      display: 'flex', flexDirection: 'column',
-    }}>
+    <div style={{ minHeight: '100vh', background: theme.bg, display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
       <div style={{
-        padding: '54px 16px 14px',
-        background: '#221E1A',
-        borderBottom: '1px solid #1F1F1F',
+        padding: '54px 16px 14px', background: theme.bg,
+        borderBottom: `1px solid ${theme.border}`,
         display: 'flex', alignItems: 'center', gap: 12,
         position: 'sticky', top: 0, zIndex: 10,
       }}>
-        <button
-          onClick={() => navigate(-1)}
-          style={{
-            background: '#2A2520', border: '1px solid #1F1F1F',
-            borderRadius: 10, padding: 8, cursor: 'pointer',
-            flexShrink: 0,
-          }}
-        >
-          <ArrowLeft size={18} color="#F2EDE6" />
+        <button onClick={() => navigate(-1)} style={{
+          background: theme.surface, border: `1px solid ${theme.border}`,
+          borderRadius: 10, padding: 8, cursor: 'pointer', flexShrink: 0,
+        }}>
+          <ArrowLeft size={18} color={theme.text} />
         </button>
         <img src={user.avatar} alt="" style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#F2EDE6' }}>{user.name}</div>
-          <div style={{ fontSize: 12, color: '#C9A84C', display: 'flex', alignItems: 'center', gap: 4 }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#C9A84C' }} />
+          <div style={{ fontSize: 15, fontWeight: 700, color: theme.text }}>{user.name}</div>
+          <div style={{ fontSize: 12, color: theme.accent, display: 'flex', alignItems: 'center', gap: 4 }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: theme.accent }} />
             Active now
           </div>
         </div>
-        <button
-          onClick={() => navigate(`/user/${id}`)}
-          style={{
-            background: '#2A2520', border: '1px solid #1F1F1F',
-            borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
-            fontSize: 12, color: '#7A6E62',
-          }}
-        >
+        <button onClick={() => navigate(`/user/${id}`)} style={{
+          background: theme.surface, border: `1px solid ${theme.border}`,
+          borderRadius: 10, padding: '6px 12px', cursor: 'pointer',
+          fontSize: 12, color: theme.muted,
+        }}>
           Profile
         </button>
       </div>
@@ -110,14 +96,11 @@ export default function Chat() {
       {/* Messages */}
       <div style={{ flex: 1, padding: '16px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {messages.map(msg => (
-          <div
-            key={msg.id}
-            style={{
-              display: 'flex',
-              justifyContent: msg.from === 'me' ? 'flex-end' : 'flex-start',
-              animation: 'slideUp 0.2s ease',
-            }}
-          >
+          <div key={msg.id} style={{
+            display: 'flex',
+            justifyContent: msg.from === 'me' ? 'flex-end' : 'flex-start',
+            animation: 'slideUp 0.2s ease',
+          }}>
             {msg.from === 'them' && (
               <img src={user.avatar} alt="" style={{
                 width: 28, height: 28, borderRadius: '50%',
@@ -126,17 +109,16 @@ export default function Chat() {
             )}
             <div style={{ maxWidth: '75%' }}>
               <div style={{
-                background: msg.from === 'me' ? '#C9A84C' : '#332D27',
-                color: msg.from === 'me' ? '#221E1A' : '#F2EDE6',
+                background: msg.from === 'me' ? theme.accent : theme.surface,
+                color: msg.from === 'me' ? '#1C1A18' : theme.text,
                 borderRadius: msg.from === 'me' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                padding: '10px 14px',
-                fontSize: 14, lineHeight: 1.5,
+                padding: '10px 14px', fontSize: 14, lineHeight: 1.5,
                 fontWeight: msg.from === 'me' ? 500 : 400,
               }}>
                 {msg.text}
               </div>
               <div style={{
-                fontSize: 10, color: '#7A6E62',
+                fontSize: 10, color: theme.muted,
                 textAlign: msg.from === 'me' ? 'right' : 'left',
                 marginTop: 4, paddingRight: 4, paddingLeft: 4,
               }}>
@@ -150,9 +132,8 @@ export default function Chat() {
 
       {/* Input bar */}
       <div style={{
-        padding: '12px 16px 32px',
-        background: '#221E1A',
-        borderTop: '1px solid #1F1F1F',
+        padding: '12px 16px 32px', background: theme.bg,
+        borderTop: `1px solid ${theme.border}`,
         display: 'flex', gap: 10, alignItems: 'center',
       }}>
         <input
@@ -161,30 +142,23 @@ export default function Chat() {
           onKeyDown={e => e.key === 'Enter' && sendMessage()}
           placeholder="Message..."
           style={{
-            flex: 1, background: '#332D27',
-            border: '1px solid #252525', borderRadius: 20,
-            padding: '12px 16px', color: '#F2EDE6',
+            flex: 1, background: theme.surface,
+            border: `1px solid ${theme.border2}`, borderRadius: 20,
+            padding: '12px 16px', color: theme.text,
             fontSize: 14, outline: 'none',
           }}
         />
-        <button
-          onClick={sendMessage}
-          style={{
-            width: 44, height: 44, borderRadius: '50%',
-            background: input.trim() ? '#C9A84C' : '#332D27',
-            border: `1px solid ${input.trim() ? '#C9A84C' : '#3E3528'}`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: input.trim() ? 'pointer' : 'default',
-            flexShrink: 0,
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <Send size={16} color={input.trim() ? '#221E1A' : '#7A6E62'} />
+        <button onClick={sendMessage} style={{
+          width: 44, height: 44, borderRadius: '50%',
+          background: input.trim() ? theme.accent : theme.surface,
+          border: `1px solid ${input.trim() ? theme.accent : theme.border2}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: input.trim() ? 'pointer' : 'default',
+          flexShrink: 0, transition: 'all 0.2s ease',
+        }}>
+          <Send size={16} color={input.trim() ? '#1C1A18' : theme.muted} />
         </button>
       </div>
     </div>
   );
 }
-
-
-
