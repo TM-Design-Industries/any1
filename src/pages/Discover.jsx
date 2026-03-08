@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { mockUsers, USER_TYPES } from '../data/mockData';
 import SwipeCard from '../components/SwipeCard';
 import BottomNav from '../components/BottomNav';
-import { X, Heart, DollarSign, RotateCcw } from 'lucide-react';
+import { X, Heart, RotateCcw, ArrowUp, CheckCircle, DollarSign } from 'lucide-react';
 
 export default function Discover() {
   const navigate = useNavigate();
@@ -11,232 +11,226 @@ export default function Discover() {
   const [passed, setPassed] = useState([]);
   const [interested, setInterested] = useState([]);
   const [filter, setFilter] = useState('all');
+  const [showBackModal, setShowBackModal] = useState(false);
+  const [backUser, setBackUser] = useState(null);
+  const [backAmount, setBackAmount] = useState('');
+  const [backed, setBacked] = useState(false);
+  const [lastAction, setLastAction] = useState(null); // for undo
 
   const filtered = stack.filter(u => filter === 'all' || u.type === filter);
+  const topCards = filtered.slice(-3);
   const topUser = filtered[filtered.length - 1];
 
   const handlePass = (user) => {
-    setPassed(p => [...p, user]);
+    setLastAction({ type: 'pass', user });
     setStack(s => s.filter(u => u.id !== user.id));
+    setPassed(p => [...p, user]);
   };
 
   const handleInterested = (user) => {
-    setInterested(i => [...i, user]);
+    setLastAction({ type: 'interested', user });
     setStack(s => s.filter(u => u.id !== user.id));
+    setInterested(i => [...i, user]);
   };
 
-  const handleInvest = (user) => {
-    navigate(`/user/${user.id}`);
+  const handleSwipeUp = (user) => {
+    setBackUser(user);
+    setShowBackModal(true);
+    setBacked(false);
+    setBackAmount('');
   };
 
   const handleUndo = () => {
-    if (passed.length > 0) {
-      const last = passed[passed.length - 1];
-      setPassed(p => p.slice(0, -1));
-      setStack(s => [...s, last]);
-    }
+    if (!lastAction) return;
+    setStack(s => [...s, lastAction.user]);
+    if (lastAction.type === 'pass') setPassed(p => p.filter(u => u.id !== lastAction.user.id));
+    if (lastAction.type === 'interested') setInterested(i => i.filter(u => u.id !== lastAction.user.id));
+    setLastAction(null);
   };
 
-  const topCards = filtered.slice(-3);
-
-  // Match reason hint
-  const getHint = (user) => {
-    if (!user) return '';
-    if (user.change > 8) return `🔥 Up ${user.change}% this week`;
-    if (user.type === 'expert') return `⭐ Expert in their craft`;
-    if (user.investors > 40) return `👥 ${user.investors} people believe in them`;
-    return `💡 Shared your interests`;
+  const confirmBack = () => {
+    if (!backAmount || !backUser) return;
+    const portfolio = JSON.parse(localStorage.getItem('any1_portfolio') || '[]');
+    if (!portfolio.find(p => p.userId === backUser.id)) {
+      portfolio.push({ userId: backUser.id, shares: 1, buyPrice: backUser.marketCap, currentPrice: backUser.marketCap });
+    }
+    localStorage.setItem('any1_portfolio', JSON.stringify(portfolio));
+    const cards = JSON.parse(localStorage.getItem('any1_backer_cards') || '[]');
+    cards.push({ userId: backUser.id, name: backUser.name, avatar: backUser.avatar, amount: parseFloat(backAmount), valuationAtBuy: backUser.marketCap, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) });
+    localStorage.setItem('any1_backer_cards', JSON.stringify(cards));
+    setStack(s => s.filter(u => u.id !== backUser.id));
+    setBacked(true);
+    setTimeout(() => { setShowBackModal(false); setBackUser(null); }, 1800);
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#221E1A',
-      paddingBottom: 90,
-      display: 'flex',
-      flexDirection: 'column',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-    }}>
+    <div style={{ minHeight: '100vh', background: '#221E1A', display: 'flex', flexDirection: 'column', fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      <style>{`@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }`}</style>
+
       {/* Header */}
-      <div style={{ padding: '54px 20px 16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <div style={{ fontSize: 22, fontWeight: 700, color: '#F2EDE6' }}>Discover</div>
-          <div style={{ fontSize: 13, color: '#7A6E62' }}>{filtered.length} left</div>
+      <div style={{ padding: '54px 20px 12px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: '#F2EDE6' }}>Discover</div>
+            <div style={{ fontSize: 12, color: '#7A6E62', marginTop: 2 }}>Swipe right to follow · left to skip · up to back</div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {interested.length > 0 && (
+              <div style={{ background: '#7A9E7E22', border: '1px solid #7A9E7E44', borderRadius: 10, padding: '4px 10px' }}>
+                <span style={{ fontSize: 11, color: '#7A9E7E', fontWeight: 700 }}>{interested.length} interested</span>
+              </div>
+            )}
+            <span style={{ fontSize: 13, color: '#7A6E62' }}>{filtered.length} left</span>
+          </div>
         </div>
 
-        {/* Filters */}
+        {/* Type filters */}
         <div style={{ display: 'flex', gap: 8, overflowX: 'auto', scrollbarWidth: 'none' }}>
-          {[{ id: 'all', label: 'All', color: '#2EC4B6' }, ...Object.values(USER_TYPES)].map(t => (
-            <button
-              key={t.id}
-              onClick={() => setFilter(t.id)}
-              style={{
-                background: filter === t.id ? `${t.color}20` : '#2A2520',
-                border: `1px solid ${filter === t.id ? t.color : '#1E1E1E'}`,
-                borderRadius: 20,
-                padding: '6px 14px',
-                color: filter === t.id ? t.color : '#7A6E62',
-                fontSize: 12,
-                fontWeight: 600,
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                transition: 'all 0.2s ease',
-              }}
-            >
+          {[{ id: 'all', label: 'All', color: '#C9A84C' }, ...Object.values(USER_TYPES)].map(t => (
+            <button key={t.id} onClick={() => setFilter(t.id)} style={{
+              background: filter === t.id ? `${t.color}22` : 'transparent',
+              border: `1px solid ${filter === t.id ? t.color : '#2A2520'}`,
+              borderRadius: 20, padding: '5px 14px',
+              color: filter === t.id ? t.color : '#7A6E62',
+              fontSize: 11, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
+            }}>
               {t.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Swipe area */}
-      <div style={{ flex: 1, position: 'relative', margin: '0 16px', height: 500 }}>
+      {/* Card stack */}
+      <div style={{ flex: 1, position: 'relative', margin: '0 16px', minHeight: 480 }}>
         {filtered.length === 0 ? (
-          <div style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'center',
-            justifyContent: 'center', height: 400, gap: 16,
-          }}>
-            <div style={{ fontSize: 48 }}>👀</div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: 420, gap: 16 }}>
+            <div style={{ fontSize: 44 }}>👀</div>
             <div style={{ color: '#F2EDE6', fontWeight: 700, fontSize: 18 }}>You've seen everyone</div>
             <div style={{ color: '#7A6E62', fontSize: 14 }}>{interested.length} people you're interested in</div>
-            <button
-              onClick={() => { setStack([...mockUsers].reverse()); setPassed([]); setInterested([]); }}
-              style={{
-                background: '#2EC4B6', color: '#221E1A',
-                border: 'none', borderRadius: 14, padding: '12px 24px',
-                fontSize: 14, fontWeight: 700, cursor: 'pointer', marginTop: 8,
-              }}
-            >
+            <button onClick={() => { setStack([...mockUsers].reverse()); setPassed([]); setInterested([]); setLastAction(null); }} style={{ background: '#C9A84C', color: '#221E1A', border: 'none', borderRadius: 14, padding: '12px 28px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
               Start Over
             </button>
           </div>
         ) : (
-          <>
-            {topCards.map((user, i) => (
-              <div
-                key={user.id}
-                style={{
-                  position: 'absolute', width: '100%',
-                  transform: i < topCards.length - 1
-                    ? `scale(${0.94 + i * 0.03}) translateY(${(topCards.length - 1 - i) * -12}px)`
-                    : 'scale(1) translateY(0)',
-                  zIndex: i,
-                  transition: 'transform 0.3s ease',
-                }}
-              >
+          topCards.map((user, i) => {
+            const isTopCard = i === topCards.length - 1;
+            const offset = topCards.length - 1 - i;
+            return (
+              <div key={user.id} style={{
+                position: 'absolute', width: '100%',
+                transform: isTopCard ? 'scale(1) translateY(0)' : `scale(${0.94 + i * 0.03}) translateY(${offset * -14}px)`,
+                zIndex: i,
+                transition: 'transform 0.3s ease',
+              }}>
                 <SwipeCard
                   user={user}
-                  isTop={i === topCards.length - 1}
+                  isTop={isTopCard}
                   onSwipeLeft={handlePass}
                   onSwipeRight={handleInterested}
+                  onSwipeUp={handleSwipeUp}
                 />
               </div>
-            ))}
-            {/* Hint */}
-            {topUser && (
-              <div style={{
-                position: 'absolute', bottom: -32, left: 0, right: 0,
-                textAlign: 'center',
-              }}>
-                <span style={{ fontSize: 12, color: '#7A6E62' }}>{getHint(topUser)}</span>
-              </div>
-            )}
-          </>
+            );
+          })
         )}
       </div>
 
-      {/* Action buttons - Pass / Interested / Invest */}
+      {/* Action buttons */}
       {filtered.length > 0 && (
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 16,
-          padding: '32px 0 12px',
-        }}>
-          {/* Pass */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <button
-              onClick={() => topUser && handlePass(topUser)}
-              style={{
-                width: 58, height: 58, borderRadius: '50%',
-                background: '#2A2520',
-                border: '1.5px solid #E0555533',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <X size={22} color="#C0564A" />
-            </button>
-            <span style={{ fontSize: 10, color: '#3E3528', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Pass</span>
+        <div style={{ padding: '16px 0 8px', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
+
+            {/* Skip - left */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+              <button onClick={() => topUser && handlePass(topUser)} style={{ width: 60, height: 60, borderRadius: '50%', background: '#2A2520', border: '1.5px solid #C0564A44', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                <X size={24} color="#C0564A" />
+              </button>
+              <span style={{ fontSize: 10, color: '#C0564A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Skip</span>
+            </div>
+
+            {/* Back (invest) - center top, gold */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+              <button onClick={() => topUser && handleSwipeUp(topUser)} style={{ width: 64, height: 64, borderRadius: '50%', background: '#C9A84C', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 20px #C9A84C55' }}>
+                <DollarSign size={26} color="#221E1A" strokeWidth={2.5} />
+              </button>
+              <span style={{ fontSize: 10, color: '#C9A84C', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Back</span>
+            </div>
+
+            {/* Interested - right */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+              <button onClick={() => topUser && handleInterested(topUser)} style={{ width: 60, height: 60, borderRadius: '50%', background: '#2A2520', border: '1.5px solid #7A9E7E44', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                <Heart size={24} color="#7A9E7E" />
+              </button>
+              <span style={{ fontSize: 10, color: '#7A9E7E', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Interested</span>
+            </div>
+
           </div>
 
-          {/* Undo - small */}
-          <button
-            onClick={handleUndo}
-            style={{
-              width: 36, height: 36, borderRadius: '50%',
-              background: '#2A2520',
-              border: '1px solid #1E1E1E',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer',
-              marginBottom: 18,
-            }}
-          >
-            <RotateCcw size={14} color="#3E3528" />
-          </button>
+          {/* Undo */}
+          {lastAction && (
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 10 }}>
+              <button onClick={handleUndo} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: '#7A6E62', fontSize: 12 }}>
+                <RotateCcw size={13} /> Undo
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
-          {/* Interested */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <button
-              onClick={() => topUser && handleInterested(topUser)}
-              style={{
-                width: 58, height: 58, borderRadius: '50%',
-                background: '#16222A',
-                border: '1.5px solid #2EC4B655',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <Heart size={22} color="#2EC4B6" />
-            </button>
-            <span style={{ fontSize: 10, color: '#3E3528', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Interested</span>
-          </div>
+      {/* Back (invest) modal */}
+      {showBackModal && backUser && (
+        <div style={{ position: 'fixed', inset: 0, background: '#000000cc', backdropFilter: 'blur(10px)', zIndex: 300, display: 'flex', alignItems: 'flex-end' }}>
+          <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#1E1B17', borderRadius: '24px 24px 0 0', padding: '28px 20px 48px', border: '1px solid #C9A84C33', animation: 'slideUp 0.3s ease', boxShadow: '0 -8px 40px #C9A84C22' }}>
+            <div style={{ width: 36, height: 4, background: '#3E3528', borderRadius: 2, margin: '0 auto 24px' }} />
 
-          {/* Invest */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <button
-              onClick={() => topUser && handleInvest(topUser)}
-              style={{
-                width: 72, height: 72, borderRadius: '50%',
-                background: '#F5C842',
-                border: 'none',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer',
-                boxShadow: '0 6px 24px #F5C84255',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <DollarSign size={26} color="#221E1A" strokeWidth={2.5} />
-            </button>
-            <span style={{ fontSize: 10, color: '#F5C842', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Invest</span>
+            {backed ? (
+              <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                <CheckCircle size={48} color="#C9A84C" style={{ display: 'block', margin: '0 auto 12px' }} />
+                <div style={{ fontSize: 18, fontWeight: 800, color: '#F2EDE6', marginBottom: 6 }}>You backed {backUser.name.split(' ')[0]}!</div>
+                <div style={{ fontSize: 13, color: '#7A6E62' }}>Added to your portfolio</div>
+              </div>
+            ) : (
+              <>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
+                  <img src={backUser.avatar} alt="" style={{ width: 54, height: 54, borderRadius: '50%', border: '2px solid #C9A84C44' }} />
+                  <div>
+                    <div style={{ fontSize: 17, fontWeight: 800, color: '#F2EDE6' }}>Back {backUser.name}</div>
+                    <div style={{ fontSize: 12, color: '#7A6E62' }}>Valuation: ${(backUser.marketCap / 1000).toFixed(0)}k · {backUser.change >= 0 ? '+' : ''}{backUser.change}%</div>
+                  </div>
+                </div>
+
+                <div style={{ background: '#2A2520', borderRadius: 12, padding: '12px 16px', marginBottom: 16, fontSize: 12, color: '#7A6E62', lineHeight: 1.5 }}>
+                  You discovered {backUser.name.split(' ')[0]} on Discover. Back them now and it appears in your portfolio.
+                </div>
+
+                <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Choose amount</div>
+                <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
+                  {['1', '5', '10', '50'].map(v => (
+                    <button key={v} onClick={() => setBackAmount(v)} style={{
+                      flex: 1, background: backAmount === v ? '#C9A84C22' : '#2A2520',
+                      border: `1px solid ${backAmount === v ? '#C9A84C' : '#3E3528'}`,
+                      borderRadius: 10, padding: '10px 4px',
+                      color: backAmount === v ? '#C9A84C' : '#7A6E62',
+                      fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                    }}>${v}</button>
+                  ))}
+                </div>
+                <input type="number" placeholder="Custom amount ($)" value={backAmount} onChange={e => setBackAmount(e.target.value)} style={{ width: '100%', background: '#2A2520', border: '1px solid #3E3528', borderRadius: 12, padding: '13px 16px', color: '#F2EDE6', fontSize: 15, outline: 'none', marginBottom: 16, boxSizing: 'border-box' }} />
+
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <button onClick={() => setShowBackModal(false)} style={{ flex: 1, background: '#2A2520', color: '#7A6E62', border: '1px solid #3E3528', borderRadius: 14, padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+                  <button onClick={confirmBack} style={{ flex: 2, background: backAmount ? '#C9A84C' : '#2A2520', color: backAmount ? '#221E1A' : '#7A6E62', border: 'none', borderRadius: 14, padding: 14, fontSize: 15, fontWeight: 700, cursor: backAmount ? 'pointer' : 'default' }}>
+                    {backAmount ? `Back ${backUser.name.split(' ')[0]} — $${backAmount}` : 'Enter amount'}
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
 
-      {interested.length > 0 && (
-        <div style={{ textAlign: 'center', paddingBottom: 8 }}>
-          <span style={{ fontSize: 12, color: '#2EC4B6' }}>
-            {interested.length} interested
-          </span>
-        </div>
-      )}
-
+      <div style={{ paddingBottom: 90 }} />
       <BottomNav />
     </div>
   );
 }
-
-

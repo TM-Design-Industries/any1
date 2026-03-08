@@ -3,7 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import { mockUsers, myPortfolio, generateChart } from '../data/mockData';
 import BottomNav from '../components/BottomNav';
 import MiniChart from '../components/MiniChart';
-import { TrendingUp, TrendingDown, RefreshCw, Star } from 'lucide-react';
+import { TrendingUp, TrendingDown, RefreshCw, Star, BarChart2, X, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+
+// Generate insight text per user
+function generateInsight(pos) {
+  const u = pos.user;
+  const pnl = pos.pnlPct;
+  const signal = pnl > 10 ? 'strong buy' : pnl > 0 ? 'hold' : pnl > -10 ? 'watch' : 'consider exiting';
+  const lines = [];
+  if (u.change > 5) lines.push(`Up ${u.change}% this week — momentum is strong.`);
+  else if (u.change < 0) lines.push(`Down ${Math.abs(u.change)}% this week — watch for further decline.`);
+  else lines.push(`Relatively stable this week (+${u.change}%).`);
+  if (u.investors > 100) lines.push(`${u.investors} backers signals high community conviction.`);
+  else if (u.investors < 20) lines.push(`Only ${u.investors} backers — still early, higher risk/reward.`);
+  if (u.missions > 3) lines.push(`Active on ${u.missions} missions — proving value consistently.`);
+  if (pnl > 15) lines.push(`Your position is up ${pnl.toFixed(1)}% — well timed entry.`);
+  else if (pnl < -10) lines.push(`Your position is down ${Math.abs(pnl).toFixed(1)}% — reassess thesis.`);
+  lines.push(`Recommendation: ${signal.toUpperCase()}.`);
+  return lines;
+}
 
 const CHART_TABS = ['1D', '1W', '1M'];
 
@@ -74,6 +92,7 @@ export default function Portfolio() {
   const [chartTab, setChartTab] = useState('1D');
   const [refreshing, setRefreshing] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [insightPos, setInsightPos] = useState(null);
 
   const handleRefresh = () => {
     setRefreshing(true);
@@ -215,49 +234,33 @@ export default function Portfolio() {
                 </div>
               )}
               <div
-                onClick={() => navigate(`/portfolio/${pos.userId}`)}
                 style={{
                   background: isBest ? '#1A1400' : '#2A2520',
                   border: `1px solid ${isBest ? '#C9A84C44' : '#332C24'}`,
-                  borderRadius: 16,
-                  padding: 16,
-                  marginBottom: 10,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 14,
-                  position: 'relative',
-                  overflow: 'hidden',
+                  borderRadius: 16, padding: 16, marginBottom: 10,
+                  display: 'flex', alignItems: 'center', gap: 14,
+                  position: 'relative', overflow: 'hidden',
                 }}
               >
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-                  background: pos.user.color, opacity: isBest ? 0.8 : 0.4,
-                }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: pos.user.color, opacity: isBest ? 0.8 : 0.4 }} />
 
-                <img src={pos.user.avatar} alt={pos.user.name} style={{
-                  width: 44, height: 44, borderRadius: '50%',
-                  border: `1.5px solid ${pos.user.color}44`,
-                }} />
+                <img src={pos.user.avatar} alt={pos.user.name} onClick={() => navigate(`/user/${pos.userId}`)} style={{ width: 44, height: 44, borderRadius: '50%', border: `1.5px solid ${pos.user.color}44`, cursor: 'pointer' }} />
 
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600, fontSize: 15, color: '#F2EDE6', marginBottom: 2 }}>
-                    {pos.user.name}
-                  </div>
-                  <div style={{ fontSize: 12, color: '#7A6E62' }}>
-                    {pos.shares} shares
-                  </div>
+                <div style={{ flex: 1 }} onClick={() => navigate(`/user/${pos.userId}`)}>
+                  <div style={{ fontWeight: 600, fontSize: 15, color: '#F2EDE6', marginBottom: 2, cursor: 'pointer' }}>{pos.user.name}</div>
+                  <div style={{ fontSize: 12, color: '#7A6E62' }}>{pos.shares} {pos.shares === 1 ? 'share' : 'shares'}</div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                  <MiniChart base={pos.user.marketCap} change={pos.user.change} width={60} height={24} />
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#F2EDE6' }}>
-                    ${pos.value.toFixed(2)}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <MiniChart data={generateChart(pos.user.marketCap, pos.user.change, 12)} color={pos.pnl >= 0 ? '#7A9E7E' : '#C0564A'} width={56} height={22} />
+                    {/* Insight button */}
+                    <button onClick={e => { e.stopPropagation(); setInsightPos(pos); }} style={{ width: 30, height: 30, borderRadius: '50%', background: '#1A1612', border: '1px solid #2A2520', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                      <BarChart2 size={14} color="#C9A84C" />
+                    </button>
                   </div>
-                  <div style={{
-                    fontSize: 12, fontWeight: 600,
-                    color: pos.pnl >= 0 ? '#C9A84C' : '#C0564A',
-                  }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#F2EDE6' }}>${pos.value.toFixed(2)}</div>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: pos.pnl >= 0 ? '#C9A84C' : '#C0564A' }}>
                     {pos.pnl >= 0 ? '+' : ''}${pos.pnl.toFixed(2)} ({pos.pnl >= 0 ? '+' : ''}{pos.pnlPct.toFixed(1)}%)
                   </div>
                 </div>
@@ -321,6 +324,61 @@ export default function Portfolio() {
           </div>
         )}
       </div>
+
+      {/* Insight Panel */}
+      {insightPos && (
+        <>
+          <div style={{ position: 'fixed', inset: 0, background: '#000000aa', zIndex: 200 }} onClick={() => setInsightPos(null)} />
+          <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: '#1E1B17', borderRadius: '24px 24px 0 0', padding: '28px 20px 48px', zIndex: 201, border: '1px solid #C9A84C33', boxShadow: '0 -8px 40px #00000088' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <img src={insightPos.user.avatar} alt="" style={{ width: 42, height: 42, borderRadius: '50%', border: `1.5px solid ${insightPos.user.color}44` }} />
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: '#F2EDE6' }}>{insightPos.user.name}</div>
+                  <div style={{ fontSize: 11, color: '#7A6E62' }}>Portfolio Insight</div>
+                </div>
+              </div>
+              <button onClick={() => setInsightPos(null)} style={{ background: '#2A2520', border: '1px solid #3E3528', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                <X size={15} color="#7A6E62" />
+              </button>
+            </div>
+
+            {/* Signal badge */}
+            {(() => {
+              const pnl = insightPos.pnlPct;
+              const signal = pnl > 10 ? { label: 'STRONG BUY', color: '#7A9E7E' } : pnl > 0 ? { label: 'HOLD', color: '#C9A84C' } : pnl > -10 ? { label: 'WATCH', color: '#D4A843' } : { label: 'CONSIDER EXIT', color: '#C0564A' };
+              return (
+                <div style={{ background: `${signal.color}18`, border: `1px solid ${signal.color}44`, borderRadius: 10, padding: '10px 16px', marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: 13, fontWeight: 800, color: signal.color, letterSpacing: '0.06em' }}>{signal.label}</span>
+                  <span style={{ fontSize: 13, color: insightPos.pnl >= 0 ? '#7A9E7E' : '#C0564A', fontWeight: 700 }}>
+                    {insightPos.pnl >= 0 ? '+' : ''}{insightPos.pnlPct.toFixed(1)}% your return
+                  </span>
+                </div>
+              );
+            })()}
+
+            {/* Insight lines */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+              {generateInsight(insightPos).map((line, i) => (
+                <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#C9A84C', marginTop: 6, flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: '#B5A898', lineHeight: 1.5 }}>{line}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Actions */}
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={() => { setInsightPos(null); navigate(`/user/${insightPos.userId}`); }} style={{ flex: 1, background: '#C9A84C', color: '#221E1A', border: 'none', borderRadius: 14, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <ArrowUpRight size={15} /> Add more
+              </button>
+              <button onClick={() => setInsightPos(null)} style={{ flex: 1, background: '#2A2520', color: '#C0564A', border: '1px solid #C0564A33', borderRadius: 14, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <ArrowDownLeft size={15} /> Exit position
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       <BottomNav />
     </div>
