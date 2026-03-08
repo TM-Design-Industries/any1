@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import { mockUsers, USER_TYPES } from '../data/mockData';
 import UserCard from '../components/UserCard';
 import BottomNav from '../components/BottomNav';
@@ -101,6 +102,7 @@ function OpportunityCard({ user, navigate }) {
 }
 
 export default function Home({ onSettingsOpen }) {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [filter, setFilter] = useState('All');
   const [typeFilter, setTypeFilter] = useState('all');

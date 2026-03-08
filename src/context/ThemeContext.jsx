@@ -1,37 +1,63 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
-const DARK = {
-  bg: '#1C1A18', surface: '#252220', surface2: '#2A2520',
-  text: '#F2EDE6', text2: '#C8BFB4', muted: '#7A6E62',
-  border: '#2E2A24', border2: '#3E3528',
-  accent: '#C9A84C', up: '#6B9470', down: '#B85449',
-  navBg: 'rgba(26,22,18,0.96)',
+// Stone palette - desaturated, earthy, derived from two anchor colors:
+// Dark anchor: #1E1C19 (very dark warm stone)
+// Light anchor: #E8E6E3 (light stone, not pure white)
+// Accent: #C4A24A (muted gold-beige)
+
+export const DARK = {
+  bg:       '#1E1C19',
+  surface:  '#272420',
+  surface2: '#2D2A25',
+  text:     '#EDE9E3',
+  text2:    '#C4BDB4',
+  muted:    '#7A7168',
+  border:   '#302C27',
+  border2:  '#3D3830',
+  accent:   '#C4A24A',
+  up:       '#5E8A63',
+  down:     '#A84E45',
+  navBg:    'rgba(30,28,25,0.97)',
 };
 
-const LIGHT = {
-  bg: '#E3E2E1', surface: '#D8D6D4', surface2: '#CECCC9',
-  text: '#1C1A18', text2: '#3A3530', muted: '#6B6560',
-  border: '#C8C5C0', border2: '#B8B4AE',
-  accent: '#9E7A28', up: '#3D6B42', down: '#8B3B32',
-  navBg: 'rgba(227,226,225,0.96)',
+export const LIGHT = {
+  bg:       '#E8E6E3',
+  surface:  '#DDDAD6',
+  surface2: '#D3D0CB',
+  text:     '#1E1C19',
+  text2:    '#3B3730',
+  muted:    '#6B6560',
+  border:   '#C4C0BA',
+  border2:  '#B4AFA8',
+  accent:   '#9A7A28',
+  up:       '#3A6B3E',
+  down:     '#8B3B32',
+  navBg:    'rgba(232,230,227,0.97)',
 };
 
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  const [mode, setMode] = useState(() => localStorage.getItem('any1_theme') || 'dark');
+  const [mode, setMode] = useState(() => {
+    try { return localStorage.getItem('any1_theme') || 'dark'; } catch { return 'dark'; }
+  });
+
   const theme = mode === 'dark' ? DARK : LIGHT;
 
   useEffect(() => {
     document.body.style.background = theme.bg;
+    document.body.style.color = theme.text;
     document.body.style.margin = '0';
     document.body.style.padding = '0';
-  }, [theme]);
+    // Force re-paint on root
+    const root = document.getElementById('root');
+    if (root) root.style.background = theme.bg;
+  }, [theme, mode]);
 
   const toggleTheme = () => {
     const next = mode === 'dark' ? 'light' : 'dark';
     setMode(next);
-    localStorage.setItem('any1_theme', next);
+    try { localStorage.setItem('any1_theme', next); } catch {}
   };
 
   return (
@@ -42,5 +68,10 @@ export function ThemeProvider({ children }) {
 }
 
 export function useTheme() {
-  return useContext(ThemeContext);
+  const ctx = useContext(ThemeContext);
+  if (!ctx) {
+    // fallback to dark if used outside provider
+    return { theme: DARK, mode: 'dark', toggleTheme: () => {} };
+  }
+  return ctx;
 }

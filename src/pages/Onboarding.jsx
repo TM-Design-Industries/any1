@@ -124,7 +124,7 @@ export default function Onboarding({ onComplete }) {
         <button onClick={handleGo} disabled={!canGo} style={{
           width: '100%',
           background: canGo ? (selectedType?.color || '#5AABA2') : theme.surface,
-          color: canGo ? '#1C1A18' : theme.muted,
+          color: canGo ? theme.bg : theme.muted,
           border: 'none', borderRadius: 16, padding: '16px',
           fontSize: 16, fontWeight: 800,
           cursor: canGo ? 'pointer' : 'default',

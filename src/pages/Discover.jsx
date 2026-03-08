@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import { mockUsers, USER_TYPES } from '../data/mockData';
 import SwipeCard from '../components/SwipeCard';
 import BottomNav from '../components/BottomNav';
 import { X, Heart, RotateCcw, ArrowUp, CheckCircle, DollarSign } from 'lucide-react';
 
 export default function Discover({ onSettingsOpen }) {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [stack, setStack] = useState([...mockUsers].reverse());
   const [passed, setPassed] = useState([]);

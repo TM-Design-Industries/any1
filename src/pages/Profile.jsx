@@ -15,17 +15,17 @@ import {
 const ME = mockUsers.find(u => u.id === '1');
 
 const LEVEL_SYSTEM = [
-  { min: 0,   max: 20,       name: 'Newcomer',    color: '#7A6E62' },
+  { min: 0,   max: 20,       name: 'Newcomer',    color: theme.muted },
   { min: 21,  max: 40,       name: 'Explorer',    color: '#4BBFB5' },
   { min: 41,  max: 60,       name: 'Contributor', color: '#7B6FBF' },
   { min: 61,  max: 80,       name: 'Builder',     color: '#D4A843' },
-  { min: 81,  max: 100,      name: 'Amplifier',   color: '#C9A84C' },
+  { min: 81,  max: 100,      name: 'Amplifier',   color: theme.accent },
   { min: 101, max: Infinity, name: 'Legend',      color: '#C0564A' },
 ];
 
 const POST_TYPES = [
   { id: 'update',    label: 'Update',    color: '#7B6FBF' },
-  { id: 'milestone', label: 'Milestone', color: '#C9A84C' },
+  { id: 'milestone', label: 'Milestone', color: theme.accent },
   { id: 'insight',   label: 'Insight',   color: '#D4A843' },
   { id: 'work',      label: 'Work',      color: '#4BBFB5' },
 ];
@@ -34,7 +34,7 @@ const ACTIONS = [
   { id: 'post',      label: 'Write Post',         icon: FileText,    color: '#7B6FBF' },
   { id: 'work',      label: 'Upload Work',         icon: Briefcase,   color: '#4BBFB5' },
   { id: 'mission',   label: 'Add Mission',         icon: Target,      color: '#D4A843' },
-  { id: 'ask',       label: 'Request Backing',     icon: DollarSign,  color: '#C9A84C' },
+  { id: 'ask',       label: 'Request Backing',     icon: DollarSign,  color: theme.accent },
   { id: 'share',     label: 'Share Profile',       icon: Share2,      color: '#B5A898' },
   { id: 'message',   label: 'Open DMs',            icon: MessageSquare, color: '#8B85C1' },
 ];
@@ -129,7 +129,7 @@ export default function Profile({ onSettingsOpen }) {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 90 }}>
+    <div style={{ minHeight: '100vh', background: theme.bg, paddingBottom: 90 }}>
       <style>{`@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } } @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }`}</style>
 
       {/* Cover */}
@@ -140,7 +140,7 @@ export default function Profile({ onSettingsOpen }) {
         {/* Edit cover button */}
         <button onClick={() => setEditMode(true)} style={{ position: 'absolute', top: 52, right: 16, background: '#221E1Acc', backdropFilter: 'blur(8px)', border: '1px solid #ffffff22', borderRadius: 10, padding: '7px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
           <Edit2 size={13} color="#F2EDE6" />
-          <span style={{ fontSize: 12, color: '#F2EDE6', fontWeight: 600 }}>Edit</span>
+          <span style={{ fontSize: 12, color: theme.text, fontWeight: 600 }}>Edit</span>
         </button>
 
         <div style={{ position: 'absolute', bottom: -36, left: 20, display: 'flex', alignItems: 'flex-end', gap: 0 }}>
@@ -159,13 +159,13 @@ export default function Profile({ onSettingsOpen }) {
       <div style={{ padding: '44px 20px 16px', borderBottom: '1px solid #1A1A1A' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: '#F2EDE6' }}>{user.name}</div>
-            <div style={{ fontSize: 13, color: '#7A6E62' }}>{user.handle}</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: theme.text }}>{user.name}</div>
+            <div style={{ fontSize: 13, color: theme.muted }}>{user.handle}</div>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={() => setActiveAction('share')} style={{ background: '#2A2520', border: '1px solid #3E3528', borderRadius: 10, padding: '7px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <button onClick={() => setActiveAction('share')} style={{ background: theme.surface2, border: '1px solid #3E3528', borderRadius: 10, padding: '7px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
               <Share2 size={13} color="#7A6E62" />
-              <span style={{ fontSize: 12, color: '#7A6E62', fontWeight: 600 }}>Share</span>
+              <span style={{ fontSize: 12, color: theme.muted, fontWeight: 600 }}>Share</span>
             </button>
           </div>
         </div>
@@ -173,8 +173,8 @@ export default function Profile({ onSettingsOpen }) {
         <div style={{ fontSize: 14, color: '#B5A898', lineHeight: 1.5, marginBottom: 12 }}>{user.bio}</div>
 
         <div style={{ display: 'flex', gap: 14, marginBottom: 12 }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#7A6E62' }}><MapPin size={12} /> {user.location}</span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#7A6E62' }}><Calendar size={12} /> {user.joined}</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: theme.muted }}><MapPin size={12} /> {user.location}</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: theme.muted }}><Calendar size={12} /> {user.joined}</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#D4A843' }}><Star size={12} fill="#D4A843" /> {rep} rep</span>
         </div>
 
@@ -188,14 +188,14 @@ export default function Profile({ onSettingsOpen }) {
         {/* IPO Stats */}
         <div style={{ display: 'flex', borderTop: '1px solid #1A1A1A', paddingTop: 14 }}>
           {[
-            { label: 'Valuation', value: `$${(user.marketCap / 1000).toFixed(0)}k`, color: '#F2EDE6' },
-            { label: 'Collateral', value: `$${(user.collateral / 1000).toFixed(0)}k`, color: '#F2EDE6' },
-            { label: 'Backers', value: user.investors, color: '#C9A84C' },
-            { label: 'Missions', value: user.missions, color: '#F2EDE6' },
+            { label: 'Valuation', value: `$${(user.marketCap / 1000).toFixed(0)}k`, color: theme.text },
+            { label: 'Collateral', value: `$${(user.collateral / 1000).toFixed(0)}k`, color: theme.text },
+            { label: 'Backers', value: user.investors, color: theme.accent },
+            { label: 'Missions', value: user.missions, color: theme.text },
           ].map((s, i) => (
             <div key={s.label} style={{ flex: 1, textAlign: 'center', borderRight: i < 3 ? '1px solid #1A1A1A' : 'none' }}>
               <div style={{ fontSize: 15, fontWeight: 700, color: s.color, marginBottom: 2 }}>{s.value}</div>
-              <div style={{ fontSize: 10, color: '#7A6E62' }}>{s.label}</div>
+              <div style={{ fontSize: 10, color: theme.muted }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -206,10 +206,10 @@ export default function Profile({ onSettingsOpen }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Star size={14} color="#D4A843" fill="#D4A843" />
-            <span style={{ fontSize: 16, fontWeight: 800, color: '#F2EDE6' }}>{rep}</span>
+            <span style={{ fontSize: 16, fontWeight: 800, color: theme.text }}>{rep}</span>
             <span style={{ fontSize: 12, color: level.color, fontWeight: 600 }}>{level.name}</span>
           </div>
-          {nextLevel && <span style={{ fontSize: 11, color: '#7A6E62' }}>{nextLevel.min - rep} to {nextLevel.name}</span>}
+          {nextLevel && <span style={{ fontSize: 11, color: theme.muted }}>{nextLevel.min - rep} to {nextLevel.name}</span>}
         </div>
         <div style={{ background: '#332D27', borderRadius: 6, height: 6, overflow: 'hidden' }}>
           <div style={{ width: `${progress}%`, height: '100%', background: `linear-gradient(90deg, ${level.color}, ${nextLevel?.color || level.color})`, borderRadius: 6 }} />
@@ -219,21 +219,21 @@ export default function Profile({ onSettingsOpen }) {
       {/* Value chart */}
       <div style={{ padding: '14px 20px', borderBottom: '1px solid #1A1A1A', background: '#1A1612' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontSize: 11, color: '#7A6E62', letterSpacing: '0.08em', textTransform: 'uppercase' }}>My Valuation</span>
+          <span style={{ fontSize: 11, color: theme.muted, letterSpacing: '0.08em', textTransform: 'uppercase' }}>My Valuation</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 18, fontWeight: 900, color: '#F2EDE6' }}>${(user.marketCap / 1000).toFixed(0)}k</span>
+            <span style={{ fontSize: 18, fontWeight: 900, color: theme.text }}>${(user.marketCap / 1000).toFixed(0)}k</span>
             <span style={{ fontSize: 13, fontWeight: 700, color: positive ? '#7A9E7E' : '#C0564A', display: 'flex', alignItems: 'center', gap: 3 }}>
               {positive ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
               {positive ? '+' : ''}{user.change}%
             </span>
           </div>
         </div>
-        <MiniChart data={generateChart(user.marketCap, user.change)} color={positive ? '#C9A84C' : '#C0564A'} width={390} height={56} />
+        <MiniChart data={generateChart(user.marketCap, user.change)} color={positive ? theme.accent : '#C0564A'} width={390} height={56} />
       </div>
 
       {/* Quick Actions */}
       <div style={{ padding: '16px 20px', borderBottom: '1px solid #1A1A1A' }}>
-        <div style={{ fontSize: 11, color: '#7A6E62', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 14 }}>Quick Actions</div>
+        <div style={{ fontSize: 11, color: theme.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 14 }}>Quick Actions</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
           {ACTIONS.map(action => {
             const Icon = action.icon;
@@ -250,12 +250,12 @@ export default function Profile({ onSettingsOpen }) {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', borderBottom: '1px solid #1A1A1A', position: 'sticky', top: 0, background: '#221E1A', zIndex: 10 }}>
+      <div style={{ display: 'flex', borderBottom: '1px solid #1A1A1A', position: 'sticky', top: 0, background: theme.bg, zIndex: 10 }}>
         {['ventures', 'posts'].map(t => (
           <button key={t} onClick={() => setTab(t)} style={{
             flex: 1, background: 'none', border: 'none',
             borderBottom: tab === t ? `2px solid ${typeInfo.color}` : '2px solid transparent',
-            color: tab === t ? '#F2EDE6' : '#7A6E62',
+            color: tab === t ? theme.text : theme.muted,
             padding: '13px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer', textTransform: 'capitalize',
           }}>
             {t === 'ventures' ? 'My Ventures' : `Posts (${allPosts.length})`}
@@ -268,25 +268,25 @@ export default function Profile({ onSettingsOpen }) {
         {tab === 'ventures' && (
           <div>
             {user.ventures?.map((v, i) => {
-              const colors = { active: '#C9A84C', completed: '#4BBFB5', bootstrapped: '#7A9E7E' };
-              const c = colors[v.status] || '#7A6E62';
+              const colors = { active: theme.accent, completed: '#4BBFB5', bootstrapped: '#7A9E7E' };
+              const c = colors[v.status] || theme.muted;
               return (
                 <div key={i} style={{ background: '#1A1612', border: '1px solid #2A2520', borderRadius: 16, padding: '16px', marginBottom: 10, position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${typeInfo.color}88, transparent)` }} />
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
                     <div>
-                      <div style={{ fontSize: 16, fontWeight: 800, color: '#F2EDE6', marginBottom: 3 }}>{v.name}</div>
-                      <div style={{ fontSize: 12, color: '#7A6E62' }}>{v.role} · {v.year}</div>
+                      <div style={{ fontSize: 16, fontWeight: 800, color: theme.text, marginBottom: 3 }}>{v.name}</div>
+                      <div style={{ fontSize: 12, color: theme.muted }}>{v.role} · {v.year}</div>
                     </div>
                     <span style={{ fontSize: 10, fontWeight: 600, color: c, background: `${c}18`, borderRadius: 6, padding: '3px 9px', textTransform: 'capitalize' }}>{v.status}</span>
                   </div>
-                  <div style={{ fontSize: 13, color: '#C9A84C', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <div style={{ fontSize: 13, color: theme.accent, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
                     <TrendingUp size={12} /> {v.raised}
                   </div>
                 </div>
               );
             })}
-            <button onClick={() => setActiveAction('mission')} style={{ width: '100%', background: 'transparent', border: '1px dashed #2A2520', borderRadius: 14, padding: 14, color: '#7A6E62', fontSize: 13, cursor: 'pointer', marginTop: 4 }}>
+            <button onClick={() => setActiveAction('mission')} style={{ width: '100%', background: 'transparent', border: '1px dashed #2A2520', borderRadius: 14, padding: 14, color: theme.muted, fontSize: 13, cursor: 'pointer', marginTop: 4 }}>
               + Add new venture or mission
             </button>
           </div>
@@ -297,23 +297,23 @@ export default function Profile({ onSettingsOpen }) {
           <div>
             <button onClick={() => setActiveAction('post')} style={{ width: '100%', background: '#1A1612', border: '1px solid #C9A84C33', borderRadius: 14, padding: '13px 16px', marginBottom: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
               <img src={user.avatar} alt="" style={{ width: 32, height: 32, borderRadius: '50%' }} />
-              <span style={{ fontSize: 14, color: '#7A6E62' }}>Share something with your backers...</span>
+              <span style={{ fontSize: 14, color: theme.muted }}>Share something with your backers...</span>
             </button>
-            {allPosts.length === 0 && <div style={{ textAlign: 'center', color: '#7A6E62', padding: '40px 0', fontSize: 14 }}>No posts yet. Share something!</div>}
+            {allPosts.length === 0 && <div style={{ textAlign: 'center', color: theme.muted, padding: '40px 0', fontSize: 14 }}>No posts yet. Share something!</div>}
             {allPosts.map((post, i) => (
               <div key={post.id || i} style={{ background: '#1A1612', border: '1px solid #2A2520', borderRadius: 16, padding: '16px', marginBottom: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
                   <img src={user.avatar} alt="" style={{ width: 34, height: 34, borderRadius: '50%' }} />
                   <div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: '#F2EDE6' }}>{user.name}</div>
-                    <div style={{ fontSize: 10, color: '#7A6E62' }}>{post.time}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: theme.text }}>{user.name}</div>
+                    <div style={{ fontSize: 10, color: theme.muted }}>{post.time}</div>
                   </div>
                   <span style={{ marginLeft: 'auto', fontSize: 10, color: typeInfo.color, background: `${typeInfo.color}15`, borderRadius: 4, padding: '2px 8px', fontWeight: 600, textTransform: 'uppercase' }}>{post.type}</span>
                 </div>
                 <div style={{ fontSize: 14, color: '#B5A898', lineHeight: 1.5 }}>{post.text}</div>
                 <div style={{ display: 'flex', gap: 16, marginTop: 12 }}>
-                  <span style={{ fontSize: 12, color: '#7A6E62' }}>♡ {post.likes}</span>
-                  <span style={{ fontSize: 12, color: '#7A6E62' }}>💬 {post.comments}</span>
+                  <span style={{ fontSize: 12, color: theme.muted }}>♡ {post.likes}</span>
+                  <span style={{ fontSize: 12, color: theme.muted }}>💬 {post.comments}</span>
                 </div>
               </div>
             ))}
@@ -326,14 +326,14 @@ export default function Profile({ onSettingsOpen }) {
         <div style={{ position: 'fixed', inset: 0, background: '#000000cc', backdropFilter: 'blur(8px)', zIndex: 300, display: 'flex', alignItems: 'flex-end' }}>
           <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#1E1B17', borderRadius: '24px 24px 0 0', padding: '28px 20px 48px', border: '1px solid #2A2520', animation: 'slideUp 0.3s ease' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <div style={{ fontSize: 17, fontWeight: 700, color: '#F2EDE6' }}>Edit Profile</div>
+              <div style={{ fontSize: 17, fontWeight: 700, color: theme.text }}>Edit Profile</div>
               <button onClick={() => setEditMode(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={18} color="#7A6E62" /></button>
             </div>
-            <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Bio</div>
-            <textarea value={editBio} onChange={e => setEditBio(e.target.value)} rows={4} style={{ width: '100%', background: '#2A2520', border: '1px solid #3E3528', borderRadius: 12, padding: '12px 14px', color: '#F2EDE6', fontSize: 14, outline: 'none', resize: 'none', fontFamily: 'inherit', marginBottom: 14, boxSizing: 'border-box' }} />
-            <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Location</div>
-            <input value={editLocation} onChange={e => setEditLocation(e.target.value)} style={{ width: '100%', background: '#2A2520', border: '1px solid #3E3528', borderRadius: 12, padding: '12px 14px', color: '#F2EDE6', fontSize: 14, outline: 'none', marginBottom: 20, boxSizing: 'border-box' }} />
-            <button onClick={saveEdit} style={{ width: '100%', background: '#C9A84C', color: '#221E1A', border: 'none', borderRadius: 14, padding: 15, fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>Save changes</button>
+            <div style={{ fontSize: 11, color: theme.muted, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Bio</div>
+            <textarea value={editBio} onChange={e => setEditBio(e.target.value)} rows={4} style={{ width: '100%', background: theme.surface2, border: '1px solid #3E3528', borderRadius: 12, padding: '12px 14px', color: theme.text, fontSize: 14, outline: 'none', resize: 'none', fontFamily: 'inherit', marginBottom: 14, boxSizing: 'border-box' }} />
+            <div style={{ fontSize: 11, color: theme.muted, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Location</div>
+            <input value={editLocation} onChange={e => setEditLocation(e.target.value)} style={{ width: '100%', background: theme.surface2, border: '1px solid #3E3528', borderRadius: 12, padding: '12px 14px', color: theme.text, fontSize: 14, outline: 'none', marginBottom: 20, boxSizing: 'border-box' }} />
+            <button onClick={saveEdit} style={{ width: '100%', background: theme.accent, color: theme.bg, border: 'none', borderRadius: 14, padding: 15, fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>Save changes</button>
           </div>
         </div>
       )}
@@ -343,7 +343,7 @@ export default function Profile({ onSettingsOpen }) {
         <div style={{ position: 'fixed', inset: 0, background: '#000000cc', backdropFilter: 'blur(8px)', zIndex: 300, display: 'flex', alignItems: 'flex-end' }}>
           <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#1E1B17', borderRadius: '24px 24px 0 0', padding: '28px 20px 48px', border: '1px solid #2A2520', animation: 'slideUp 0.3s ease' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <div style={{ fontSize: 17, fontWeight: 700, color: '#F2EDE6' }}>
+              <div style={{ fontSize: 17, fontWeight: 700, color: theme.text }}>
                 {ACTIONS.find(a => a.id === activeAction)?.label}
               </div>
               <button onClick={() => setActiveAction(null)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={18} color="#7A6E62" /></button>
@@ -352,7 +352,7 @@ export default function Profile({ onSettingsOpen }) {
             {actionDone ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle size={44} color="#C9A84C" style={{ display: 'block', margin: '0 auto 12px' }} />
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#F2EDE6' }}>Done!</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: theme.text }}>Done!</div>
               </div>
             ) : (
               <>
@@ -361,43 +361,43 @@ export default function Profile({ onSettingsOpen }) {
                     {activeAction === 'post' && (
                       <div style={{ display: 'flex', gap: 8, marginBottom: 14, overflowX: 'auto', scrollbarWidth: 'none' }}>
                         {POST_TYPES.map(pt => (
-                          <button key={pt.id} onClick={() => setPostType(pt.id)} style={{ background: postType === pt.id ? `${pt.color}22` : '#2A2520', border: `1px solid ${postType === pt.id ? pt.color : '#3E3528'}`, borderRadius: 20, padding: '6px 14px', color: postType === pt.id ? pt.color : '#7A6E62', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>{pt.label}</button>
+                          <button key={pt.id} onClick={() => setPostType(pt.id)} style={{ background: postType === pt.id ? `${pt.color}22` : theme.surface2, border: `1px solid ${postType === pt.id ? pt.color : theme.border2}`, borderRadius: 20, padding: '6px 14px', color: postType === pt.id ? pt.color : theme.muted, fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>{pt.label}</button>
                         ))}
                       </div>
                     )}
-                    <textarea value={postText} onChange={e => setPostText(e.target.value.slice(0, 280))} placeholder={activeAction === 'work' ? 'Describe your work...' : "What's on your mind?"} rows={4} style={{ width: '100%', background: '#2A2520', border: '1px solid #3E3528', borderRadius: 12, padding: '12px 14px', color: '#F2EDE6', fontSize: 14, outline: 'none', resize: 'none', fontFamily: 'inherit', marginBottom: 8, boxSizing: 'border-box' }} />
-                    <div style={{ fontSize: 11, color: '#7A6E62', textAlign: 'right', marginBottom: 14 }}>{postText.length}/280</div>
+                    <textarea value={postText} onChange={e => setPostText(e.target.value.slice(0, 280))} placeholder={activeAction === 'work' ? 'Describe your work...' : "What's on your mind?"} rows={4} style={{ width: '100%', background: theme.surface2, border: '1px solid #3E3528', borderRadius: 12, padding: '12px 14px', color: theme.text, fontSize: 14, outline: 'none', resize: 'none', fontFamily: 'inherit', marginBottom: 8, boxSizing: 'border-box' }} />
+                    <div style={{ fontSize: 11, color: theme.muted, textAlign: 'right', marginBottom: 14 }}>{postText.length}/280</div>
                   </>
                 )}
 
                 {activeAction === 'mission' && (
                   <>
-                    <textarea value={postText} onChange={e => setPostText(e.target.value)} placeholder="Describe the mission — what you need, deliverable, reward..." rows={5} style={{ width: '100%', background: '#2A2520', border: '1px solid #3E3528', borderRadius: 12, padding: '12px 14px', color: '#F2EDE6', fontSize: 14, outline: 'none', resize: 'none', fontFamily: 'inherit', marginBottom: 14, boxSizing: 'border-box' }} />
+                    <textarea value={postText} onChange={e => setPostText(e.target.value)} placeholder="Describe the mission — what you need, deliverable, reward..." rows={5} style={{ width: '100%', background: theme.surface2, border: '1px solid #3E3528', borderRadius: 12, padding: '12px 14px', color: theme.text, fontSize: 14, outline: 'none', resize: 'none', fontFamily: 'inherit', marginBottom: 14, boxSizing: 'border-box' }} />
                   </>
                 )}
 
                 {activeAction === 'ask' && (
-                  <div style={{ background: '#2A2520', borderRadius: 14, padding: '16px', marginBottom: 16 }}>
+                  <div style={{ background: theme.surface2, borderRadius: 14, padding: '16px', marginBottom: 16 }}>
                     <div style={{ fontSize: 14, color: '#B5A898', lineHeight: 1.6 }}>
-                      A "Request Backing" post will be shared with your followers, inviting them to invest in you at your current valuation of <span style={{ color: '#C9A84C', fontWeight: 700 }}>${(user.marketCap / 1000).toFixed(0)}k</span>.
+                      A "Request Backing" post will be shared with your followers, inviting them to invest in you at your current valuation of <span style={{ color: theme.accent, fontWeight: 700 }}>${(user.marketCap / 1000).toFixed(0)}k</span>.
                     </div>
                   </div>
                 )}
 
                 {activeAction === 'share' && (
-                  <div style={{ background: '#2A2520', borderRadius: 14, padding: '16px', marginBottom: 16, textAlign: 'center' }}>
-                    <div style={{ fontSize: 14, color: '#F2EDE6', fontWeight: 700, marginBottom: 8 }}>any1.vercel.app/user/1</div>
-                    <div style={{ fontSize: 12, color: '#7A6E62' }}>Share your profile link</div>
+                  <div style={{ background: theme.surface2, borderRadius: 14, padding: '16px', marginBottom: 16, textAlign: 'center' }}>
+                    <div style={{ fontSize: 14, color: theme.text, fontWeight: 700, marginBottom: 8 }}>any1.vercel.app/user/1</div>
+                    <div style={{ fontSize: 12, color: theme.muted }}>Share your profile link</div>
                   </div>
                 )}
 
                 {activeAction === 'message' && (
-                  <div style={{ background: '#2A2520', borderRadius: 14, padding: '16px', marginBottom: 16 }}>
-                    <div style={{ fontSize: 14, color: '#7A6E62', lineHeight: 1.6 }}>DMs from backers and followers will appear here. Feature coming soon.</div>
+                  <div style={{ background: theme.surface2, borderRadius: 14, padding: '16px', marginBottom: 16 }}>
+                    <div style={{ fontSize: 14, color: theme.muted, lineHeight: 1.6 }}>DMs from backers and followers will appear here. Feature coming soon.</div>
                   </div>
                 )}
 
-                <button onClick={submitAction} style={{ width: '100%', background: '#C9A84C', color: '#221E1A', border: 'none', borderRadius: 14, padding: 15, fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
+                <button onClick={submitAction} style={{ width: '100%', background: theme.accent, color: theme.bg, border: 'none', borderRadius: 14, padding: 15, fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
                   {activeAction === 'post' ? 'Post' : activeAction === 'work' ? 'Upload' : activeAction === 'mission' ? 'Post Mission' : activeAction === 'ask' ? 'Send Request' : 'Done'}
                 </button>
               </>
@@ -408,7 +408,7 @@ export default function Profile({ onSettingsOpen }) {
 
       {/* Saved toast */}
       {savedToast && (
-        <div style={{ position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)', background: '#C9A84C', color: '#221E1A', borderRadius: 20, padding: '10px 20px', fontSize: 13, fontWeight: 700, zIndex: 400, display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 8px 24px #C9A84C44', animation: 'slideUp 0.3s ease' }}>
+        <div style={{ position: 'fixed', bottom: 110, left: '50%', transform: 'translateX(-50%)', background: theme.accent, color: theme.bg, borderRadius: 20, padding: '10px 20px', fontSize: 13, fontWeight: 700, zIndex: 400, display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 8px 24px #C9A84C44', animation: 'slideUp 0.3s ease' }}>
           <CheckCircle size={14} /> Profile updated
         </div>
       )}

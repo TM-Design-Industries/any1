@@ -1,3 +1,4 @@
+import { useTheme } from '../context/ThemeContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { mockUsers, USER_TYPES, generateChart } from '../data/mockData';
@@ -131,6 +132,7 @@ function TransactionsTab({ userId, navigate }) {
 
 // ─── Main Component ──────────────────────────────────────────
 export default function UserPage() {
+  const { theme } = useTheme();
   const { id } = useParams();
   const navigate = useNavigate();
   const user = mockUsers.find(u => u.id === id);

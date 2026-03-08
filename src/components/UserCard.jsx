@@ -1,3 +1,4 @@
+import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import MiniChart from './MiniChart';
@@ -9,6 +10,7 @@ import { USER_TYPES } from '../data/mockData';
 const SESSION_ONLINE = {};
 
 export default function UserCard({ user, animate = false, index = 0 }) {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const positive = user.change >= 0;
   const typeInfo = USER_TYPES[user.type];

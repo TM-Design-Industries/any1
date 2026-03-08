@@ -106,7 +106,7 @@ export default function Market({ onSettingsOpen }) {
           {TABS.map(t => (
             <button key={t} onClick={() => setTab(t)} style={{
               background: tab === t ? theme.accent : 'transparent',
-              color: tab === t ? '#1C1A18' : theme.muted,
+              color: tab === t ? theme.bg : theme.muted,
               border: `1px solid ${tab === t ? theme.accent : theme.border}`,
               borderRadius: 16, padding: '5px 14px', fontSize: 11, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap',
             }}>{t}</button>

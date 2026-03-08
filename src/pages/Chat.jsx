@@ -110,7 +110,7 @@ export default function Chat() {
             <div style={{ maxWidth: '75%' }}>
               <div style={{
                 background: msg.from === 'me' ? theme.accent : theme.surface,
-                color: msg.from === 'me' ? '#1C1A18' : theme.text,
+                color: msg.from === 'me' ? theme.bg : theme.text,
                 borderRadius: msg.from === 'me' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                 padding: '10px 14px', fontSize: 14, lineHeight: 1.5,
                 fontWeight: msg.from === 'me' ? 500 : 400,
@@ -156,7 +156,7 @@ export default function Chat() {
           cursor: input.trim() ? 'pointer' : 'default',
           flexShrink: 0, transition: 'all 0.2s ease',
         }}>
-          <Send size={16} color={input.trim() ? '#1C1A18' : theme.muted} />
+          <Send size={16} color={input.trim() ? theme.bg : theme.muted} />
         </button>
       </div>
     </div>

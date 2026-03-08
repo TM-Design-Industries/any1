@@ -3,11 +3,11 @@ import { Search, PieChart, Activity, User, Menu } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const tabs = [
-  { icon: Menu,     label: 'Settings',   path: '/settings',   special: 'hamburger' },
-  { icon: Search,   label: 'Discover',   path: '/discover' },
-  { icon: PieChart, label: 'Portfolio',  path: '/portfolio',  special: 'center' },
-  { icon: Activity, label: 'Live',       path: '/' },
-  { icon: User,     label: 'Profile',    path: '/profile' },
+  { icon: Menu,     label: 'Settings',  path: '/settings',  special: 'hamburger' },
+  { icon: Search,   label: 'Discover',  path: '/discover' },
+  { icon: PieChart, label: 'Portfolio', path: '/portfolio', special: 'center' },
+  { icon: Activity, label: 'Live',      path: '/' },
+  { icon: User,     label: 'Profile',   path: '/profile' },
 ];
 
 export default function BottomNav({ onSettingsOpen }) {
@@ -27,11 +27,13 @@ export default function BottomNav({ onSettingsOpen }) {
       backdropFilter: 'blur(20px)',
       WebkitBackdropFilter: 'blur(20px)',
       borderTop: `1px solid ${theme.border}`,
-      borderRadius: '16px 16px 0 0',
+      borderRadius: '14px 14px 0 0',
       display: 'grid',
       gridTemplateColumns: 'repeat(5, 1fr)',
-      padding: '10px 0 28px',
+      paddingBottom: 'env(safe-area-inset-bottom, 20px)',
+      paddingTop: 0,
       zIndex: 100,
+      alignItems: 'end',
     }}>
       {tabs.map(({ icon: Icon, label, path, special }) => {
         const active = path === '/'
@@ -45,6 +47,52 @@ export default function BottomNav({ onSettingsOpen }) {
           else navigate(path);
         };
 
+        if (isCenter) {
+          return (
+            <button
+              key={path}
+              onClick={handleClick}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'flex-end',
+                padding: '0 0 10px',
+              }}
+            >
+              {/* Elevated disc - sits on top of nav bar */}
+              <div style={{
+                width: 48, height: 48,
+                borderRadius: '50%',
+                background: active ? theme.accent : theme.surface2,
+                border: `1.5px solid ${active ? theme.accent : theme.border2}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                marginBottom: 0,
+                boxShadow: active
+                  ? `0 2px 16px ${theme.accent}55`
+                  : `0 2px 8px rgba(0,0,0,0.2)`,
+                transform: 'translateY(-8px)',
+                transition: 'all 0.2s ease',
+              }}>
+                <Icon
+                  size={20}
+                  color={active ? '#1E1C19' : theme.muted}
+                  strokeWidth={active ? 2.3 : 1.7}
+                />
+              </div>
+              <span style={{
+                fontSize: 10,
+                color: active ? theme.accent : theme.muted,
+                fontWeight: active ? 600 : 400,
+                letterSpacing: '0.04em',
+                marginTop: -4,
+                transform: 'translateY(-4px)',
+              }}>
+                {label}
+              </span>
+            </button>
+          );
+        }
+
         return (
           <button
             key={path}
@@ -52,32 +100,24 @@ export default function BottomNav({ onSettingsOpen }) {
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
               display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center',
-              gap: 4, padding: '4px 0', position: 'relative',
+              alignItems: 'center', justifyContent: 'flex-end',
+              padding: '10px 0 10px',
+              gap: 4,
             }}
           >
-            {isCenter ? (
-              <div style={{
-                width: 50, height: 50, borderRadius: '50%',
-                background: active ? theme.accent : `${theme.accent}22`,
-                border: `2px solid ${theme.accent}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginTop: -20,
-                boxShadow: active ? `0 4px 20px ${theme.accent}66` : '0 2px 12px rgba(0,0,0,0.3)',
-              }}>
-                <Icon size={22} color={active ? '#1C1A18' : theme.accent} strokeWidth={active ? 2.4 : 1.8} />
-              </div>
-            ) : (
-              <Icon size={20} color={active ? theme.accent : theme.muted} strokeWidth={active ? 2.2 : 1.6} />
-            )}
-            {!isCenter && (
-              <span style={{
-                fontSize: 10, color: active ? theme.accent : theme.muted,
-                fontWeight: active ? 600 : 400, letterSpacing: '0.04em',
-              }}>
-                {label}
-              </span>
-            )}
+            <Icon
+              size={20}
+              color={active ? theme.accent : theme.muted}
+              strokeWidth={active ? 2.2 : 1.6}
+            />
+            <span style={{
+              fontSize: 10,
+              color: active ? theme.accent : theme.muted,
+              fontWeight: active ? 600 : 400,
+              letterSpacing: '0.04em',
+            }}>
+              {label}
+            </span>
           </button>
         );
       })}

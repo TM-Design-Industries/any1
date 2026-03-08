@@ -1,3 +1,4 @@
+import { useTheme } from '../context/ThemeContext';
 import { useState, useRef } from 'react';
 import TypeBadge from './TypeBadge';
 import { USER_TYPES } from '../data/mockData';
@@ -20,6 +21,7 @@ const getMatchTags = (user) => {
 };
 
 export default function SwipeCard({ user, onSwipeLeft, onSwipeRight, onSwipeUp, isTop }) {
+  const { theme } = useTheme();
   const [drag, setDrag] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [glowing, setGlowing] = useState(false);

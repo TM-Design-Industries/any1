@@ -72,7 +72,7 @@ export default function Missions({ onSettingsOpen }) {
           {FILTERS.map(f => (
             <button key={f} onClick={() => setFilter(f)} style={{
               background: filter === f ? theme.accent : theme.surface,
-              color: filter === f ? '#1C1A18' : theme.muted,
+              color: filter === f ? theme.bg : theme.muted,
               border: `1px solid ${filter === f ? theme.accent : theme.border}`,
               borderRadius: 16, padding: '6px 14px', fontSize: 11, fontWeight: 700,
               cursor: 'pointer', whiteSpace: 'nowrap',
@@ -116,7 +116,7 @@ export default function Missions({ onSettingsOpen }) {
                     <span style={{ fontSize: 11, color: theme.accent, display: 'flex', alignItems: 'center', gap: 4 }}><CheckCircle size={12} /> Applied</span>
                   ) : mission.status !== 'completed' && (
                     <button onClick={e => { e.stopPropagation(); setSelected(mission); setShowApply(true); }} style={{
-                      background: theme.accent, color: '#1C1A18', border: 'none', borderRadius: 10,
+                      background: theme.accent, color: theme.bg, border: 'none', borderRadius: 10,
                       padding: '6px 12px', fontSize: 12, fontWeight: 700, cursor: 'pointer',
                     }}>Apply</button>
                   )}
@@ -172,7 +172,7 @@ export default function Missions({ onSettingsOpen }) {
             ) : selected.status === 'completed' ? (
               <div style={{ background: theme.surface2, borderRadius: 14, padding: 16, textAlign: 'center', color: theme.muted, fontSize: 14 }}>This mission is completed</div>
             ) : (
-              <button onClick={() => setShowApply(true)} style={{ width: '100%', background: theme.accent, color: '#1C1A18', border: 'none', borderRadius: 14, padding: 16, fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>Apply for this Mission</button>
+              <button onClick={() => setShowApply(true)} style={{ width: '100%', background: theme.accent, color: theme.bg, border: 'none', borderRadius: 14, padding: 16, fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>Apply for this Mission</button>
             )}
           </div>
         </div>
@@ -195,7 +195,7 @@ export default function Missions({ onSettingsOpen }) {
             <textarea value={whyText} onChange={e => setWhyText(e.target.value)} placeholder="Tell them what makes you the right person for this mission..." rows={5} style={{ width: '100%', background: theme.surface2, border: `1px solid ${theme.border}`, borderRadius: 14, padding: '14px 16px', color: theme.text, fontSize: 14, outline: 'none', resize: 'none', fontFamily: 'inherit', marginBottom: 14, boxSizing: 'border-box' }} />
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => { setShowApply(false); setWhyText(''); }} style={{ flex: 1, background: theme.surface2, color: theme.muted, border: `1px solid ${theme.border}`, borderRadius: 14, padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
-              <button onClick={() => submitApply(selected.id)} disabled={!whyText.trim()} style={{ flex: 2, background: whyText.trim() ? theme.accent : theme.surface2, color: whyText.trim() ? '#1C1A18' : theme.muted, border: 'none', borderRadius: 14, padding: 14, fontSize: 15, fontWeight: 700, cursor: whyText.trim() ? 'pointer' : 'default' }}>Submit Application</button>
+              <button onClick={() => submitApply(selected.id)} disabled={!whyText.trim()} style={{ flex: 2, background: whyText.trim() ? theme.accent : theme.surface2, color: whyText.trim() ? theme.bg : theme.muted, border: 'none', borderRadius: 14, padding: 14, fontSize: 15, fontWeight: 700, cursor: whyText.trim() ? 'pointer' : 'default' }}>Submit Application</button>
             </div>
           </div>
         </div>
