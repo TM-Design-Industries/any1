@@ -94,7 +94,7 @@ const STATUS = {
 
 const FILTERS = ['All', 'Design', 'Engineering', 'Marketing', 'Writing', 'Strategy'];
 
-export default function Missions() {
+export default function Missions({ onSettingsOpen }) {
   const navigate = useNavigate();
   const [filter, setFilter] = useState('All');
   const [selected, setSelected] = useState(null);

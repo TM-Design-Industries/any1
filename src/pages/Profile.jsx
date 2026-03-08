@@ -38,7 +38,7 @@ const ACTIONS = [
   { id: 'message',   label: 'Open DMs',            icon: MessageSquare, color: '#8B85C1' },
 ];
 
-export default function Profile() {
+export default function Profile({ onSettingsOpen }) {
   const navigate = useNavigate();
   const base = ME || {};
   const [userData, setUserData] = useState(() => {
@@ -384,7 +384,7 @@ export default function Profile() {
         </div>
       )}
 
-      <BottomNav />
+      <BottomNav onSettingsOpen={onSettingsOpen} />
     </div>
   );
 }

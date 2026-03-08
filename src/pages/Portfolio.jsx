@@ -1,124 +1,53 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { mockUsers, myPortfolio, generateChart } from '../data/mockData';
 import BottomNav from '../components/BottomNav';
 import MiniChart from '../components/MiniChart';
-import { TrendingUp, TrendingDown, RefreshCw, Star, BarChart2, X, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import { TrendingUp, TrendingDown, BarChart2, X, ArrowUpRight, ArrowDownLeft, RefreshCw, Star, Plus } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
-// Generate insight text per user
 function generateInsight(pos) {
   const u = pos.user;
   const pnl = pos.pnlPct;
-  const signal = pnl > 10 ? 'strong buy' : pnl > 0 ? 'hold' : pnl > -10 ? 'watch' : 'consider exiting';
+  const signal = pnl > 10 ? 'strong conviction' : pnl > 0 ? 'hold steady' : pnl > -10 ? 'watch closely' : 'consider stepping back';
   const lines = [];
-  if (u.change > 5) lines.push(`Up ${u.change}% this week — momentum is strong.`);
-  else if (u.change < 0) lines.push(`Down ${Math.abs(u.change)}% this week — watch for further decline.`);
-  else lines.push(`Relatively stable this week (+${u.change}%).`);
-  if (u.investors > 100) lines.push(`${u.investors} backers signals high community conviction.`);
-  else if (u.investors < 20) lines.push(`Only ${u.investors} backers — still early, higher risk/reward.`);
-  if (u.missions > 3) lines.push(`Active on ${u.missions} missions — proving value consistently.`);
-  if (pnl > 15) lines.push(`Your position is up ${pnl.toFixed(1)}% — well timed entry.`);
-  else if (pnl < -10) lines.push(`Your position is down ${Math.abs(pnl).toFixed(1)}% — reassess thesis.`);
-  lines.push(`Recommendation: ${signal.toUpperCase()}.`);
+  if (u.change > 5) lines.push(`Up ${u.change}% this week — strong momentum.`);
+  else if (u.change < 0) lines.push(`Down ${Math.abs(u.change)}% this week — monitor activity.`);
+  else lines.push(`Stable week (+${u.change}%).`);
+  if (u.investors > 100) lines.push(`${u.investors} people believe in them — high community trust.`);
+  else if (u.investors < 20) lines.push(`Only ${u.investors} backers — early stage, high potential.`);
+  if (u.missions > 3) lines.push(`Active on ${u.missions} missions — consistently delivering.`);
+  if (pnl > 15) lines.push(`Your belief is up ${pnl.toFixed(1)}% — well-timed entry.`);
+  else if (pnl < -10) lines.push(`Your belief is down ${Math.abs(pnl).toFixed(1)}% — reassess your thesis.`);
+  lines.push(`Signal: ${signal.toUpperCase()}.`);
   return lines;
 }
 
-const CHART_TABS = ['1D', '1W', '1M'];
-
-function PortfolioChart({ positions, tab }) {
-  const width = 340;
-  const height = 100;
-
-  const data = useMemo(() => {
-    const points = tab === '1D' ? 20 : tab === '1W' ? 40 : 60;
-    const totalBase = positions.reduce((s, p) => s + p.value, 0);
-    let val = totalBase * 0.88;
-    const arr = [];
-    for (let i = 0; i < points; i++) {
-      val += (Math.random() - 0.44) * totalBase * 0.015;
-      arr.push(Math.max(val, totalBase * 0.5));
-    }
-    arr.push(totalBase);
-    return arr;
-  }, [tab, positions]);
-
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-  const range = max - min || 1;
-
-  const pts = data.map((v, i) => {
-    const x = (i / (data.length - 1)) * width;
-    const y = height - ((v - min) / range) * (height - 8) - 4;
-    return `${x},${y}`;
-  }).join(' ');
-
-  const firstY = height - ((data[0] - min) / range) * (height - 8) - 4;
-  const fillPts = `0,${height} ${pts} ${width},${height}`;
-
-  return (
-    <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
-      <defs>
-        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <polygon points={fillPts} fill="url(#chartGrad)" />
-      <polyline
-        points={pts}
-        fill="none"
-        stroke="#C9A84C"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {(() => {
-        const lastPt = pts.split(' ').pop().split(',');
-        return (
-          <circle
-            cx={parseFloat(lastPt[0])}
-            cy={parseFloat(lastPt[1])}
-            r={3.5}
-            fill="#C9A84C"
-          />
-        );
-      })()}
-    </svg>
-  );
-}
-
-export default function Portfolio() {
+export default function Portfolio({ onSettingsOpen }) {
   const navigate = useNavigate();
-  const [chartTab, setChartTab] = useState('1D');
-  const [refreshing, setRefreshing] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const { theme } = useTheme();
   const [insightPos, setInsightPos] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [tab, setTab] = useState('all'); // all | up | down
 
-  const handleRefresh = () => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-      setRefreshKey(k => k + 1);
-    }, 1200);
-  };
+  const balance = parseFloat(localStorage.getItem('any1_balance') || '1029.58');
 
-  // Merge mock portfolio + real user investments from localStorage
   const positions = useMemo(() => {
     const lsPortfolio = JSON.parse(localStorage.getItem('any1_portfolio') || '[]');
     const combined = [...myPortfolio];
     lsPortfolio.forEach(lp => {
       if (!combined.find(p => p.userId === lp.userId)) {
-        combined.push({ userId: lp.userId, shares: lp.shares, buyPrice: lp.buyPrice, currentPrice: mockUsers.find(u => u.id === lp.userId)?.marketCap || lp.buyPrice });
+        combined.push({ userId: lp.userId, shares: lp.shares || 1, buyPrice: lp.buyPrice, currentPrice: lp.currentPrice || lp.buyPrice });
       }
     });
     return combined.map(p => {
       const user = mockUsers.find(u => u.id === p.userId);
       if (!user) return null;
-      const value = p.shares * (p.currentPrice / 1000);
-      const cost = p.shares * (p.buyPrice / 1000);
-      const pnl = value - cost;
-      const pnlPct = ((value - cost) / cost) * 100;
-      return { ...p, user, value, cost, pnl, pnlPct };
+      const currentPrice = p.currentPrice || user.marketCap;
+      const pnlAmt = (currentPrice - p.buyPrice) / 1000 * p.shares;
+      const pnlPct = ((currentPrice - p.buyPrice) / p.buyPrice) * 100;
+      const value = currentPrice / 1000 * p.shares;
+      return { ...p, user, value, pnl: pnlAmt, pnlPct, currentPrice };
     }).filter(Boolean);
   }, [refreshKey]);
 
@@ -127,159 +56,165 @@ export default function Portfolio() {
   }, [refreshKey]);
 
   const totalValue = positions.reduce((s, p) => s + p.value, 0);
-  const totalCost = positions.reduce((s, p) => s + p.cost, 0);
-  const totalPnl = totalValue - totalCost;
-  const totalPct = ((totalValue - totalCost) / totalCost) * 100;
+  const totalPnl = positions.reduce((s, p) => s + p.pnl, 0);
+  const totalPct = totalValue > 0 ? (totalPnl / (totalValue - totalPnl)) * 100 : 0;
+  const totalAccount = totalValue + balance;
 
-  const bestPos = [...positions].sort((a, b) => b.pnlPct - a.pnlPct)[0];
-  const sortedPos = [...positions].sort((a, b) => b.pnlPct - a.pnlPct);
+  const portfolioPct = totalValue / totalAccount * 100;
+  const cashPct = balance / totalAccount * 100;
+
+  const sorted = [...positions].sort((a, b) => b.value - a.value);
+  const filtered = tab === 'up' ? sorted.filter(p => p.pnl >= 0) : tab === 'down' ? sorted.filter(p => p.pnl < 0) : sorted;
+
+  const now = new Date();
+  const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}, ${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 90 }}>
+    <div style={{ minHeight: '100vh', background: theme.bg, paddingBottom: 100, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      <style>{`@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }`}</style>
+
       {/* Header */}
-      <div style={{ padding: '54px 20px 0' }}>
+      <div style={{ padding: '54px 20px 0', background: theme.bg }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-          <div style={{ fontSize: 22, fontWeight: 700, color: '#F2EDE6' }}>Portfolio</div>
-          <button
-            onClick={handleRefresh}
-            style={{
-              background: '#2A2520', border: '1px solid #1F1F1F',
-              borderRadius: 10, padding: 8, cursor: 'pointer',
-            }}
-          >
-            <RefreshCw
-              size={16}
-              color="#7A6E62"
-              style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }}
-            />
+          <div style={{ fontSize: 22, fontWeight: 800, color: theme.text }}>My Portfolio</div>
+          <button onClick={() => setRefreshKey(k => k + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+            <RefreshCw size={17} color={theme.muted} />
           </button>
         </div>
 
-        {/* Hero card */}
-        <div style={{
-          background: '#2A2520',
-          border: '1px solid #1F1F1F',
-          borderRadius: 20,
-          padding: '24px 20px 16px',
-          marginBottom: 16,
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-            background: totalPnl >= 0 ? '#C9A84C' : '#C0564A', opacity: 0.7,
-          }} />
-          <div style={{
-            position: 'absolute', top: 0, right: 0,
-            width: 200, height: 200,
-            borderRadius: '50%',
-            background: totalPnl >= 0 ? '#C9A84C08' : '#E0555508',
-            transform: 'translate(60px, -60px)',
-          }} />
+        {/* Total Value Hero */}
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ fontSize: 12, color: theme.muted, marginBottom: 4 }}>Your Total Value</div>
+          <div style={{ fontSize: 38, fontWeight: 900, color: theme.text, letterSpacing: '-1.5px', lineHeight: 1 }}>
+            ${totalAccount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </div>
+          <div style={{ fontSize: 12, color: theme.muted, marginTop: 6 }}>Last update at {timeStr}</div>
+        </div>
 
-          <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 6, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-            Total Portfolio Value
+        {/* Split bar */}
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ display: 'flex', height: 8, borderRadius: 4, overflow: 'hidden', gap: 2 }}>
+            <div style={{ width: `${portfolioPct}%`, background: theme.accent, borderRadius: '4px 0 0 4px', transition: 'width 0.5s ease' }} />
+            <div style={{ flex: 1, background: '#7A6E6244', borderRadius: '0 4px 4px 0' }} />
           </div>
-          <div style={{ fontSize: 42, fontWeight: 900, color: '#F2EDE6', letterSpacing: '-1.5px', marginBottom: 6 }}>
-            ${totalValue.toFixed(2)}
+          <div style={{ display: 'flex', gap: 24, marginTop: 12 }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+              <div style={{ width: 3, height: 32, background: theme.accent, borderRadius: 2, marginTop: 2, flexShrink: 0 }} />
+              <div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: theme.text }}>{portfolioPct.toFixed(1)}<span style={{ fontSize: 13, fontWeight: 600, color: theme.muted }}>%</span></div>
+                <div style={{ fontSize: 11, color: theme.muted }}>People Portfolio</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+              <div style={{ width: 3, height: 32, background: '#7A6E62', borderRadius: 2, marginTop: 2, flexShrink: 0 }} />
+              <div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: theme.text }}>{cashPct.toFixed(1)}<span style={{ fontSize: 13, fontWeight: 600, color: theme.muted }}>%</span></div>
+                <div style={{ fontSize: 11, color: theme.muted }}>Available Cash</div>
+              </div>
+            </div>
           </div>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 8,
-            color: totalPnl >= 0 ? '#C9A84C' : '#C0564A',
-            fontSize: 16, fontWeight: 700, marginBottom: 20,
-          }}>
-            {totalPnl >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-            {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
-            <span style={{ fontSize: 14 }}>({totalPct >= 0 ? '+' : ''}{totalPct.toFixed(1)}%)</span>
-          </div>
+        </div>
 
-          {/* Chart tabs */}
-          <div style={{ display: 'flex', gap: 6, marginBottom: 14 }}>
-            {CHART_TABS.map(t => (
-              <button
-                key={t}
-                onClick={() => setChartTab(t)}
-                style={{
-                  background: chartTab === t ? '#C9A84C22' : 'transparent',
-                  border: `1px solid ${chartTab === t ? '#C9A84C' : '#332C24'}`,
-                  borderRadius: 8, padding: '4px 12px',
-                  color: chartTab === t ? '#C9A84C' : '#7A6E62',
-                  fontSize: 11, fontWeight: 700, cursor: 'pointer',
-                }}
-              >
-                {t}
-              </button>
-            ))}
+        {/* PnL summary */}
+        <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
+          <div style={{ flex: 1, background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: 14, padding: '12px 14px' }}>
+            <div style={{ fontSize: 10, color: theme.muted, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Portfolio Value</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: theme.text }}>${totalValue.toFixed(2)}</div>
           </div>
+          <div style={{ flex: 1, background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: 14, padding: '12px 14px' }}>
+            <div style={{ fontSize: 10, color: theme.muted, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Total Return</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: totalPnl >= 0 ? theme.up : theme.down }}>
+              {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
+            </div>
+          </div>
+          <div style={{ flex: 1, background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: 14, padding: '12px 14px' }}>
+            <div style={{ fontSize: 10, color: theme.muted, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Cash</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: theme.accent }}>${balance.toFixed(2)}</div>
+          </div>
+        </div>
 
-          <PortfolioChart positions={positions} tab={chartTab} />
+        {/* Filter tabs */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+          {[
+            { id: 'all', label: `All (${positions.length})` },
+            { id: 'up', label: `Gaining (${positions.filter(p => p.pnl >= 0).length})` },
+            { id: 'down', label: `Falling (${positions.filter(p => p.pnl < 0).length})` },
+          ].map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{
+              background: tab === t.id ? theme.accent : theme.surface,
+              color: tab === t.id ? '#221E1A' : theme.muted,
+              border: `1px solid ${tab === t.id ? theme.accent : theme.border}`,
+              borderRadius: 20, padding: '6px 14px', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+            }}>{t.label}</button>
+          ))}
+        </div>
+
+        {/* Column headers */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 72px 72px 36px', gap: 4, padding: '0 4px', marginBottom: 8 }}>
+          <div style={{ fontSize: 10, color: theme.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Person</div>
+          <div style={{ fontSize: 10, color: theme.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'right' }}>Return</div>
+          <div style={{ fontSize: 10, color: theme.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'right' }}>Value</div>
+          <div />
         </div>
       </div>
 
+      {/* Positions list */}
       <div style={{ padding: '0 16px' }}>
-        <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 14, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          {positions.length} positions
-        </div>
-
-        {sortedPos.map((pos, i) => {
-          const isBest = pos.userId === bestPos?.userId;
+        {filtered.length === 0 && (
+          <div style={{ textAlign: 'center', padding: '40px 0', color: theme.muted, fontSize: 14 }}>No positions in this view.</div>
+        )}
+        {filtered.map((pos) => {
+          const positive = pos.pnl >= 0;
           return (
-            <div key={pos.userId}>
-              {isBest && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                  <Star size={12} color="#D4A843" fill="#D4A843" />
-                  <span style={{ fontSize: 11, color: '#D4A843', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                    Best Performer
-                  </span>
+            <div key={pos.userId} style={{ display: 'grid', gridTemplateColumns: '1fr 72px 72px 36px', gap: 4, alignItems: 'center', padding: '12px 4px', borderBottom: `1px solid ${theme.border}` }}>
+              {/* Person */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }} onClick={() => navigate(`/user/${pos.userId}`)}>
+                <img src={pos.user.avatar} alt="" style={{ width: 40, height: 40, borderRadius: '50%', border: `1.5px solid ${pos.user.color}44`, objectFit: 'cover', flexShrink: 0 }} />
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: theme.text, marginBottom: 2 }}>{pos.user.name.split(' ')[0]} <span style={{ color: theme.muted, fontWeight: 400 }}>{pos.user.name.split(' ').slice(1).join(' ')}</span></div>
+                  <div style={{ fontSize: 11, color: theme.muted }}>{pos.shares} {pos.shares === 1 ? 'share' : 'shares'} · ${(pos.currentPrice / 1000).toFixed(0)}k val</div>
                 </div>
-              )}
-              <div
-                style={{
-                  background: isBest ? '#1A1400' : '#2A2520',
-                  border: `1px solid ${isBest ? '#C9A84C44' : '#332C24'}`,
-                  borderRadius: 16, padding: 16, marginBottom: 10,
-                  display: 'flex', alignItems: 'center', gap: 14,
-                  position: 'relative', overflow: 'hidden',
-                }}
-              >
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: pos.user.color, opacity: isBest ? 0.8 : 0.4 }} />
+              </div>
 
-                <img src={pos.user.avatar} alt={pos.user.name} onClick={() => navigate(`/user/${pos.userId}`)} style={{ width: 44, height: 44, borderRadius: '50%', border: `1.5px solid ${pos.user.color}44`, cursor: 'pointer' }} />
-
-                <div style={{ flex: 1 }} onClick={() => navigate(`/user/${pos.userId}`)}>
-                  <div style={{ fontWeight: 600, fontSize: 15, color: '#F2EDE6', marginBottom: 2, cursor: 'pointer' }}>{pos.user.name}</div>
-                  <div style={{ fontSize: 12, color: '#7A6E62' }}>{pos.shares} {pos.shares === 1 ? 'share' : 'shares'}</div>
+              {/* Return */}
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: positive ? theme.up : theme.down }}>
+                  {positive ? '+' : ''}{pos.pnlPct.toFixed(1)}%
                 </div>
+                <div style={{ fontSize: 10, color: theme.muted }}>{positive ? '+' : ''}${pos.pnl.toFixed(2)}</div>
+              </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <MiniChart data={generateChart(pos.user.marketCap, pos.user.change, 12)} color={pos.pnl >= 0 ? '#7A9E7E' : '#C0564A'} width={56} height={22} />
-                    {/* Insight button */}
-                    <button onClick={e => { e.stopPropagation(); setInsightPos(pos); }} style={{ width: 30, height: 30, borderRadius: '50%', background: '#1A1612', border: '1px solid #2A2520', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                      <BarChart2 size={14} color="#C9A84C" />
-                    </button>
-                  </div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#F2EDE6' }}>${pos.value.toFixed(2)}</div>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: pos.pnl >= 0 ? '#C9A84C' : '#C0564A' }}>
-                    {pos.pnl >= 0 ? '+' : ''}${pos.pnl.toFixed(2)} ({pos.pnl >= 0 ? '+' : ''}{pos.pnlPct.toFixed(1)}%)
-                  </div>
-                </div>
+              {/* Value */}
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: theme.text }}>${pos.value.toFixed(2)}</div>
+                <MiniChart data={generateChart(pos.user.marketCap, pos.user.change, 10)} color={positive ? theme.up : theme.down} width={52} height={18} />
+              </div>
+
+              {/* Insight icon */}
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <button onClick={() => setInsightPos(pos)} style={{ width: 28, height: 28, borderRadius: '50%', background: theme.surface, border: `1px solid ${theme.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                  <BarChart2 size={13} color={theme.accent} />
+                </button>
               </div>
             </div>
           );
         })}
 
-        {/* Add position */}
-        <button onClick={() => navigate('/discover')} style={{ width: '100%', background: 'transparent', border: '1px dashed #2A2520', borderRadius: 16, padding: 16, color: '#7A6E62', fontSize: 14, cursor: 'pointer', marginTop: 6 }}>
-          + Back someone new
-        </button>
+        {/* Total Available Cash row */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 4px', borderTop: `2px solid ${theme.border}`, marginTop: 4 }}>
+          <div>
+            <div style={{ fontSize: 12, color: theme.muted, marginBottom: 2 }}>Available Cash</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: theme.text }}>${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+          </div>
+          <button onClick={() => navigate('/discover')} style={{ background: theme.accent, color: '#221E1A', border: 'none', borderRadius: 22, padding: '11px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Plus size={16} /> Back someone
+          </button>
+        </div>
 
         {/* Backer Cards */}
         {backerCards.length > 0 && (
-          <div style={{ marginTop: 28 }}>
-            <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 14, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              Your Backer Cards
-            </div>
+          <div style={{ marginTop: 24 }}>
+            <div style={{ fontSize: 11, color: theme.muted, marginBottom: 14, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Backer Cards</div>
             {backerCards.map((card, i) => {
               const user = mockUsers.find(u => u.id === card.userId);
               const currentCap = user?.marketCap || card.valuationAtBuy;
@@ -287,36 +222,22 @@ export default function Portfolio() {
               const isPos = parseFloat(returnPct) >= 0;
               return (
                 <div key={i} onClick={() => navigate(`/user/${card.userId}`)} style={{
-                  background: 'linear-gradient(135deg, #1E1B17 0%, #2A2218 100%)',
-                  border: '1px solid #C9A84C33',
-                  borderRadius: 18, padding: '18px 20px',
-                  marginBottom: 12, cursor: 'pointer',
-                  position: 'relative', overflow: 'hidden',
+                  background: `linear-gradient(135deg, ${theme.surface} 0%, ${theme.bg} 100%)`,
+                  border: `1px solid ${theme.accent}33`, borderRadius: 18,
+                  padding: '16px 18px', marginBottom: 10, cursor: 'pointer', position: 'relative', overflow: 'hidden',
                 }}>
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, #C9A84C, transparent)' }} />
-                  <div style={{ position: 'absolute', bottom: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: '#C9A84C08' }} />
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                    <img src={card.avatar || user?.avatar} alt="" style={{ width: 40, height: 40, borderRadius: '50%', border: '1.5px solid #C9A84C44' }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${theme.accent}, transparent)` }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                    <img src={card.avatar || user?.avatar} alt="" style={{ width: 36, height: 36, borderRadius: '50%', border: `1.5px solid ${theme.accent}44`, objectFit: 'cover' }} />
                     <div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: '#F2EDE6' }}>I backed {card.name}</div>
-                      <div style={{ fontSize: 11, color: '#7A6E62' }}>on {card.date}</div>
+                      <div style={{ fontSize: 14, fontWeight: 800, color: theme.text }}>I believed in {card.name}</div>
+                      <div style={{ fontSize: 11, color: theme.muted }}>on {card.date}</div>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                    <div>
-                      <div style={{ fontSize: 10, color: '#7A6E62', marginBottom: 2 }}>Valuation at entry</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#B5A898' }}>${(card.valuationAtBuy / 1000).toFixed(0)}k</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: 10, color: '#7A6E62', marginBottom: 2 }}>Amount</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#C9A84C' }}>${card.amount}</div>
-                    </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: 10, color: '#7A6E62', marginBottom: 2 }}>Since entry</div>
-                      <div style={{ fontSize: 16, fontWeight: 800, color: isPos ? '#7A9E7E' : '#C0564A' }}>
-                        {isPos ? '+' : ''}{returnPct}%
-                      </div>
-                    </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div><div style={{ fontSize: 10, color: theme.muted, marginBottom: 2 }}>Entry valuation</div><div style={{ fontSize: 12, fontWeight: 600, color: theme.text2 }}>${(card.valuationAtBuy / 1000).toFixed(0)}k</div></div>
+                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: 10, color: theme.muted, marginBottom: 2 }}>Amount</div><div style={{ fontSize: 12, fontWeight: 700, color: theme.accent }}>${card.amount}</div></div>
+                    <div style={{ textAlign: 'right' }}><div style={{ fontSize: 10, color: theme.muted, marginBottom: 2 }}>Since entry</div><div style={{ fontSize: 15, fontWeight: 800, color: isPos ? theme.up : theme.down }}>{isPos ? '+' : ''}{returnPct}%</div></div>
                   </div>
                 </div>
               );
@@ -329,61 +250,55 @@ export default function Portfolio() {
       {insightPos && (
         <>
           <div style={{ position: 'fixed', inset: 0, background: '#000000aa', zIndex: 200 }} onClick={() => setInsightPos(null)} />
-          <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: '#1E1B17', borderRadius: '24px 24px 0 0', padding: '28px 20px 48px', zIndex: 201, border: '1px solid #C9A84C33', boxShadow: '0 -8px 40px #00000088' }}>
+          <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: theme.surface, borderRadius: '24px 24px 0 0', padding: '28px 20px 48px', zIndex: 201, border: `1px solid ${theme.accent}33`, boxShadow: '0 -8px 40px #00000088', animation: 'slideUp 0.3s ease' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <img src={insightPos.user.avatar} alt="" style={{ width: 42, height: 42, borderRadius: '50%', border: `1.5px solid ${insightPos.user.color}44` }} />
+                <img src={insightPos.user.avatar} alt="" style={{ width: 42, height: 42, borderRadius: '50%', border: `1.5px solid ${insightPos.user.color}44`, objectFit: 'cover' }} />
                 <div>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: '#F2EDE6' }}>{insightPos.user.name}</div>
-                  <div style={{ fontSize: 11, color: '#7A6E62' }}>Portfolio Insight</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: theme.text }}>{insightPos.user.name}</div>
+                  <div style={{ fontSize: 11, color: theme.muted }}>Belief Analysis</div>
                 </div>
               </div>
-              <button onClick={() => setInsightPos(null)} style={{ background: '#2A2520', border: '1px solid #3E3528', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                <X size={15} color="#7A6E62" />
+              <button onClick={() => setInsightPos(null)} style={{ background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                <X size={15} color={theme.muted} />
               </button>
             </div>
 
-            {/* Signal badge */}
             {(() => {
               const pnl = insightPos.pnlPct;
-              const signal = pnl > 10 ? { label: 'STRONG BUY', color: '#7A9E7E' } : pnl > 0 ? { label: 'HOLD', color: '#C9A84C' } : pnl > -10 ? { label: 'WATCH', color: '#D4A843' } : { label: 'CONSIDER EXIT', color: '#C0564A' };
+              const signal = pnl > 10 ? { label: 'STRONG BELIEF', color: theme.up } : pnl > 0 ? { label: 'HOLD STEADY', color: theme.accent } : pnl > -10 ? { label: 'WATCH CLOSELY', color: '#D4A843' } : { label: 'RECONSIDER', color: theme.down };
               return (
                 <div style={{ background: `${signal.color}18`, border: `1px solid ${signal.color}44`, borderRadius: 10, padding: '10px 16px', marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{ fontSize: 13, fontWeight: 800, color: signal.color, letterSpacing: '0.06em' }}>{signal.label}</span>
-                  <span style={{ fontSize: 13, color: insightPos.pnl >= 0 ? '#7A9E7E' : '#C0564A', fontWeight: 700 }}>
-                    {insightPos.pnl >= 0 ? '+' : ''}{insightPos.pnlPct.toFixed(1)}% your return
+                  <span style={{ fontSize: 13, color: insightPos.pnl >= 0 ? theme.up : theme.down, fontWeight: 700 }}>
+                    {insightPos.pnl >= 0 ? '+' : ''}{insightPos.pnlPct.toFixed(1)}%
                   </span>
                 </div>
               );
             })()}
 
-            {/* Insight lines */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
               {generateInsight(insightPos).map((line, i) => (
                 <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#C9A84C', marginTop: 6, flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: '#B5A898', lineHeight: 1.5 }}>{line}</span>
+                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: theme.accent, marginTop: 6, flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: theme.text2, lineHeight: 1.5 }}>{line}</span>
                 </div>
               ))}
             </div>
 
-            {/* Actions */}
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={() => { setInsightPos(null); navigate(`/user/${insightPos.userId}`); }} style={{ flex: 1, background: '#C9A84C', color: '#221E1A', border: 'none', borderRadius: 14, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                <ArrowUpRight size={15} /> Add more
+              <button onClick={() => { setInsightPos(null); navigate(`/user/${insightPos.userId}`); }} style={{ flex: 1, background: theme.accent, color: '#221E1A', border: 'none', borderRadius: 14, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <ArrowUpRight size={15} /> Back more
               </button>
-              <button onClick={() => setInsightPos(null)} style={{ flex: 1, background: '#2A2520', color: '#C0564A', border: '1px solid #C0564A33', borderRadius: 14, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                <ArrowDownLeft size={15} /> Exit position
+              <button onClick={() => setInsightPos(null)} style={{ flex: 1, background: theme.bg, color: theme.down, border: `1px solid ${theme.down}33`, borderRadius: 14, padding: '13px 0', fontSize: 14, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <ArrowDownLeft size={15} /> Step back
               </button>
             </div>
           </div>
         </>
       )}
 
-      <BottomNav />
+      <BottomNav onSettingsOpen={onSettingsOpen} />
     </div>
   );
 }
-
-
-

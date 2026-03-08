@@ -100,7 +100,7 @@ function OpportunityCard({ user, navigate }) {
   );
 }
 
-export default function Home() {
+export default function Home({ onSettingsOpen }) {
   const navigate = useNavigate();
   const [filter, setFilter] = useState('All');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -394,7 +394,7 @@ export default function Home() {
         </div>
       )}
 
-      <BottomNav />
+      <BottomNav onSettingsOpen={onSettingsOpen} />
     </div>
   );
 }

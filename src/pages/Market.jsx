@@ -26,7 +26,7 @@ function useLivePrices(users) {
 
 const TABS = ['All', 'Gainers', 'Losers', 'Most Backed'];
 
-export default function Market() {
+export default function Market({ onSettingsOpen }) {
   const navigate = useNavigate();
   const [tab, setTab] = useState('All');
   const [query, setQuery] = useState('');
@@ -176,7 +176,7 @@ export default function Market() {
         );
       })}
 
-      <BottomNav />
+      <BottomNav onSettingsOpen={onSettingsOpen} />
     </div>
   );
 }
