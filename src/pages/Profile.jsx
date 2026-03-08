@@ -15,17 +15,17 @@ import {
 const ME = mockUsers.find(u => u.id === '1');
 
 const LEVEL_SYSTEM = [
-  { min: 0,   max: 20,       name: 'Newcomer',    color: theme.muted },
+  { min: 0,   max: 20,       name: 'Newcomer',    color: '#7A7168' },
   { min: 21,  max: 40,       name: 'Explorer',    color: '#4BBFB5' },
   { min: 41,  max: 60,       name: 'Contributor', color: '#7B6FBF' },
   { min: 61,  max: 80,       name: 'Builder',     color: '#D4A843' },
-  { min: 81,  max: 100,      name: 'Amplifier',   color: theme.accent },
+  { min: 81,  max: 100,      name: 'Amplifier',   color: '#C4A24A' },
   { min: 101, max: Infinity, name: 'Legend',      color: '#C0564A' },
 ];
 
 const POST_TYPES = [
   { id: 'update',    label: 'Update',    color: '#7B6FBF' },
-  { id: 'milestone', label: 'Milestone', color: theme.accent },
+  { id: 'milestone', label: 'Milestone', color: '#C4A24A' },
   { id: 'insight',   label: 'Insight',   color: '#D4A843' },
   { id: 'work',      label: 'Work',      color: '#4BBFB5' },
 ];
@@ -34,7 +34,7 @@ const ACTIONS = [
   { id: 'post',      label: 'Write Post',         icon: FileText,    color: '#7B6FBF' },
   { id: 'work',      label: 'Upload Work',         icon: Briefcase,   color: '#4BBFB5' },
   { id: 'mission',   label: 'Add Mission',         icon: Target,      color: '#D4A843' },
-  { id: 'ask',       label: 'Request Backing',     icon: DollarSign,  color: theme.accent },
+  { id: 'ask',       label: 'Request Backing',     icon: DollarSign,  color: '#C4A24A' },
   { id: 'share',     label: 'Share Profile',       icon: Share2,      color: '#B5A898' },
   { id: 'message',   label: 'Open DMs',            icon: MessageSquare, color: '#8B85C1' },
 ];
@@ -160,7 +160,7 @@ export default function Profile({ onSettingsOpen }) {
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
           <div>
             <div style={{ fontSize: 22, fontWeight: 800, color: theme.text }}>{user.name}</div>
-            <div style={{ fontSize: 13, color: theme.muted }}>{user.handle}</div>
+            <div style={{ fontSize: 13, color: '#7A7168' }}>{user.handle}</div>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={() => setActiveAction('share')} style={{ background: theme.surface2, border: '1px solid #3E3528', borderRadius: 10, padding: '7px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
@@ -173,8 +173,8 @@ export default function Profile({ onSettingsOpen }) {
         <div style={{ fontSize: 14, color: '#B5A898', lineHeight: 1.5, marginBottom: 12 }}>{user.bio}</div>
 
         <div style={{ display: 'flex', gap: 14, marginBottom: 12 }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: theme.muted }}><MapPin size={12} /> {user.location}</span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: theme.muted }}><Calendar size={12} /> {user.joined}</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#7A7168' }}><MapPin size={12} /> {user.location}</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#7A7168' }}><Calendar size={12} /> {user.joined}</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#D4A843' }}><Star size={12} fill="#D4A843" /> {rep} rep</span>
         </div>
 
@@ -190,12 +190,12 @@ export default function Profile({ onSettingsOpen }) {
           {[
             { label: 'Valuation', value: `$${(user.marketCap / 1000).toFixed(0)}k`, color: theme.text },
             { label: 'Collateral', value: `$${(user.collateral / 1000).toFixed(0)}k`, color: theme.text },
-            { label: 'Backers', value: user.investors, color: theme.accent },
+            { label: 'Backers', value: user.investors, color: '#C4A24A' },
             { label: 'Missions', value: user.missions, color: theme.text },
           ].map((s, i) => (
             <div key={s.label} style={{ flex: 1, textAlign: 'center', borderRight: i < 3 ? '1px solid #1A1A1A' : 'none' }}>
               <div style={{ fontSize: 15, fontWeight: 700, color: s.color, marginBottom: 2 }}>{s.value}</div>
-              <div style={{ fontSize: 10, color: theme.muted }}>{s.label}</div>
+              <div style={{ fontSize: 10, color: '#7A7168' }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -209,7 +209,7 @@ export default function Profile({ onSettingsOpen }) {
             <span style={{ fontSize: 16, fontWeight: 800, color: theme.text }}>{rep}</span>
             <span style={{ fontSize: 12, color: level.color, fontWeight: 600 }}>{level.name}</span>
           </div>
-          {nextLevel && <span style={{ fontSize: 11, color: theme.muted }}>{nextLevel.min - rep} to {nextLevel.name}</span>}
+          {nextLevel && <span style={{ fontSize: 11, color: '#7A7168' }}>{nextLevel.min - rep} to {nextLevel.name}</span>}
         </div>
         <div style={{ background: '#332D27', borderRadius: 6, height: 6, overflow: 'hidden' }}>
           <div style={{ width: `${progress}%`, height: '100%', background: `linear-gradient(90deg, ${level.color}, ${nextLevel?.color || level.color})`, borderRadius: 6 }} />
@@ -276,11 +276,11 @@ export default function Profile({ onSettingsOpen }) {
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
                     <div>
                       <div style={{ fontSize: 16, fontWeight: 800, color: theme.text, marginBottom: 3 }}>{v.name}</div>
-                      <div style={{ fontSize: 12, color: theme.muted }}>{v.role} · {v.year}</div>
+                      <div style={{ fontSize: 12, color: '#7A7168' }}>{v.role} · {v.year}</div>
                     </div>
                     <span style={{ fontSize: 10, fontWeight: 600, color: c, background: `${c}18`, borderRadius: 6, padding: '3px 9px', textTransform: 'capitalize' }}>{v.status}</span>
                   </div>
-                  <div style={{ fontSize: 13, color: theme.accent, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <div style={{ fontSize: 13, color: '#C4A24A', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
                     <TrendingUp size={12} /> {v.raised}
                   </div>
                 </div>
@@ -297,7 +297,7 @@ export default function Profile({ onSettingsOpen }) {
           <div>
             <button onClick={() => setActiveAction('post')} style={{ width: '100%', background: '#1A1612', border: '1px solid #C9A84C33', borderRadius: 14, padding: '13px 16px', marginBottom: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
               <img src={user.avatar} alt="" style={{ width: 32, height: 32, borderRadius: '50%' }} />
-              <span style={{ fontSize: 14, color: theme.muted }}>Share something with your backers...</span>
+              <span style={{ fontSize: 14, color: '#7A7168' }}>Share something with your backers...</span>
             </button>
             {allPosts.length === 0 && <div style={{ textAlign: 'center', color: theme.muted, padding: '40px 0', fontSize: 14 }}>No posts yet. Share something!</div>}
             {allPosts.map((post, i) => (
@@ -306,14 +306,14 @@ export default function Profile({ onSettingsOpen }) {
                   <img src={user.avatar} alt="" style={{ width: 34, height: 34, borderRadius: '50%' }} />
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 700, color: theme.text }}>{user.name}</div>
-                    <div style={{ fontSize: 10, color: theme.muted }}>{post.time}</div>
+                    <div style={{ fontSize: 10, color: '#7A7168' }}>{post.time}</div>
                   </div>
                   <span style={{ marginLeft: 'auto', fontSize: 10, color: typeInfo.color, background: `${typeInfo.color}15`, borderRadius: 4, padding: '2px 8px', fontWeight: 600, textTransform: 'uppercase' }}>{post.type}</span>
                 </div>
                 <div style={{ fontSize: 14, color: '#B5A898', lineHeight: 1.5 }}>{post.text}</div>
                 <div style={{ display: 'flex', gap: 16, marginTop: 12 }}>
-                  <span style={{ fontSize: 12, color: theme.muted }}>♡ {post.likes}</span>
-                  <span style={{ fontSize: 12, color: theme.muted }}>💬 {post.comments}</span>
+                  <span style={{ fontSize: 12, color: '#7A7168' }}>♡ {post.likes}</span>
+                  <span style={{ fontSize: 12, color: '#7A7168' }}>💬 {post.comments}</span>
                 </div>
               </div>
             ))}
@@ -379,7 +379,7 @@ export default function Profile({ onSettingsOpen }) {
                 {activeAction === 'ask' && (
                   <div style={{ background: theme.surface2, borderRadius: 14, padding: '16px', marginBottom: 16 }}>
                     <div style={{ fontSize: 14, color: '#B5A898', lineHeight: 1.6 }}>
-                      A "Request Backing" post will be shared with your followers, inviting them to invest in you at your current valuation of <span style={{ color: theme.accent, fontWeight: 700 }}>${(user.marketCap / 1000).toFixed(0)}k</span>.
+                      A "Request Backing" post will be shared with your followers, inviting them to invest in you at your current valuation of <span style={{ color: '#C4A24A', fontWeight: 700 }}>${(user.marketCap / 1000).toFixed(0)}k</span>.
                     </div>
                   </div>
                 )}
@@ -387,7 +387,7 @@ export default function Profile({ onSettingsOpen }) {
                 {activeAction === 'share' && (
                   <div style={{ background: theme.surface2, borderRadius: 14, padding: '16px', marginBottom: 16, textAlign: 'center' }}>
                     <div style={{ fontSize: 14, color: theme.text, fontWeight: 700, marginBottom: 8 }}>any1.vercel.app/user/1</div>
-                    <div style={{ fontSize: 12, color: theme.muted }}>Share your profile link</div>
+                    <div style={{ fontSize: 12, color: '#7A7168' }}>Share your profile link</div>
                   </div>
                 )}
 
