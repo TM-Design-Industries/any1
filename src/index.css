@@ -5,17 +5,38 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+:root {
+  --t-bg: #1A1816;
+  --t-surface: #232019;
+  --t-surface2: #2A261F;
+  --t-text: #EAE6DF;
+  --t-text2: #B8B0A5;
+  --t-muted: #6E6860;
+  --t-border: #2D2924;
+  --t-border2: #38332C;
+  --t-accent: #BFA24A;
+  --t-up: #5A8560;
+  --t-down: #A34840;
+  --t-navBg: rgba(26,24,22,0.97);
+}
+
 body {
-  background: #221E1A;
-  color: #F2EDE6;
+  background: var(--t-bg);
+  color: var(--t-text);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  background: var(--t-bg);
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar { display: none; }
-input::placeholder { color: #7A6E62; }
-textarea::placeholder { color: #7A6E62; }
+input::placeholder { color: var(--t-muted); }
+textarea::placeholder { color: var(--t-muted); }
 
 button {
   -webkit-tap-highlight-color: transparent;
@@ -59,8 +80,8 @@ button:active { opacity: 0.75; transform: scale(0.96); }
 }
 
 @keyframes goldGlow {
-  0%, 100% { box-shadow: 0 0 12px #C9A84C66, 0 0 24px #C9A84C33; }
-  50%       { box-shadow: 0 0 20px #C9A84C99, 0 0 40px #C9A84C55; }
+  0%, 100% { box-shadow: 0 0 12px #BFA24A66, 0 0 24px #BFA24A33; }
+  50%       { box-shadow: 0 0 20px #BFA24A99, 0 0 40px #BFA24A55; }
 }
 
 @keyframes scaleIn {
@@ -78,4 +99,3 @@ button:active { opacity: 0.75; transform: scale(0.96); }
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
