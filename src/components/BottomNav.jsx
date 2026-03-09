@@ -11,9 +11,6 @@ const tabs = [
 ];
 
 export default function BottomNav({ onSettingsOpen }) {
-  const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 430);
-  useEffect(() => { const h = () => setWidth(window.innerWidth); window.addEventListener('resize',h); return () => window.removeEventListener('resize',h); }, []);
-  if (width >= 768) return null;
   const navigate = useNavigate();
   const location = useLocation();
   const { theme } = useTheme();

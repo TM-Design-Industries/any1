@@ -13,24 +13,24 @@ import {
 } from 'lucide-react';
 
 const STATUS_STYLE = {
-  active:    { color: theme.accent, bg: '#C9A84C18', label: 'Active' },
+  active:    { color: '#C9A84C', bg: '#C9A84C18', label: 'Active' },
   completed: { color: '#4BBFB5', bg: '#5FBFB518', label: 'Done' },
   acquired:  { color: '#D4A843', bg: '#C9A84C18', label: 'Acquired' },
   exited:    { color: '#D4A843', bg: '#C9A84C18', label: 'Exited' },
-  closed:    { color: theme.muted, bg: '#66666618', label: 'Closed' },
+  closed:    { color: '#7A6E62', bg: '#66666618', label: 'Closed' },
 };
 
 const POST_TYPE_COLOR = {
-  update: '#7B6FBF', milestone: theme.accent, insight: '#D4A843',
+  update: '#7B6FBF', milestone: '#C9A84C', insight: '#D4A843',
   work: '#4BBFB5', thought: '#B5A898',
 };
 
 const LEVEL_SYSTEM = [
-  { min: 0,   max: 20,       name: 'Newcomer',    color: theme.muted },
+  { min: 0,   max: 20,       name: 'Newcomer',    color: '#7A6E62' },
   { min: 21,  max: 40,       name: 'Explorer',    color: '#4BBFB5' },
   { min: 41,  max: 60,       name: 'Contributor', color: '#7B6FBF' },
   { min: 61,  max: 80,       name: 'Builder',     color: '#D4A843' },
-  { min: 81,  max: 100,      name: 'Amplifier',   color: theme.accent },
+  { min: 81,  max: 100,      name: 'Amplifier',   color: '#C9A84C' },
   { min: 101, max: Infinity, name: 'Legend',      color: '#C0564A' },
 ];
 
@@ -54,22 +54,22 @@ function TransactionsTab({ userId, navigate }) {
         {isPublic ? (
           <><Eye size={14} color="#7A9E7E" /><span style={{ fontSize: 12, color: '#7A9E7E', fontWeight: 600 }}>Public — this user shares their activity</span></>
         ) : (
-          <><EyeOff size={14} color="#7A6E62" /><span style={{ fontSize: 12, color: theme.muted }}>Private user — transaction history not disclosed</span></>
+          <><EyeOff size={14} color="#7A6E62" /><span style={{ fontSize: 12, color: '#7A6E62' }}>Private user — transaction history not disclosed</span></>
         )}
       </div>
 
       {!isPublic && (
-        <div style={{ textAlign: 'center', padding: '40px 20px', background: theme.bg, borderRadius: 16, border: '1px solid #2A2520' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px', background: '#1A1612', borderRadius: 16, border: '1px solid #2A2520' }}>
           <EyeOff size={32} color="#3E3528" style={{ marginBottom: 12, display: 'block', margin: '0 auto 12px' }} />
-          <div style={{ fontSize: 15, fontWeight: 600, color: theme.muted, marginBottom: 8 }}>Activity is private</div>
-          <div style={{ fontSize: 13, color: theme.border2, lineHeight: 1.5 }}>
+          <div style={{ fontSize: 15, fontWeight: 600, color: '#7A6E62', marginBottom: 8 }}>Activity is private</div>
+          <div style={{ fontSize: 13, color: '#3E3528', lineHeight: 1.5 }}>
             This user has chosen not to disclose their investment history. Some of the most successful investors on any1 operate privately.
           </div>
         </div>
       )}
 
       {isPublic && txData?.transactions?.length === 0 && (
-        <div style={{ textAlign: 'center', padding: '40px 0', color: theme.muted, fontSize: 14 }}>No transactions yet.</div>
+        <div style={{ textAlign: 'center', padding: '40px 0', color: '#7A6E62', fontSize: 14 }}>No transactions yet.</div>
       )}
 
       {isPublic && txData?.transactions?.map(tx => {
@@ -77,7 +77,7 @@ function TransactionsTab({ userId, navigate }) {
         const isPos = tx.return >= 0;
         return (
           <div key={tx.id} onClick={() => navigate(`/user/${tx.targetId}`)} style={{
-            background: theme.bg, border: '1px solid #2A2520',
+            background: '#1A1612', border: '1px solid #2A2520',
             borderRadius: 14, padding: '14px 16px', marginBottom: 10,
             cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12,
             position: 'relative', overflow: 'hidden',
@@ -89,39 +89,39 @@ function TransactionsTab({ userId, navigate }) {
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
                 <span style={{ fontSize: 10, fontWeight: 700, color: isBuy ? '#7A9E7E' : '#C0564A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{isBuy ? 'Backed' : 'Exited'}</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: theme.text }}>{tx.targetName}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#F2EDE6' }}>{tx.targetName}</span>
               </div>
-              <div style={{ fontSize: 11, color: theme.muted }}>${tx.amount.toLocaleString()} at ${(tx.price / 1000).toFixed(0)}k valuation · {tx.date}</div>
+              <div style={{ fontSize: 11, color: '#7A6E62' }}>${tx.amount.toLocaleString()} at ${(tx.price / 1000).toFixed(0)}k valuation · {tx.date}</div>
             </div>
             <div style={{ textAlign: 'right', flexShrink: 0 }}>
               <div style={{ fontSize: 14, fontWeight: 800, color: isPos ? '#7A9E7E' : '#C0564A' }}>{isPos ? '+' : ''}{tx.return}%</div>
-              <div style={{ fontSize: 10, color: theme.muted }}>return</div>
+              <div style={{ fontSize: 10, color: '#7A6E62' }}>return</div>
             </div>
           </div>
         );
       })}
 
       {isPublic && txData?.transactions?.length > 0 && (
-        <div style={{ background: theme.bg, border: '1px solid #2A2520', borderRadius: 14, padding: '14px 16px', marginTop: 4 }}>
-          <div style={{ fontSize: 11, color: theme.muted, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Summary</div>
+        <div style={{ background: '#1A1612', border: '1px solid #2A2520', borderRadius: 14, padding: '14px 16px', marginTop: 4 }}>
+          <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Summary</div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 16, fontWeight: 800, color: theme.text }}>{txData.transactions.length}</div>
-              <div style={{ fontSize: 10, color: theme.muted }}>Total</div>
+              <div style={{ fontSize: 16, fontWeight: 800, color: '#F2EDE6' }}>{txData.transactions.length}</div>
+              <div style={{ fontSize: 10, color: '#7A6E62' }}>Total</div>
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 16, fontWeight: 800, color: '#7A9E7E' }}>{txData.transactions.filter(t => t.type === 'buy').length}</div>
-              <div style={{ fontSize: 10, color: theme.muted }}>Backed</div>
+              <div style={{ fontSize: 10, color: '#7A6E62' }}>Backed</div>
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 16, fontWeight: 800, color: '#C0564A' }}>{txData.transactions.filter(t => t.type === 'sell').length}</div>
-              <div style={{ fontSize: 10, color: theme.muted }}>Exited</div>
+              <div style={{ fontSize: 10, color: '#7A6E62' }}>Exited</div>
             </div>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 16, fontWeight: 800, color: theme.accent }}>
+              <div style={{ fontSize: 16, fontWeight: 800, color: '#C9A84C' }}>
                 {(txData.transactions.reduce((s, t) => s + t.return, 0) / txData.transactions.length).toFixed(1)}%
               </div>
-              <div style={{ fontSize: 10, color: theme.muted }}>Avg Return</div>
+              <div style={{ fontSize: 10, color: '#7A6E62' }}>Avg Return</div>
             </div>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default function UserPage() {
   const nextLevel = LEVEL_SYSTEM[LEVEL_SYSTEM.indexOf(level) + 1];
   const progress = nextLevel ? ((rep - level.min) / (nextLevel.min - level.min)) * 100 : 100;
   const badges = [
-    { label: 'Verified', icon: null, color: theme.accent },
+    { label: 'Verified', icon: null, color: '#C9A84C' },
     { label: 'Early Adopter', icon: null, color: '#7B6FBF' },
   ];
   if (user.missions > 0) badges.push({ label: 'Active', icon: null, color: '#4BBFB5' });
@@ -165,14 +165,14 @@ export default function UserPage() {
     : tab === 'posts' ? 'Posts' : 'Transactions';
 
   return (
-    <div style={{ minHeight: '100vh', background: theme.bg, paddingBottom: 40, position: 'relative' }}>
+    <div style={{ minHeight: '100vh', background: '#221E1A', paddingBottom: 40, position: 'relative' }}>
       <style>{`@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }`}</style>
 
       {/* Floating Back button */}
       {!invested && (
         <button onClick={() => setInvesting(true)} style={{
           position: 'fixed', top: 52, right: 16, zIndex: 200,
-          background: theme.accent, color: theme.bg, border: 'none',
+          background: '#C9A84C', color: '#221E1A', border: 'none',
           borderRadius: 22, padding: '10px 20px',
           fontSize: 14, fontWeight: 800, cursor: 'pointer',
           boxShadow: '0 4px 20px #C9A84C55',
@@ -220,12 +220,12 @@ export default function UserPage() {
       <div style={{ padding: '44px 20px 16px', borderBottom: '1px solid #1A1A1A' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: theme.text, marginBottom: 2 }}>{user.name}</div>
-            <div style={{ fontSize: 13, color: theme.muted }}>{user.handle}</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#F2EDE6', marginBottom: 2 }}>{user.name}</div>
+            <div style={{ fontSize: 13, color: '#7A6E62' }}>{user.handle}</div>
           </div>
           <div style={{ display: 'flex', gap: 6 }}>
             <button onClick={() => navigate(`/chat/${id}`)} style={{
-              background: '#332D27', color: theme.accent, border: '1px solid #C9A84C44',
+              background: '#332D27', color: '#C9A84C', border: '1px solid #C9A84C44',
               borderRadius: 20, padding: '7px 12px', fontSize: 13, fontWeight: 700,
               cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4,
             }}>
@@ -233,7 +233,7 @@ export default function UserPage() {
             </button>
             <button onClick={() => setFollowing(f => !f)} style={{
               background: following ? '#332D27' : typeInfo.color,
-              color: following ? typeInfo.color : theme.bg,
+              color: following ? typeInfo.color : '#221E1A',
               border: `1px solid ${typeInfo.color}`,
               borderRadius: 20, padding: '7px 14px', fontSize: 13, fontWeight: 700, cursor: 'pointer',
             }}>
@@ -245,10 +245,10 @@ export default function UserPage() {
         <div style={{ fontSize: 14, color: '#B5A898', lineHeight: 1.5, marginBottom: 12 }}>{user.bio}</div>
 
         <div style={{ display: 'flex', gap: 14, marginBottom: 12 }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: theme.muted }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#7A6E62' }}>
             <MapPin size={12} /> {user.location}
           </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: theme.muted }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#7A6E62' }}>
             <Calendar size={12} /> {user.joined}
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#D4A843' }}>
@@ -274,22 +274,22 @@ export default function UserPage() {
             { label: 'Missions', value: user.missions },
           ].map((s, i) => (
             <div key={s.label} style={{ flex: 1, textAlign: 'center', borderRight: i < 3 ? '1px solid #1A1A1A' : 'none' }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: theme.text, marginBottom: 2 }}>{s.value}</div>
-              <div style={{ fontSize: 10, color: theme.muted, letterSpacing: '0.05em' }}>{s.label}</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: '#F2EDE6', marginBottom: 2 }}>{s.value}</div>
+              <div style={{ fontSize: 10, color: '#7A6E62', letterSpacing: '0.05em' }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Rep bar */}
-      <div style={{ padding: '14px 20px', borderBottom: '1px solid #1A1A1A', background: theme.bg }}>
+      <div style={{ padding: '14px 20px', borderBottom: '1px solid #1A1A1A', background: '#1A1612' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Star size={14} color="#D4A843" fill="#D4A843" />
-            <span style={{ fontSize: 16, fontWeight: 800, color: theme.text }}>{rep}</span>
+            <span style={{ fontSize: 16, fontWeight: 800, color: '#F2EDE6' }}>{rep}</span>
             <span style={{ fontSize: 12, color: level.color, fontWeight: 600 }}>{level.name}</span>
           </div>
-          {nextLevel && <span style={{ fontSize: 11, color: theme.muted }}>{nextLevel.min - rep} to {nextLevel.name}</span>}
+          {nextLevel && <span style={{ fontSize: 11, color: '#7A6E62' }}>{nextLevel.min - rep} to {nextLevel.name}</span>}
         </div>
         <div style={{ background: '#332D27', borderRadius: 6, height: 6, overflow: 'hidden', marginBottom: 10 }}>
           <div style={{ width: `${progress}%`, height: '100%', background: `linear-gradient(90deg, ${level.color}, ${nextLevel?.color || level.color})`, borderRadius: 6 }} />
@@ -301,7 +301,7 @@ export default function UserPage() {
             </div>
           ))}
         </div>
-        <button onClick={() => setShowXPTable(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, color: theme.muted, fontSize: 11, padding: 0 }}>
+        <button onClick={() => setShowXPTable(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, color: '#7A6E62', fontSize: 11, padding: 0 }}>
           {showXPTable ? <ChevronUp size={12} /> : <ChevronDown size={12} />} How to earn more rep
         </button>
         {showXPTable && (
@@ -309,7 +309,7 @@ export default function UserPage() {
             {XP_ACTIONS.map(row => (
               <div key={row.action} style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', borderBottom: '1px solid #1A1A1A' }}>
                 <span style={{ fontSize: 11, color: '#B5A898' }}>{row.action}</span>
-                <span style={{ fontSize: 11, color: theme.accent, fontWeight: 700 }}>{row.xp}</span>
+                <span style={{ fontSize: 11, color: '#C9A84C', fontWeight: 700 }}>{row.xp}</span>
               </div>
             ))}
           </div>
@@ -317,24 +317,24 @@ export default function UserPage() {
       </div>
 
       {/* Chart */}
-      <div style={{ padding: '14px 20px', borderBottom: '1px solid #1A1A1A', background: theme.bg }}>
+      <div style={{ padding: '14px 20px', borderBottom: '1px solid #1A1A1A', background: '#1A1612' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontSize: 12, color: theme.muted, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Value Chart</span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 700, color: positive ? theme.accent : '#C0564A' }}>
+          <span style={{ fontSize: 12, color: '#7A6E62', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Value Chart</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 700, color: positive ? '#C9A84C' : '#C0564A' }}>
             {positive ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
             {positive ? '+' : ''}{user.change}%
           </span>
         </div>
-        <MiniChart data={generateChart(user.marketCap, user.change)} color={positive ? theme.accent : '#C0564A'} width={390} height={56} />
+        <MiniChart data={generateChart(user.marketCap, user.change)} color={positive ? '#C9A84C' : '#C0564A'} width={390} height={56} />
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', borderBottom: '1px solid #1A1A1A', position: 'sticky', top: 0, background: theme.bg, zIndex: 10 }}>
+      <div style={{ display: 'flex', borderBottom: '1px solid #1A1A1A', position: 'sticky', top: 0, background: '#221E1A', zIndex: 10 }}>
         {['dashboard', 'posts', 'transactions'].map(t => (
           <button key={t} onClick={() => setTab(t)} style={{
             flex: 1, background: 'none', border: 'none',
             borderBottom: tab === t ? `2px solid ${typeInfo.color}` : '2px solid transparent',
-            color: tab === t ? theme.text : theme.muted,
+            color: tab === t ? '#F2EDE6' : '#7A6E62',
             padding: '13px 0', fontSize: 12, fontWeight: 600, cursor: 'pointer',
           }}>
             {t === 'dashboard'
@@ -352,21 +352,21 @@ export default function UserPage() {
           <div>
             {user.type === 'investor' && user.investments && (
               <div>
-                <div style={{ fontSize: 11, color: theme.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 14 }}>{user.investments.length} investments</div>
+                <div style={{ fontSize: 11, color: '#7A6E62', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 14 }}>{user.investments.length} investments</div>
                 {user.investments.map((inv, i) => {
                   const st = STATUS_STYLE[inv.status] || STATUS_STYLE.active;
                   const isPos = inv.return.startsWith('+') || inv.return === 'Exited';
                   return (
-                    <div key={i} style={{ background: theme.surface2, border: '1px solid #1A1A1A', borderRadius: 16, padding: '14px 16px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 12, position: 'relative', overflow: 'hidden' }}>
+                    <div key={i} style={{ background: '#2A2520', border: '1px solid #1A1A1A', borderRadius: 16, padding: '14px 16px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 12, position: 'relative', overflow: 'hidden' }}>
                       <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 3, background: st.color }} />
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                          <span style={{ fontWeight: 700, fontSize: 15, color: theme.text }}>{inv.name}</span>
+                          <span style={{ fontWeight: 700, fontSize: 15, color: '#F2EDE6' }}>{inv.name}</span>
                           <span style={{ fontSize: 10, fontWeight: 600, color: st.color, background: st.bg, borderRadius: 4, padding: '2px 7px' }}>{st.label}</span>
                         </div>
-                        <div style={{ fontSize: 12, color: theme.muted }}>{inv.role} - {inv.amount}</div>
+                        <div style={{ fontSize: 12, color: '#7A6E62' }}>{inv.role} - {inv.amount}</div>
                       </div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: isPos ? theme.accent : '#C0564A' }}>{inv.return}</div>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: isPos ? '#C9A84C' : '#C0564A' }}>{inv.return}</div>
                     </div>
                   );
                 })}
@@ -375,20 +375,20 @@ export default function UserPage() {
 
             {user.type === 'founder' && user.ventures && (
               <div>
-                <div style={{ fontSize: 11, color: theme.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 14 }}>{user.ventures.length} ventures</div>
+                <div style={{ fontSize: 11, color: '#7A6E62', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 14 }}>{user.ventures.length} ventures</div>
                 {user.ventures.map((v, i) => {
                   const st = STATUS_STYLE[v.status] || STATUS_STYLE.active;
                   return (
-                    <div key={i} style={{ background: theme.surface2, border: '1px solid #1A1A1A', borderRadius: 16, padding: '16px', marginBottom: 10, position: 'relative', overflow: 'hidden' }}>
+                    <div key={i} style={{ background: '#2A2520', border: '1px solid #1A1A1A', borderRadius: 16, padding: '16px', marginBottom: 10, position: 'relative', overflow: 'hidden' }}>
                       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${typeInfo.color}88, transparent)` }} />
                       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
                         <div>
-                          <div style={{ fontSize: 17, fontWeight: 800, color: theme.text, marginBottom: 2 }}>{v.name}</div>
-                          <div style={{ fontSize: 12, color: theme.muted }}>{v.role} - {v.year}</div>
+                          <div style={{ fontSize: 17, fontWeight: 800, color: '#F2EDE6', marginBottom: 2 }}>{v.name}</div>
+                          <div style={{ fontSize: 12, color: '#7A6E62' }}>{v.role} - {v.year}</div>
                         </div>
                         <span style={{ fontSize: 10, fontWeight: 600, color: st.color, background: st.bg, borderRadius: 6, padding: '3px 9px' }}>{st.label}</span>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: theme.accent, fontWeight: 600 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#C9A84C', fontWeight: 600 }}>
                         <TrendingUp size={13} /> {v.raised}
                       </div>
                     </div>
@@ -405,9 +405,9 @@ export default function UserPage() {
                     { label: 'Done', value: user.projects.filter(p => p.status === 'completed').length, color: '#B5A898' },
                     { label: 'Rep', value: user.reputation, color: '#D4A843' },
                   ].map(s => (
-                    <div key={s.label} style={{ flex: 1, background: theme.surface2, border: '1px solid #1A1A1A', borderRadius: 14, padding: '12px', textAlign: 'center' }}>
+                    <div key={s.label} style={{ flex: 1, background: '#2A2520', border: '1px solid #1A1A1A', borderRadius: 14, padding: '12px', textAlign: 'center' }}>
                       <div style={{ fontSize: 22, fontWeight: 800, color: s.color }}>{s.value}</div>
-                      <div style={{ fontSize: 11, color: theme.muted, marginTop: 2 }}>{s.label}</div>
+                      <div style={{ fontSize: 11, color: '#7A6E62', marginTop: 2 }}>{s.label}</div>
                     </div>
                   ))}
                 </div>
@@ -415,11 +415,11 @@ export default function UserPage() {
                   const st = STATUS_STYLE[p.status] || STATUS_STYLE.active;
                   const Icon = p.status === 'active' ? CheckCircle : p.status === 'completed' ? Clock : XCircle;
                   return (
-                    <div key={i} style={{ background: theme.surface2, border: '1px solid #1A1A1A', borderRadius: 14, padding: '13px 16px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div key={i} style={{ background: '#2A2520', border: '1px solid #1A1A1A', borderRadius: 14, padding: '13px 16px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
                       <Icon size={16} color={st.color} />
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 600, fontSize: 14, color: theme.text, marginBottom: 2 }}>{p.name}</div>
-                        <div style={{ fontSize: 12, color: theme.muted }}>{p.role} - {p.deliverable}</div>
+                        <div style={{ fontWeight: 600, fontSize: 14, color: '#F2EDE6', marginBottom: 2 }}>{p.name}</div>
+                        <div style={{ fontSize: 12, color: '#7A6E62' }}>{p.role} - {p.deliverable}</div>
                       </div>
                       <span style={{ fontSize: 10, fontWeight: 600, color: st.color, background: st.bg, borderRadius: 4, padding: '2px 7px' }}>{st.label}</span>
                     </div>
@@ -434,18 +434,18 @@ export default function UserPage() {
         {tab === 'posts' && (
           <div>
             {!user.posts?.length ? (
-              <div style={{ textAlign: 'center', color: theme.muted, padding: '48px 0', fontSize: 14 }}>No posts yet.</div>
+              <div style={{ textAlign: 'center', color: '#7A6E62', padding: '48px 0', fontSize: 14 }}>No posts yet.</div>
             ) : (
               user.posts.map(post => (
-                <div key={post.id} style={{ background: theme.surface2, border: '1px solid #1A1A1A', borderRadius: 18, marginBottom: 14, overflow: 'hidden' }}>
+                <div key={post.id} style={{ background: '#2A2520', border: '1px solid #1A1A1A', borderRadius: 18, marginBottom: 14, overflow: 'hidden' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px 10px' }}>
                     <img src={user.avatar} alt={user.name} style={{ width: 36, height: 36, borderRadius: '50%', border: `1.5px solid ${typeInfo.color}44` }} />
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 600, fontSize: 14, color: theme.text }}>{user.name}</div>
+                      <div style={{ fontWeight: 600, fontSize: 14, color: '#F2EDE6' }}>{user.name}</div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontSize: 11, color: theme.muted }}>{post.time}</span>
-                        <span style={{ width: 3, height: 3, borderRadius: '50%', background: theme.border2, display: 'inline-block' }} />
-                        <span style={{ fontSize: 10, fontWeight: 600, color: POST_TYPE_COLOR[post.type] || theme.muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{post.type}</span>
+                        <span style={{ fontSize: 11, color: '#7A6E62' }}>{post.time}</span>
+                        <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#3E3528', display: 'inline-block' }} />
+                        <span style={{ fontSize: 10, fontWeight: 600, color: POST_TYPE_COLOR[post.type] || '#7A6E62', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{post.type}</span>
                       </div>
                     </div>
                     <TypeBadge type={user.type} size="xs" />
@@ -453,14 +453,14 @@ export default function UserPage() {
                   <div style={{ padding: '0 16px 12px', fontSize: 14, color: '#CCC', lineHeight: 1.55 }}>{post.text}</div>
                   {post.image && <img src={post.image} alt="" style={{ width: '100%', maxHeight: 220, objectFit: 'cover' }} />}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 0, padding: '10px 16px', borderTop: '1px solid #1A1A1A' }}>
-                    <button onClick={() => toggleLike(post.id)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: likedPosts[post.id] ? '#C0564A' : theme.muted, fontSize: 13, fontWeight: 500, marginRight: 20, padding: 0 }}>
-                      <Heart size={16} fill={likedPosts[post.id] ? '#C0564A' : 'none'} color={likedPosts[post.id] ? '#C0564A' : theme.muted} />
+                    <button onClick={() => toggleLike(post.id)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: likedPosts[post.id] ? '#C0564A' : '#7A6E62', fontSize: 13, fontWeight: 500, marginRight: 20, padding: 0 }}>
+                      <Heart size={16} fill={likedPosts[post.id] ? '#C0564A' : 'none'} color={likedPosts[post.id] ? '#C0564A' : '#7A6E62'} />
                       {post.likes + (likedPosts[post.id] ? 1 : 0)}
                     </button>
-                    <button style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: theme.muted, fontSize: 13, marginRight: 20, padding: 0 }}>
+                    <button style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: '#7A6E62', fontSize: 13, marginRight: 20, padding: 0 }}>
                       <MessageCircle size={16} /> {post.comments}
                     </button>
-                    <button style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: theme.muted, fontSize: 13, marginLeft: 'auto', padding: 0 }}>
+                    <button style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: '#7A6E62', fontSize: 13, marginLeft: 'auto', padding: 0 }}>
                       <Share2 size={15} />
                     </button>
                   </div>
@@ -478,24 +478,24 @@ export default function UserPage() {
       {/* Invest modal */}
       {investing && !invested && (
         <div style={{ position: 'fixed', inset: 0, background: '#000000cc', backdropFilter: 'blur(8px)', zIndex: 200, display: 'flex', alignItems: 'flex-end' }}>
-          <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: theme.surface2, borderRadius: '24px 24px 0 0', padding: '28px 20px 44px', border: '1px solid #1F1F1F', animation: 'slideUp 0.3s ease' }}>
-            <div style={{ width: 36, height: 4, background: theme.border2, borderRadius: 2, margin: '0 auto 20px' }} />
+          <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#2A2520', borderRadius: '24px 24px 0 0', padding: '28px 20px 44px', border: '1px solid #1F1F1F', animation: 'slideUp 0.3s ease' }}>
+            <div style={{ width: 36, height: 4, background: '#3E3528', borderRadius: 2, margin: '0 auto 20px' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
               <img src={user.avatar} alt="" style={{ width: 48, height: 48, borderRadius: '50%', border: `2px solid ${typeInfo.color}44` }} />
               <div>
-                <div style={{ fontWeight: 700, fontSize: 16, color: theme.text }}>Back {user.name}</div>
-                <div style={{ fontSize: 12, color: theme.muted }}>Current valuation: ${(user.marketCap / 1000).toFixed(0)}k · {user.change >= 0 ? '+' : ''}{user.change}%</div>
+                <div style={{ fontWeight: 700, fontSize: 16, color: '#F2EDE6' }}>Back {user.name}</div>
+                <div style={{ fontSize: 12, color: '#7A6E62' }}>Current valuation: ${(user.marketCap / 1000).toFixed(0)}k · {user.change >= 0 ? '+' : ''}{user.change}%</div>
               </div>
             </div>
 
-            <div style={{ fontSize: 11, color: theme.muted, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Choose amount</div>
+            <div style={{ fontSize: 11, color: '#7A6E62', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Choose amount</div>
             <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
               {['1', '5', '10', '50'].map(v => (
                 <button key={v} onClick={() => setAmount(v)} style={{
                   flex: 1, background: amount === v ? '#C9A84C22' : '#332D27',
-                  border: `1px solid ${amount === v ? theme.accent : theme.border2}`,
+                  border: `1px solid ${amount === v ? '#C9A84C' : '#3E3528'}`,
                   borderRadius: 10, padding: '10px 4px',
-                  color: amount === v ? theme.accent : theme.muted,
+                  color: amount === v ? '#C9A84C' : '#7A6E62',
                   fontSize: 14, fontWeight: 700, cursor: 'pointer',
                 }}>${v}</button>
               ))}
@@ -505,15 +505,15 @@ export default function UserPage() {
               placeholder="Custom amount ($)"
               value={amount}
               onChange={e => setAmount(e.target.value)}
-              style={{ width: '100%', background: '#332D27', border: '1px solid #252525', borderRadius: 12, padding: '13px 16px', color: theme.text, fontSize: 15, outline: 'none', marginBottom: 16, boxSizing: 'border-box' }}
+              style={{ width: '100%', background: '#332D27', border: '1px solid #252525', borderRadius: 12, padding: '13px 16px', color: '#F2EDE6', fontSize: 15, outline: 'none', marginBottom: 16, boxSizing: 'border-box' }}
             />
 
-            <div style={{ background: theme.bg, border: '1px solid #2A2520', borderRadius: 12, padding: '12px 16px', marginBottom: 16, fontSize: 12, color: theme.muted, lineHeight: 1.5 }}>
+            <div style={{ background: '#1A1612', border: '1px solid #2A2520', borderRadius: 12, padding: '12px 16px', marginBottom: 16, fontSize: 12, color: '#7A6E62', lineHeight: 1.5 }}>
               You believe in {user.name.split(' ')[0]}. This backs their valuation and appears in your portfolio.
             </div>
 
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={() => { setInvesting(false); setAmount(''); }} style={{ flex: 1, background: '#332D27', color: theme.muted, border: '1px solid #252525', borderRadius: 14, padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+              <button onClick={() => { setInvesting(false); setAmount(''); }} style={{ flex: 1, background: '#332D27', color: '#7A6E62', border: '1px solid #252525', borderRadius: 14, padding: 14, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
               <button
                 onClick={() => {
                   if (!amount) return;
@@ -531,7 +531,7 @@ export default function UserPage() {
                   setInvested(true);
                   setInvesting(false);
                 }}
-                style={{ flex: 2, background: amount ? theme.accent : '#332D27', color: amount ? theme.bg : theme.muted, border: 'none', borderRadius: 14, padding: 14, fontSize: 15, fontWeight: 700, cursor: amount ? 'pointer' : 'default' }}
+                style={{ flex: 2, background: amount ? '#C9A84C' : '#332D27', color: amount ? '#221E1A' : '#7A6E62', border: 'none', borderRadius: 14, padding: 14, fontSize: 15, fontWeight: 700, cursor: amount ? 'pointer' : 'default' }}
               >
                 {amount ? `Back ${user.name.split(' ')[0]} — $${amount}` : 'Enter amount'}
               </button>
@@ -542,7 +542,7 @@ export default function UserPage() {
 
       {/* Success toast */}
       {invested && (
-        <div style={{ position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)', background: theme.accent, color: theme.bg, borderRadius: 20, padding: '12px 24px', fontSize: 14, fontWeight: 700, zIndex: 300, display: 'flex', alignItems: 'center', gap: 8, animation: 'slideUp 0.3s ease', boxShadow: '0 8px 32px #C9A84C44' }}>
+        <div style={{ position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)', background: '#C9A84C', color: '#221E1A', borderRadius: 20, padding: '12px 24px', fontSize: 14, fontWeight: 700, zIndex: 300, display: 'flex', alignItems: 'center', gap: 8, animation: 'slideUp 0.3s ease', boxShadow: '0 8px 32px #C9A84C44' }}>
           <CheckCircle size={16} />
           You backed {user.name.split(' ')[0]}!
         </div>
