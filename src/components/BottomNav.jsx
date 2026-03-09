@@ -5,7 +5,7 @@ import { useTheme } from '../context/ThemeContext';
 const tabs = [
   { icon: Menu,     label: 'Settings',  path: '/settings',  special: 'hamburger' },
   { icon: Search,   label: 'Discover',  path: '/discover' },
-  { icon: PieChart, label: 'Portfolio', path: '/portfolio', special: 'center' },
+  { icon: PieChart, label: 'Portfolio', path: '/portfolio' },
   { icon: Activity, label: 'Live',      path: '/' },
   { icon: User,     label: 'Profile',   path: '/profile' },
 ];
@@ -30,16 +30,14 @@ export default function BottomNav({ onSettingsOpen }) {
       borderRadius: '14px 14px 0 0',
       display: 'grid',
       gridTemplateColumns: 'repeat(5, 1fr)',
-      paddingBottom: 'env(safe-area-inset-bottom, 20px)',
-      paddingTop: 0,
+      paddingBottom: 'env(safe-area-inset-bottom, 16px)',
+      paddingTop: 6,
       zIndex: 100,
-      alignItems: 'end',
     }}>
       {tabs.map(({ icon: Icon, label, path, special }) => {
         const active = path === '/'
           ? location.pathname === '/'
           : location.pathname.startsWith(path) && path !== '/settings';
-        const isCenter = special === 'center';
         const isHamburger = special === 'hamburger';
 
         const handleClick = () => {
@@ -47,62 +45,21 @@ export default function BottomNav({ onSettingsOpen }) {
           else navigate(path);
         };
 
-        if (isCenter) {
-          return (
-            <button
-              key={path}
-              onClick={handleClick}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'flex-end',
-                padding: '0 0 10px',
-              }}
-            >
-              {/* Elevated disc - sits on top of nav bar */}
-              <div style={{
-                width: 48, height: 48,
-                borderRadius: '50%',
-                background: active ? theme.accent : theme.surface2,
-                border: `1.5px solid ${active ? theme.accent : theme.border2}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: 0,
-                boxShadow: active
-                  ? `0 2px 16px ${theme.accent}55`
-                  : `0 2px 8px rgba(0,0,0,0.2)`,
-                transform: 'translateY(-8px)',
-                transition: 'all 0.2s ease',
-              }}>
-                <Icon
-                  size={20}
-                  color={active ? '#1E1C19' : theme.muted}
-                  strokeWidth={active ? 2.3 : 1.7}
-                />
-              </div>
-              <span style={{
-                fontSize: 10,
-                color: active ? theme.accent : theme.muted,
-                fontWeight: active ? 600 : 400,
-                letterSpacing: '0.04em',
-                marginTop: -4,
-                transform: 'translateY(-4px)',
-              }}>
-                {label}
-              </span>
-            </button>
-          );
-        }
-
         return (
           <button
             key={path}
             onClick={handleClick}
             style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'flex-end',
-              padding: '10px 0 10px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '8px 0 6px',
               gap: 4,
+              transition: 'opacity 0.15s',
             }}
           >
             <Icon
