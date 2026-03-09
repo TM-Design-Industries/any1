@@ -90,11 +90,12 @@ function AppInner() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: isWide ? '#0F0E0D' : theme.bg,
+      background: isWide ? '#0E0D0C' : theme.bg,
       display: 'flex',
       alignItems: 'flex-start',
       justifyContent: 'center',
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+      transition: 'background 0.3s ease',
     }}>
       <div style={{
         width: '100%',
