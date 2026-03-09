@@ -1,41 +1,50 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
-// Stone palette - desaturated, earthy, derived from two anchor colors:
-// Dark anchor: #1E1C19 (very dark warm stone)
-// Light anchor: #E8E6E3 (light stone, not pure white)
-// Accent: #C4A24A (muted gold-beige)
+// Stone palette - derived from two anchor colors:
+// Dark anchor:  #1A1816 (very dark warm stone / charcoal-brown)
+// Light anchor: #E6E3DE (warm stone, off-white)
+// Accent: #BFA24A (muted gold-beige, not too loud)
 
 export const DARK = {
-  bg:       '#1E1C19',
-  surface:  '#272420',
-  surface2: '#2D2A25',
-  text:     '#EDE9E3',
-  text2:    '#C4BDB4',
-  muted:    '#7A7168',
-  border:   '#302C27',
-  border2:  '#3D3830',
-  accent:   '#C4A24A',
-  up:       '#5E8A63',
-  down:     '#A84E45',
-  navBg:    'rgba(30,28,25,0.97)',
+  bg:       '#1A1816',
+  surface:  '#232019',
+  surface2: '#2A261F',
+  text:     '#EAE6DF',
+  text2:    '#B8B0A5',
+  muted:    '#6E6860',
+  border:   '#2D2924',
+  border2:  '#38332C',
+  accent:   '#BFA24A',
+  up:       '#5A8560',
+  down:     '#A34840',
+  navBg:    'rgba(26,24,22,0.97)',
 };
 
 export const LIGHT = {
-  bg:       '#E8E6E3',
-  surface:  '#DDDAD6',
-  surface2: '#D3D0CB',
-  text:     '#1E1C19',
-  text2:    '#3B3730',
-  muted:    '#6B6560',
-  border:   '#C4C0BA',
-  border2:  '#B4AFA8',
-  accent:   '#9A7A28',
-  up:       '#3A6B3E',
-  down:     '#8B3B32',
-  navBg:    'rgba(232,230,227,0.97)',
+  bg:       '#E6E3DE',
+  surface:  '#DAD7D1',
+  surface2: '#CECBC4',
+  text:     '#1A1816',
+  text2:    '#3A3630',
+  muted:    '#66605A',
+  border:   '#C0BDB6',
+  border2:  '#AEAAA2',
+  accent:   '#8F7020',
+  up:       '#3A6840',
+  down:     '#883530',
+  navBg:    'rgba(230,227,222,0.97)',
 };
 
 const ThemeContext = createContext(null);
+
+function applyThemeVars(theme) {
+  const root = document.documentElement;
+  Object.entries(theme).forEach(([key, val]) => {
+    if (typeof val === 'string') {
+      root.style.setProperty(`--t-${key}`, val);
+    }
+  });
+}
 
 export function ThemeProvider({ children }) {
   const [mode, setMode] = useState(() => {
@@ -45,13 +54,19 @@ export function ThemeProvider({ children }) {
   const theme = mode === 'dark' ? DARK : LIGHT;
 
   useEffect(() => {
+    // Apply CSS variables to root for global coverage
+    applyThemeVars(theme);
+    // Also set body/root background
     document.body.style.background = theme.bg;
     document.body.style.color = theme.text;
+    document.body.style.transition = 'background 0.3s ease, color 0.3s ease';
     document.body.style.margin = '0';
     document.body.style.padding = '0';
-    // Force re-paint on root
     const root = document.getElementById('root');
-    if (root) root.style.background = theme.bg;
+    if (root) {
+      root.style.background = theme.bg;
+      root.style.transition = 'background 0.3s ease';
+    }
   }, [theme, mode]);
 
   const toggleTheme = () => {
@@ -70,7 +85,6 @@ export function ThemeProvider({ children }) {
 export function useTheme() {
   const ctx = useContext(ThemeContext);
   if (!ctx) {
-    // fallback to dark if used outside provider
     return { theme: DARK, mode: 'dark', toggleTheme: () => {} };
   }
   return ctx;
